@@ -1,4 +1,4 @@
-# arbcasemb
+# 资产分发移动端
 
 > mvvm at vue
 

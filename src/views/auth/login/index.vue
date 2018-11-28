@@ -1,15 +1,8 @@
 <template>
-  <div class="page" v-if="bindType">
-    <!-- <div v-if="webcome_tbar" :class="['webcome_box',getArbIcoClass()]">
+  <div class="page">
+    <div class="webcome_box">
       <ul>
-        <li>欢迎进入{{arbName}}网络仲裁平台移动端</li>
-        <li>请输入账号密码登录系统</li>
-      </ul>
-    </div> -->
-    <div class="webcome_box box_quzhou">
-      <ul>
-        <li>欢迎进入{{arbName}}网络仲裁平台移动端</li>
-        <li>请输入账号密码登录系统</li>
+        <li>资产处置分发平台</li>
       </ul>
     </div>
     <div class="main_wrap">
@@ -189,20 +182,26 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/style/scss/helper/_mixin.scss';
 html {
-	background-color: #eeeeee;
+
 }
 
+.page{
+  background-color: #EEEEEE;
+}
 .webcome_box {
-	// &:before {
-	// 	content: '';
-	// 	display: block;
-	// 	margin: rem(60) auto rem(37) auto;
-	// 	width: rem(145);
-	// 	height: rem(145);
-	// 	background-image: url(/static/img/con@2x014.png);
-	// 	background-repeat: no-repeat;
-	// 	background-size: contain;
-	// }
+  overflow: hidden;
+	&:before {
+		content: '';
+		display: block;
+		margin: rem(60) auto rem(37) auto;
+		width: rem(145);
+		height: rem(145);
+    border-radius: 50%;
+    background-color: #003888;
+		// background-image: url(/static/img/con@2x014.png);
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
 	ul {
 	}
 	li {
@@ -216,6 +215,7 @@ html {
 	}
 }
 .info_box {
+  background-color: #fff;
 	&:nth-child(1) {
 		border-top-right-radius: 6px;
 		border-top-left-radius: 6px;
@@ -230,6 +230,7 @@ html {
 .main_wrap {
 	padding-top: rem(34);
 	margin: 0 rem(26);
+
 }
 
 .link_findpwd {
@@ -238,10 +239,14 @@ html {
 
 .buttonwrap {
 	margin: rem(46) 0 rem(26) 0;
+  button{
+    font-size: rem(32);
+  }
 }
 
 .link_grey {
 	color: #9f9f9f;
+  text-decoration: underline;
 }
 // icon图标基础样式
 .icon {

@@ -44,40 +44,40 @@ Vue.use(WechatPlugin)
 
 import { ToastPlugin, XButton, XInput, Previewer, TransferDom, Box, Toast, Alert,AlertPlugin,ConfirmPlugin,Countdown,Loading } from 'vux'
 
-var fundebug = require("fundebug-javascript");
-fundebug.apikey = "c94312031e7952afd0ca80fcbb59d689bafe693defff971fc0652b696b65e31f";
+// var fundebug = require("fundebug-javascript");
+// fundebug.apikey = "c94312031e7952afd0ca80fcbb59d689bafe693defff971fc0652b696b65e31f";
 
 // 微信第三方js错误监控 插件fundebug
-function formatComponentName(vm) {
-  if (vm.$root === vm) return "root";
+// function formatComponentName(vm) {
+//   if (vm.$root === vm) return "root";
 
-  var name = vm._isVue ?
-    (vm.$options && vm.$options.name) ||
-    (vm.$options && vm.$options._componentTag) :
-    vm.name;
-  return (
-    (name ? "component <" + name + ">" : "anonymous component") +
-    (vm._isVue && vm.$options && vm.$options.__file ?
-      " at " + (vm.$options && vm.$options.__file) :
-      "")
-  );
-}
+//   var name = vm._isVue ?
+//     (vm.$options && vm.$options.name) ||
+//     (vm.$options && vm.$options._componentTag) :
+//     vm.name;
+//   return (
+//     (name ? "component <" + name + ">" : "anonymous component") +
+//     (vm._isVue && vm.$options && vm.$options.__file ?
+//       " at " + (vm.$options && vm.$options.__file) :
+//       "")
+//   );
+// }
 
-Vue.config.errorHandler = function (err, vm, info) {
-  if (vm) {
-    var componentName = formatComponentName(vm);
-    var propsData = vm.$options && vm.$options.propsData;
-    fundebug.notifyError(err, {
-      metaData: {
-        componentName: componentName,
-        propsData: propsData,
-        info: info
-      }
-    });
-  } else {
-    fundebug.notifyError(err);
-  }
-};
+// Vue.config.errorHandler = function (err, vm, info) {
+//   if (vm) {
+//     var componentName = formatComponentName(vm);
+//     var propsData = vm.$options && vm.$options.propsData;
+//     fundebug.notifyError(err, {
+//       metaData: {
+//         componentName: componentName,
+//         propsData: propsData,
+//         info: info
+//       }
+//     });
+//   } else {
+//     fundebug.notifyError(err);
+//   }
+// };
 
 require('animate.css/animate.min.css')
 

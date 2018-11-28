@@ -44,30 +44,18 @@ const Home = () => import('@/views/navigate/home')
 const CaseAdvanceSortList = () => import('@/views/caseAdvance/caseAdvanceSortList')
 const ChangeReqCase = () => import('@/views/caseAdvance/changeReqCase')
 
-
 /*---------------资产包模块 assetPackage --------------*/
 const AssetPackageList = () => import('@/views/assetPackage/assetPackageList')
 const AssetPackageDetail = () => import('@/views/assetPackage/assetPackageDetail')
 
-
-
 /*---------------我的 mineSys --------------*/
 const PersonCenter = () => import('@/views/mineSys/personCenter/')
-
-
 
 /*--------------- components --------------*/
 const Pview = () => import('@/components/pview') //可缩放图片展示
 
-
-
-
 /*---------------路由请求错误重定向页面模块 redirect --------------*/
 const NotFound = () => import('@/views/redirect/notFound/')
-
-
-
-
 
 const routes = [
   {
@@ -126,51 +114,54 @@ const routes = [
       keepAlive: false,
       requireAuth: true,
     },
-  },
-  {
-    path: '/caseAdvanceSortList',
-    name: 'caseAdvanceSortList',
-    component: CaseAdvanceSortList,
-    meta: {
-      keepAlive: false,
-      requireAuth: true,
-    },
-  },
-  {
-    path: '/changeReqCase',
-    name: 'changeReqCase',
-    component: ChangeReqCase,
-    meta: {
-      keepAlive: false,
-      requireAuth: true,
-    },
-  },
-  {
-    path: '/assetPackageList',
-    name: 'assetPackageList',
-    component: AssetPackageList,
-    meta: {
-      keepAlive: false,
-      requireAuth: true,
-    },
-  },
-  {
-    path: '/assetPackageDetail',
-    name: 'assetPackageDetail',
-    component: AssetPackageDetail,
-    meta: {
-      keepAlive: false,
-      requireAuth: true,
-    },
-  },
-  {
-    path: '/personCenter',
-    name: 'personCenter',
-    component: PersonCenter,
-    meta: {
-      keepAlive: false,
-      requireAuth: true,
-    },
+    children: [
+      {
+        path: 'assetPackageList',
+        // name: 'assetPackageList',
+        component: AssetPackageList,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title:'资产包'
+        },
+      },
+      {
+        path: 'assetPackageDetail',
+        // name: 'assetPackageDetail',
+        component: AssetPackageDetail,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+        },
+      },
+      {
+        path: 'caseAdvanceSortList',
+        // name: 'caseAdvanceSortList',
+        component: CaseAdvanceSortList,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+        },
+      },
+      {
+        path: 'changeReqCase',
+        // name: 'changeReqCase',
+        component: ChangeReqCase,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+        },
+      },
+      {
+        path: 'personCenter',
+        // name: 'personCenter',
+        component: PersonCenter,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+        },
+      },
+    ],
   },
   {
     path: '/pview/:caseId',

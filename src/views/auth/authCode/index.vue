@@ -197,5 +197,9 @@ html {
 }
 .buttonwrap {
 	padding: rem(38) rem(30) 0 rem(30);
+  button{
+    font-size: rem(32);
+    letter-spacing:rem(2);
+  }
 }
 </style>
