@@ -1,0 +1,204 @@
+@charset "utf-8";
+$dgwidth:750;
+$dg:$dgwidth/10;
+$Maxht:960px;
+$Minht:320px;
+$wh-dg:$dgwidth/100;
+$base-font-size:12;
+
+@function rem($original) {
+  @return ($original/$dg)+rem;
+}
+
+@function _vh($original) {
+  @return ($original/$wh-dg)+vh;
+}
+
+@function _vw($original) {
+  @return ($original/$wh-dg)+vw;
+}
+
+@function pxToem ($target-size, $context:$base-font-size) {
+  @return ($target-size / $context)+em;
+}
+
+//清浮动
+@mixin clearfix {
+  & {
+    *zoom: 1;
+    /*兼容ie6,7*/
+  }
+
+  &:after,
+  &:before {
+    display: table;
+    content: "";
+  }
+
+  &:after {
+    clear: both;
+    overflow: hidden;
+  }
+}
+
+// 自定义滚动条
+@mixin customScrollBar {
+  &::-webkit-scrollbar {
+    // width: 1em;
+    width: 1px;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+}
+
+//边框圆角all
+// @mixin border-radius($bs) {
+//     border-radius: $bs;
+//     behavior: url($htc-url);
+// }
+// 扩展版圆角mixin，可设置情况分3种：
+// $property:top-left, top-right, bottom-right, bottom-left
+// $property一次只接收一个key
+// 不是全角配置样式一定要传入$val
+// 1.全方向，只需传$val
+@mixin border-radius($val, $property: null) {
+  @if $property==top-left {
+    border-#{$property}-radius: $val;
+    behavior: url($htc-url);
+  }
+
+  @else if $property==bottom-left {
+    border-#{$property}-radius: $val;
+    behavior: url($htc-url);
+  }
+
+  @else if $property==bottom-right {
+    border-#{$property}-radius: $val;
+  }
+
+  @else if $property==top-right {
+    border-#{$property}-radius: $val;
+  }
+
+  @else {
+    border-radius: $val;
+  }
+}
+
+//多行文本省略...  clp：行数
+@mixin line-clamp($clp) {
+  overflow: hidden;
+  text-overflow: ellipsis; // display: -webkit-box;
+  -webkit-line-clamp: $clp;
+  -webkit-box-orient: vertical;
+}
+
+// 单行文本省略...//使用它的前提容器必须顶宽度
+@mixin line-only {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+//透明度
+@mixin opacity($opy) {
+  filter: alpha(opacity=$opy);
+  /* IE */
+  -moz-opacity: $opy/100;
+  /* 老版Mozilla */
+  -khtml-opacity: $opy/100;
+  /* 老版Safari */
+  opacity: $opy/100;
+}
+
+//控制input下的placeholder的属性
+@mixin ipt-font-color {
+  ::-moz-placeholder {
+    color: $color;
+  }
+
+  :-ms-input-placeholder {
+    color: $color;
+  }
+
+  ::-webkit-input-placeholder {
+    color: $color;
+  }
+
+  ::placeholder {
+    color: $color;
+  }
+}
+
+// 点击态-样式控制[自定义-所有]
+@mixin hover-state {
+
+  &:active,
+  &:focus {
+    @content;
+  }
+}
+
+// 点击态-样式控制[纯背景色-默认形态]
+@mixin hover-def {
+
+  &:active,
+  &:focus {
+    background-color: rgba(231, 229, 229, 0.596);
+  }
+}
+
+// 点击态-样式控制[纯背景色-自定义]
+@mixin hover-bg($color) {
+
+  &:active,
+  &:focus {
+    background-color: $color;
+  }
+}
+
+
+// 水平无线滚动动画
+@mixin animate_scroll {
+  & {
+    padding-left: 20px;
+    font-size: 14px;
+    color: #000;
+    display: inline-block;
+    white-space: nowrap;
+    animation: 20s wordsLoop linear infinite normal;
+  }
+
+  @keyframes wordsLoop {
+    0% {
+      transform: translateX(200px);
+      -webkit-transform: translateX(200px);
+    }
+
+    100% {
+      transform: translateX(-100%);
+      -webkit-transform: translateX(-100%);
+    }
+  }
+
+  @-webkit-keyframes wordsLoop {
+    0% {
+      transform: translateX(200px);
+      -webkit-transform: translateX(200px);
+    }
+
+    100% {
+      transform: translateX(-100%);
+      -webkit-transform: translateX(-100%);
+    }
+  }
+
+}

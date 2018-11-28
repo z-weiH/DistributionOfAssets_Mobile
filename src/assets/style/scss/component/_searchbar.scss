@@ -1,0 +1,131 @@
+.search_bar {
+  padding: rem(10) rem(12);
+  background-color: #000;
+  .search_cont {
+    border: 1px solid #ededed;
+    background-color: #ededed;
+    border-radius: rem(65); // height: rem(50);
+    text-align: center;
+    overflow: hidden; // &>div{
+    //   display:table-cell;
+    //   vertical-align: middle;
+    // }
+    .s_ico_search {
+      padding-left: rem(12);
+      &:after {
+        content: '';
+        display: inline-block;
+        background-image: url(/static/img/search.png);
+        width: rem(32);
+        height: rem(32);
+        background-repeat: no-repeat;
+        background-size: contain;
+        vertical-align: middle; // margin-right: rem(10);
+      }
+    }
+    .s_text {
+      font-size: rem(24);
+      color: #8f8f8f;
+      width: 100%;
+      border: 0;
+      background-color: #ededed;
+      display: inline-block;
+      color: #000;
+      outline: none;
+    }
+  }
+  .btn_search {
+    color: #fff;
+    text-align: center;
+    text-indent: -5px;
+  }
+}
+
+//搜索界面 公共padding样式
+%common_size {
+  padding: 0 rem(30);
+}
+
+.searchBox {
+  color: #666666;
+  font-size: rem(24);
+  height: 100vh; // background-color: #fff;
+  .title {
+    color: #000;
+    font-weight: bold;
+    font-size: rem(30);
+    text-align: left;
+  }
+  .hot_wrapper {
+    @extend %common_size;
+    background-color: #fff;
+    margin-bottom: rem(14);
+    border-bottom: 1px solid #e4e4e4;
+    .title {
+      padding-top: rem(34);
+      padding-bottom: rem(27);
+    }
+    .hot_cont {
+      @include clearfix;
+      padding-bottom: rem(15);
+      > div {
+        float: left;
+      }
+    }
+    .hot_tabtext {
+      display: inline-block;
+      min-width: rem(90);
+      width: auto;
+      padding: rem(9) rem(12);
+      border-radius: 5px;
+      background-color: #eeeeee;
+      font-size: rem(24);
+      text-align: center;
+      margin-right: rem(28);
+      margin-bottom: rem(16);
+    }
+  }
+  .history_wrapper {
+    border-top: 1px solid #e4e4e4;
+    background-color: #fff;
+    .title {
+      @extend %common_size;
+      padding-top: rem(12);
+      padding-bottom: rem(16);
+    }
+    .history_cont {
+      .vux-label {
+        span {
+          font-size: rem(26);
+        }
+      }
+      text-align: left;
+    }
+  }
+  .search_ctrl {
+    padding-top: rem(73);
+    background-color: #fff;
+    .delete_history_btn {
+      color: #727272;
+      border: 1px solid #dcdcdc;
+      border-radius: 5px;
+      width: rem(350);
+      height: rem(64);
+      line-height: rem(64);
+      text-align: center;
+      font-size: rem(24);
+      margin: 0 auto;
+      &:before {
+        content: '';
+        display: inline-block;
+        background-image: url(/static/img/con@2x004.png);
+        width: rem(30);
+        height: rem(30);
+        background-repeat: no-repeat;
+        background-size: contain;
+        vertical-align: middle;
+        margin-right: rem(15);
+      }
+    }
+  }
+}
