@@ -1,54 +1,60 @@
 <template>
   <div class="page">
-    <!-- 视图层 -->
-    <router-view></router-view>
-    <!-- 底部选项卡 -->
-    <tabbar class="tabbar_bottom">
-      <tabbar-item selected link="/home/assetPackageList">
-        <img slot="icon" src="./../../../assets/img/hui01.png">
-        <img slot="icon-active" src="./../../../assets/img/lan01.png">
-        <span slot="label" class="label">资产包</span>
-      </tabbar-item>
-      <!-- show-dot badge -->
-      <tabbar-item link="/home/caseAdvanceSortList">
-        <img slot="icon" src="./../../../assets/img/hui02.png">
-        <img slot="icon-active" src="./../../../assets/img/lan02.png">
-        <span slot="label" class="label">案件进展</span>
-      </tabbar-item>
-      <tabbar-item link="/home/personCenter">
-        <img slot="icon" src="./../../../assets/img/hui03.png">
-        <img slot="icon-active" src="./../../../assets/img/lan03.png">
-        <span slot="label" class="label">我的</span>
-      </tabbar-item>
-    </tabbar>
+    <view-box ref="viewBox">
+      <!-- 视图层 -->
+      <router-view></router-view>
+      <!-- 底部选项卡 -->
+      <m-tabbar v-model="select" slot="bottom" v-transfer-dom>
+        <m-tabbar-item id="tab1" class="tab_zcb" link="/home/assetPackageList">
+          <img src="~@/assets/img/hui01.png" alt slot="icon-normal">
+          <img src="~@/assets/img/lan01.png" alt slot="icon-active">
+          资产包
+        </m-tabbar-item>
+        <m-tabbar-item id="tab2" class="tab_jz" link="/home/caseAdvanceSortList">
+          <img src="~@/assets/img/hui02.png" alt slot="icon-normal">
+          <img src="~@/assets/img/lan02.png" alt slot="icon-active">
+          案件进展
+        </m-tabbar-item>
+        <m-tabbar-item id="tab3" class="tab_mine" link="/home/personCenter">
+          <img src="~@/assets/img/hui03.png" alt slot="icon-normal">
+          <img src="~@/assets/img/lan03.png" alt slot="icon-active">
+          我的
+        </m-tabbar-item>
+      </m-tabbar>
+    </view-box>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import qs from "qs";
-import { Tabbar, TabbarItem } from "vux";
+import { ViewBox, Flexbox, FlexboxItem } from "vux";
+import mTabbar from "@/components/tabbar/module/tabbar.vue";
+import mTabbarItem from "@/components/tabbar/module/tabbar-item.vue";
 
 export default {
   components: {
-    Tabbar,
-    TabbarItem
+    ViewBox,
+    mTabbar,
+    mTabbarItem
   },
   data() {
     return {
       openId: "",
-      defaultSrc: "/home/assetPackageList"
+      defaultSrc: "/home/assetPackageList",
+      select: "tab1" //默认选择tab
     };
   },
   methods: {},
   watch: {
     $route(to, from) {
-      console.log(to.path);
+      console.log("$route", to.path);
     }
   },
   beforeCreate() {
     console.log("beforeCreate");
   },
   beforeRouteEnter(to, from, next) {
+    console.log("beforeRouteEnter", to.path);
     // ...
     next();
   },
@@ -60,15 +66,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./../../../assets/style/scss/helper/_mixin.scss";
+@import "@/assets/style/scss/helper/_mixin.scss";
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.page {
+  height: 100%;
+}
 .tabbar_bottom {
   .label {
     color: #686868;
+  }
+  .weui-tabbar__item {
+    > div,
+    > p {
+      vertical-align: middle;
+    }
+    > div {
+      display: table-cell;
+    }
+    > p {
+      display: table-cell;
+    }
   }
 }
 .weui-bar__item_on {
   .label {
     color: #0d428e !important;
+  }
+}
+.tab_zcb {
+  img {
+    width: rem(42);
+    height: rem(42);
+  }
+}
+.tab_jz {
+  img {
+    width: rem(42);
+    height: rem(42);
+  }
+}
+.tab_mine {
+  img {
+    width: rem(42);
+    height: rem(42);
   }
 }
 

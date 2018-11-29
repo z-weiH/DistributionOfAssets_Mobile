@@ -416,13 +416,16 @@ body {
   }
 }
 
-.linkA{
- text-decoration: underline;
+.linkA {
+  text-decoration: underline;
 }
 
 /* end */
 
-
 /* 6种文书类型-tab选项卡样式 */
 
 /* end */
+
+.weui-tab__panel {
+  padding-bottom: rem(100) !important;
+}

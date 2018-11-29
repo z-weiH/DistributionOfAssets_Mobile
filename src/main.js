@@ -99,6 +99,7 @@ import Dialog from '@/components/dialog/';
 
 Vue.prototype.$dialog = Dialog;
 
+
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false
