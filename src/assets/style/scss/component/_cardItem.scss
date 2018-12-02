@@ -1,0 +1,31 @@
+@import "./helper/mixin"; //scss方法混合宏
+.card_item {
+  margin-top: rem(14); // 已过期
+  &.stale {
+    .weui-cells{
+      background-color: #FFCC99;
+
+    }
+    .card_tit{
+      border-bottom:0;
+    }
+  }
+  .card_tit {
+    border-bottom: 1px solid #f0f0f0;
+    font-size: rem(22);
+  }
+  .card_conts {
+    font-size: rem(23);
+    padding-top: rem(30);
+    >div {
+      padding-bottom: rem(28);
+    }
+  }
+  .flex_cont {
+    text-align: center;
+  }
+  .dollor {
+    font-style: normal;
+    color: #e4393c;
+  }
+}

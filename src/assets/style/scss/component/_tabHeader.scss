@@ -1,0 +1,30 @@
+@import "./helper/mixin"; //scss方法混合宏
+$line-color: #d5d5d5;
+$active-color: #003888;
+.tab_card {
+  padding: rem(20) 0;
+  border-bottom: 1px solid $line-color;
+  background-color: #f3f6ff;
+  font-size: rem(21);
+  a {
+    display: block;
+    &.active {
+      color: $active-color !important;
+    }
+  }
+  .t_wrap {
+    >div {
+      &:first-child {
+        a {
+          border-left: 0;
+        }
+      }
+    }
+  }
+  >div {
+    text-align: center;
+    a {
+      border-left: 1px solid $line-color;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+@import "./helper/mixin"; //scss方法混合宏
+/* 状态标记按钮 style */
+
+.flag_btn {
+  display: inline-block;
+  border-radius: rem(99);
+  font-size: rem(21); // height: rem(39);
+  // line-height: rem(39);
+  text-align: center;
+  padding-top: rem(9);
+  padding-bottom: rem(9);
+  padding-left: rem(26);
+  padding-right: rem(26);
+  border-width: rem(2);
+  border-style: solid;
+  &.yellow {
+    $yel: #f0b300;
+    border-color: $yel;
+    color: $yel;
+  }
+  &.orange {
+    $orange: #FF4F1C;
+    border-color: $orange;
+    color: $orange;
+  }
+  &.gray {
+    $gry: #717171;
+    border-color: $gry;
+    color: $gry;
+  }
+  &.green {
+    $gre: #3CA028;
+    border-color: $gre;
+    color: $gre;
+  }
+  &.jdred {
+    $jred: #e4393c;
+    border-color: $jred;
+    color: $jred;
+  }
+}
+
+/* end */
+
+/* 红色字体 */
+
+.f_red {
+  color: #e4393c;
+}
+
+/* end */

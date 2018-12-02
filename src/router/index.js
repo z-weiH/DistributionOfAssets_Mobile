@@ -108,44 +108,46 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'home',
     component: Home,
     meta: {
       keepAlive: false,
       requireAuth: true,
+      name: 'home',
     },
     children: [
       {
         path: 'assetPackageList',
-        // name: 'assetPackageList',
+        name: 'assetPackageList',
         component: AssetPackageList,
         meta: {
           keepAlive: false,
           requireAuth: true,
-          title:'资产包'
-        },
-      },
-      {
-        path: 'assetPackageDetail',
-        // name: 'assetPackageDetail',
-        component: AssetPackageDetail,
-        meta: {
-          keepAlive: false,
-          requireAuth: true,
+          title: '资产包',
         },
       },
       {
         path: 'caseAdvanceSortList',
-        // name: 'caseAdvanceSortList',
+        name: 'caseAdvanceSortList',
         component: CaseAdvanceSortList,
         meta: {
           keepAlive: false,
           requireAuth: true,
+          title: '案件进展',
+        },
+      },
+      {
+        path: 'assetPackageDetail',
+        name: 'assetPackageDetail',
+        component: AssetPackageDetail,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '资产包-详情',
         },
       },
       {
         path: 'changeReqCase',
-        // name: 'changeReqCase',
+        name: 'changeReqCase',
         component: ChangeReqCase,
         meta: {
           keepAlive: false,
@@ -154,11 +156,12 @@ const routes = [
       },
       {
         path: 'personCenter',
-        // name: 'personCenter',
+        name: 'personCenter',
         component: PersonCenter,
         meta: {
           keepAlive: false,
           requireAuth: true,
+          title: '我的',
         },
       },
     ],

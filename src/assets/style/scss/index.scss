@@ -3,6 +3,13 @@
 @import "./base/body";
 @import "./base/font";
 @import "./component/searchbar"; //全局搜索组件
+/* 资产分发系统定制部件样式 */
+
+@import "./component/button"; //按钮
+@import "./component/tabHeader"; //顶部tab选项卡
+@import "./component/cardItem"; //卡片
+/* end */
+
 %wys_ib {
   &:before {
     content: '';
@@ -235,6 +242,26 @@ body {
   display: flex;
 }
 
+.card_item {
+  .option {
+    a {
+      color: #003888 !important;
+    }
+  }
+  $yel:#F0B300;
+  .f_yel {
+    color: $yel;
+  }
+  $gry:#999999;
+  .f_grey {
+    color: $gry;
+  }
+  $red: #D63333;
+  .f_red{
+    color:$red;
+  }
+}
+
 // card 按钮
 .optionBtn {
   text-align: center;
@@ -244,6 +271,7 @@ body {
   width: 100%;
   height: rem(80);
   line-height: rem(80);
+  border: 1px solid #EEEEEE;
 }
 
 .blueBtn {
@@ -258,6 +286,10 @@ body {
 
 .greenBtn {
   background-color: #379E23;
+}
+
+.whiteBtn {
+  background-color: #fff;
 }
 
 // 字体溢出样式

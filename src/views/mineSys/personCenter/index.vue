@@ -7,7 +7,11 @@ export default {
   data() {
     return {};
   },
-  components: {}
+  components: {},
+  methods:{},
+  created () {
+    document.title = '我的'
+  }
 };
 </script>
 
