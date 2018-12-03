@@ -15,7 +15,7 @@ let VueTouch = require('vue-touch')
 Vue.use(VueTouch, {
   name: 'v-touch'
 })
-import  {SearchBar,SearchContext,Scroller}  from '@/components';
+import { SearchBar, SearchContext, Scroller, SlimPopup } from '@/components'
 
 
 /* end */
@@ -43,6 +43,10 @@ Vue.use(WechatPlugin)
 // _win.vConsole = new Vconsole()
 
 import { ToastPlugin, XButton, XInput, Previewer, TransferDom, Box, Toast, Alert,AlertPlugin,ConfirmPlugin,Countdown,Loading } from 'vux'
+
+// import SlimPopup from 'vue-slim-popup'
+
+Vue.use(SlimPopup)
 
 // var fundebug = require("fundebug-javascript");
 // fundebug.apikey = "c94312031e7952afd0ca80fcbb59d689bafe693defff971fc0652b696b65e31f";

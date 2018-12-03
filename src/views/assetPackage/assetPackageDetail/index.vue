@@ -1,10 +1,13 @@
 <template>
-  <div class="page inside" style="min-height: 100%;">
+  <div class="page inside">
     <!-- <view-box ref="viewBox"> -->
     <div class="header_buttons">
       <template>
         <v-touch tag="a" v-on:tap class="h_btn yellow">待签收</v-touch>
         <span class="f_red">已过48小时，请及时关注处理</span>
+      </template>
+      <template>
+        <v-touch tag="a" v-on:tap class="h_btn grey">状态：已确认</v-touch>
       </template>
     </div>
     <div class="list_content">
@@ -15,7 +18,7 @@
             <div class="flex_cont">资产包编号：</div>
           </flexbox-item>
           <flexbox-item :span="20">
-            <div class="flex_cont">425364657576 </div>
+            <div class="flex_cont">425364657576</div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
@@ -47,7 +50,9 @@
             <div class="flex_cont">预估标的金额：</div>
           </flexbox-item>
           <flexbox-item :span="20">
-            <div class="flex_cont"><span class="f_red">2000,000,000元</span></div>
+            <div class="flex_cont">
+              <span class="f_red">2000,000,000元</span>
+            </div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
@@ -71,7 +76,9 @@
             <div class="flex_cont">委托期限：</div>
           </flexbox-item>
           <flexbox-item :span="20">
-            <div class="flex_cont"><span class="linkA">待确认签收后生成</span></div>
+            <div class="flex_cont">
+              <span class="linkA">待确认签收后生成</span>
+            </div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
@@ -105,7 +112,9 @@
               <td>1000.100</td>
               <td>50</td>
               <td>20%</td>
-              <td><v-touch tag="a" v-on:tap="" class="linkA">查看</v-touch></td>
+              <td>
+                <v-touch tag="a" v-on:tap class="linkA">查看</v-touch>
+              </td>
             </tr>
           </tbody>
         </x-table>
@@ -117,20 +126,47 @@
         </div>
       </div>
     </div>
-    <div class="bottom_opts" >
+    <div class="table_remark">
+      <div class="tit">确认说明：</div>
+      <div class="tit_text">已确认收到邮寄的材料</div>
+      <div class="tit_content"></div>
+      <div class="tit_time">
+        <span>确认时间：</span>
+        <span>2018-02-04 13：20：12</span>
+      </div>
+    </div>
+    <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
+
+    <div class="bottom_opts">
       <div>
-        <v-touch tag="a" class="optionBtn greyBtn" v-on:tap="">退回</v-touch>
+        <v-touch tag="a" class="optionBtn greyBtn" v-on:tap>退回</v-touch>
       </div>
       <div>
-        <v-touch tag="a" class="optionBtn blueBtn" v-on:tap="">确认签收</v-touch>
+        <v-touch tag="a" class="optionBtn blueBtn" v-on:tap="confirmReceipt">确认签收</v-touch>
       </div>
     </div>
     <!-- </view-box> -->
+    <!-- <div class="bottom_popup" v-transfer-dom> -->
+      <SlimPopup
+        :show.sync="show_bottomPanel"
+        :popupClass="['popup']"
+        popupTransition="slim-slide-in-bottom"
+        popupPosition="bottom"
+        @open="open"
+        @close="close" class="b_popup"
+      >
+        <div class="popup_title">确认签收
+          <v-touch class="close-btn" tag="span" v-on:tap="show_bottomPanel = false"></v-touch>
+          <!-- <span class="close-btn" @click="show_bottomPanel = false"></span> -->
+        </div>
+        <div class="popup_content"></div>
+      </SlimPopup>
+    <!-- </div> -->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { Flexbox, FlexboxItem,XTable,ViewBox } from "vux";
+import { Flexbox, FlexboxItem, XTable, ViewBox } from "vux";
 
 export default {
   components: {
@@ -140,11 +176,47 @@ export default {
     ViewBox
   },
   data() {
-    return {};
+    return {
+      show_bottomPanel: false
+    };
   },
-  methods: {},
+  watch: {},
+  methods: {
+    autoHeight() {
+      let vux_body = document.getElementById("vux_view_box_body");
+      if (vux_body) {
+        vux_body.style.height = "auto";
+      }
+    },
+    confirmReceipt() {
+      // 确认签收
+      this.show_bottomPanel = true;
+    },
+    scrollBottom(isBottom) {
+      /****
+       * 关闭滚动条-自动定位popup到页面底部
+       * @param isBottom {boolean}
+       * */
+      if (isBottom) {
+        // var ele = document.getElementsByTagName("html")[0];
+        // ele.scrollTop = ele.scrollHeight;
+        document.documentElement.style.overflowY = "hidden";
+      } else {
+        document.documentElement.style.overflowY = "auto";
+      }
+    },
+    open(val) {
+      console.log("open", val);
+      this.scrollBottom(true);
+    },
+    close(val) {
+      console.log("close", val);
+      this.scrollBottom(false);
+    }
+  },
   created() {
     document.title = "资产包-详情";
+    this.autoHeight();
   }
 };
 </script>
@@ -152,27 +224,26 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
 // 标题内容公共的padding样式
-%common_pdlf{
+%common_pdlf {
   padding-left: rem(30);
 }
-%common_plr{
+%common_plr {
   padding-left: rem(30);
   padding-right: rem(30);
 }
-$line_color:#EBEBEB;
+$line_color: #ebebeb;
 
 .page {
   background-color: #eeeeee;
   position: relative;
   z-index: 501;
-  height: 100vh !important;
-  &.inside{
+  // height: 100vh !important;
+  &.inside {
     height: 100%;
-    padding-bottom: 40vh;
+    // padding-bottom: 40vh;
   }
-
 }
-.flex_cont{
+.flex_cont {
   background-clip: padding-box;
 }
 
@@ -196,107 +267,136 @@ $line_color:#EBEBEB;
   color: #fff;
   width: rem(480);
   margin: 0 auto;
-  background-color: #f0b300;
+
+  &.yellow {
+    background-color: #f0b300;
+  }
+  &.grey {
+    background-color: #999999;
+  }
 }
 .f_red {
   color: #de0101;
 }
-.table_info{
-@extend %common_plr;
+.table_info {
+  @extend %common_plr;
 }
 
-.list_content{
+.list_content {
   margin-top: rem(13);
-  margin-bottom: rem(13);
-  font-size:rem(22);
+  // margin-bottom: rem(13);
+  font-size: rem(22);
   background-color: #fff;
   border-bottom: 1px solid $line_color;
-  .list_title{
-     @extend %common_pdlf;
+  .list_title {
+    @extend %common_pdlf;
     font-size: rem(28);
     padding-top: rem(26);
     padding-bottom: rem(21);
-    border-bottom:1px solid $line_color;
+    border-bottom: 1px solid $line_color;
     margin-bottom: -1px;
   }
-  .list_wrap{
-
-    >div{
+  .list_wrap {
+    > div {
       padding-top: rem(19);
       padding-bottom: rem(17);
       @extend %common_pdlf;
-      border-bottom:1px solid $line_color;
+      border-bottom: 1px solid $line_color;
       margin-bottom: -1px;
-      color:#676767;
+      color: #676767;
     }
-    .vux-table{
-      border-left:1px solid $line_color;
-      border-right:1px solid $line_color;
+    .vux-table {
+      border-left: 1px solid $line_color;
+      border-right: 1px solid $line_color;
       margin-top: rem(22);
-      thead{
-        font-size:rem(21);
-        tr{
-          background-color: #E6EDFF;
+      thead {
+        font-size: rem(21);
+        tr {
+          background-color: #e6edff;
         }
-        th{
+        th {
           padding-top: rem(25);
           padding-bottom: rem(18);
-          &:nth-child(1){
+          &:nth-child(1) {
             width: rem(109);
           }
-          &:nth-child(2){
-
+          &:nth-child(2) {
           }
-          &:nth-child(3){
-
+          &:nth-child(3) {
           }
-          &:nth-child(4){
-
+          &:nth-child(4) {
           }
-          &:nth-child(5){
-
+          &:nth-child(5) {
           }
-          &:nth-child(6){
-
+          &:nth-child(6) {
           }
         }
       }
-      tbody{
+      tbody {
         font-size: rem(20);
-        td{
-          color:#666666;
+        td {
+          color: #666666;
           padding-top: rem(25);
           padding-bottom: rem(18);
         }
       }
-      th,td{
+      th,
+      td {
         text-align: center;
       }
     }
-    .list_todo{
+    .list_todo {
       padding: 0;
       padding-top: rem(24);
-      color:#ADADAD;
+      color: #adadad;
       padding-bottom: rem(43);
     }
   }
 }
-.linkA{
- color:#10448F;
+.linkA {
+  color: #10448f;
 }
 
-.bottom_opts{
-  padding-top: 2vh;
+.bottom_opts {
+  // padding-top: 2vh;
   position: fixed;
   bottom: 0;
   width: 100vw;
   width: 100%;
   @include clearfix;
-  >div{
+  > div {
     // display: table-cell;
-    float:left;
+    float: left;
     width: 50vw;
-
   }
+}
+.table_remark {
+  @extend %common_pdlf;
+  // border-top:1px solid $line_color;
+  padding-top: rem(25);
+  padding-bottom: rem(25);
+}
+.remark_bottom {
+  @extend %common_pdlf;
+  padding-top: rem(32);
+  padding-bottom: rem(32);
+  border-top: 1px solid $line_color;
+  color: #adadad;
+}
+.table_remark,
+.remark_bottom {
+  background-color: #fff;
+  font-size: rem(20);
+}
+.bottom_popup {
+  height: 50vh;
+  > div {
+    height: 100%;
+  }
+}
+.b_popup{
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
 }
 </style>

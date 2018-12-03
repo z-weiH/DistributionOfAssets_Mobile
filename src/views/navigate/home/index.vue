@@ -42,19 +42,35 @@ export default {
       openId: "",
       defaultSrc: "/home/assetPackageList",
       select: "tab1", //默认选择tab,
-      linkArr:['/home/assetPackageList','/home/caseAdvanceSortList','/home/personCenter']
+      linkArr: [
+        "/home/assetPackageList",
+        "/home/caseAdvanceSortList",
+        "/home/personCenter"
+      ]
     };
   },
-  methods: {},
+  methods: {
+    resetHeight() {
+      let vux_body = document.getElementById("vux_view_box_body");
+      console.log(vux_body);
+      if (vux_body) {
+        vux_body.removeAttribute("style");
+      }
+    },
+
+  },
   watch: {
     $route(to, from) {
       console.log("$route------", to.path);
-      if(to.path === this.linkArr[0]){
-        this.select = 'tab1'
-      }else if(to.path === this.linkArr[1]){
-        this.select = 'tab2'
-      }else if(to.path === this.linkArr[2]){
-        this.select = 'tab3'
+      if (to.path === this.linkArr[0]) {
+        this.select = "tab1";
+        this.resetHeight();
+      } else if (to.path === this.linkArr[1]) {
+        this.select = "tab2";
+        this.resetHeight();
+      } else if (to.path === this.linkArr[2]) {
+        this.select = "tab3";
+        this.resetHeight();
       }
     }
   },

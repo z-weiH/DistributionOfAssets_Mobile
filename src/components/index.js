@@ -1,11 +1,6 @@
-
-
 import SearchBar from './SearchBar'
 import SearchContext from './SearchContext'
 import Scroller from './scroller'
-export {
-  SearchBar,
-  SearchContext,
-  Scroller,
+import SlimPopup from './popup'
 
-};
+export { SearchBar, SearchContext, Scroller, SlimPopup }

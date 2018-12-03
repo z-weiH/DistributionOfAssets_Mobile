@@ -1,0 +1,36 @@
+@import "./helper/mixin"; //scss方法混合宏
+// 覆盖vue-slim-popup组件样式
+body {
+  .vue-slim-popup {
+    .vue-slim-popup__popup {
+      position: relative;
+      .popup_title {
+        background-color: #EEEEEE;
+        font-size: 14px; //rem(28)
+        text-align: center;
+        height: 37.5px;
+        line-height: 37.5px;
+        position: relative;
+      }
+      .close-btn {
+        position: absolute;
+        top: 0;
+        right: 12px;
+        margin: auto;
+        bottom: 0;
+        width: 16px;
+        height: 16px;
+        &:after {
+          content: '';
+          display: block;
+          background-image: url('~@/assets/img/cc-close-circle.png');
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: 0 0;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}
