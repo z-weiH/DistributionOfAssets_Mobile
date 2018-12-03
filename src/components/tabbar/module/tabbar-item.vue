@@ -1,7 +1,7 @@
 <template>
   <a
     class="m-tabbar-item"
-    :class="{'is-active':isActive}"
+    :class="[{'is-active':isActive}]"
     @click="$parent.$emit('input',id),onItemClick(true)"
   >
     <div class="m-box">
@@ -23,17 +23,18 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { go } from "@/tools/router";
+import { go, getUrl } from "@/tools/router";
 export default {
   props: {
     id: {
       type: String,
       default: false
     },
-    link: [String, Object],
+    link: [String, Object]
   },
   computed: {
     isActive() {
+      console.log('this.$parent.value',this.$parent.value)
       if (this.$parent.value === this.id) {
         return true;
       }
@@ -47,7 +48,10 @@ export default {
       if (hasLink === true) {
         go(this.link, this.$router);
       }
-    }
+      // let oo = getUrl(this.link, this.$router);
+      // console.log("oo", oo);
+      // console.log("切换", this.$router);
+    },
   },
   components: {}
 };

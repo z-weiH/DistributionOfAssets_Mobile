@@ -41,13 +41,21 @@ export default {
     return {
       openId: "",
       defaultSrc: "/home/assetPackageList",
-      select: "tab1" //默认选择tab
+      select: "tab1", //默认选择tab,
+      linkArr:['/home/assetPackageList','/home/caseAdvanceSortList','/home/personCenter']
     };
   },
   methods: {},
   watch: {
     $route(to, from) {
-      console.log("$route", to.path);
+      console.log("$route------", to.path);
+      if(to.path === this.linkArr[0]){
+        this.select = 'tab1'
+      }else if(to.path === this.linkArr[1]){
+        this.select = 'tab2'
+      }else if(to.path === this.linkArr[2]){
+        this.select = 'tab3'
+      }
     }
   },
   beforeCreate() {
