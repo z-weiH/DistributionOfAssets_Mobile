@@ -1,381 +1,255 @@
 <template>
-  <div class="page">
-    <view-box ref="viewBox">
-      <div slot="header" class="tab_card">
-        <Flexbox class="t_wrap">
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap class="active">全部</v-touch>
-          </FlexboxItem>
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap>已签收</v-touch>
-          </FlexboxItem>
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap>已立案</v-touch>
-          </FlexboxItem>
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap>未立案</v-touch>
-          </FlexboxItem>
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap>已结束</v-touch>
-          </FlexboxItem>
-        </Flexbox>
+  <div class="case-advance-sort-list">
+    <scroller :probeType="1"
+      :data="dataList"
+      :pulldown="true"
+      :pullup="true"
+      @scrollToEnd="loadMore"
+      @pulldown="refreshList"
+      :loadOver="loadOver"
+    >
+    <!-- 筛选条件 -->
+    <div class="search-item">
+      <flexbox :gutter="0">
+        <flexbox-item v-for="(item,index) in searchList" :key="index">
+          <div @click="handleActive(item,index)" :class="{'search-active' : item.active}" class="flex-demo">{{item.text}}</div>
+        </flexbox-item>
+      </flexbox>
+    </div>
+
+    <!-- 列表 -->
+    <div class="item-list-box">
+      <div class="item-list" v-for="(item,index) in dataList" :key="index">
+        <div class="item-title">
+          <div class="fl">案件：2017衢仲网裁字8号</div>
+          <div class="fr">
+            <x-button v-if="item.caseStatus === 3" class="ra-99" mini type="primary" plain>已签收</x-button>
+            <x-button v-if="item.caseStatus === 2" class="ra-99" mini type="default" plain>已结案</x-button>
+            <x-button v-if="item.caseStatus === 1" class="ra-99" mini type="warn" plain>未立案</x-button>
+            <x-button v-if="item.caseStatus === 0" class="ra-99 btn-yellow" mini plain>已立案</x-button>
+          </div>
+        </div>
+        <div class="item-content">
+          <flexbox :gutter="0">
+            <flexbox-item>
+              <div class="mcontent">
+                申请人：{{item.arbApplicant}}
+              </div>
+            </flexbox-item>
+            <flexbox-item>
+              <div class="mcontent">
+                被申请人：{{item.arbRespondent}}
+              </div>
+            </flexbox-item>
+          </flexbox>
+
+          <flexbox :gutter="0">
+            <flexbox-item>
+              <div class="mcontent">
+                案由：{{item.caseCause}}
+              </div>
+            </flexbox-item>
+            <flexbox-item>
+              <div class="mcontent">
+                裁决金额：{{item.adjudicationAmt}}
+              </div>
+            </flexbox-item>
+          </flexbox>
+
+          <flexbox :gutter="0">
+            <flexbox-item>
+              <div class="mcontent">
+                立案日期：{{item.aaaa}}
+              </div>
+            </flexbox-item>
+          </flexbox>
+        </div>
+        <div class="item-handle">
+          <flexbox :gutter="0">
+            <flexbox-item>
+              <a>进展查看</a>
+            </flexbox-item>
+            <flexbox-item>
+              请求案件变更
+            </flexbox-item>
+          </flexbox>
+        </div>
       </div>
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <div slot="title">
-            <span>案件：</span>
-            <span>杭州互仲信息技术有限公司</span>
-          </div>
-          <slot>
-            <span class="flag_btn green">已签收</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>申请人：</span>
-                </div>
-                <div>
-                  <span class="runover_ctrl">杭州钱迷科技有限公司</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>被申请人：</span>
-                </div>
-                <div>
-                  <span>冰河</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>案由：</span>
-                </div>
-                <div>
-                  <span>借书卡u女生</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>标的金额：</span>
-                </div>
-                <div>
-                  <span>1105元</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>立案日期：</span>
-                </div>
-                <div>
-                  <span>2018-01-02</span>
-                </div>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-          <Flexbox :gutter="0" wrap="wrap" 　class="option">
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap>进展查看</v-touch>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap>操作记录</v-touch>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <div slot="title">
-            <span>案件：</span>
-            <span>杭州互仲信息技术有限公司</span>
-          </div>
-          <slot>
-            <span class="flag_btn yellow">已立案</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>申请人：</span>
-                </div>
-                <div>
-                  <span class="runover_ctrl">杭州钱迷科技有限公司</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>被申请人：</span>
-                </div>
-                <div>
-                  <span>冰河</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>案由：</span>
-                </div>
-                <div>
-                  <span>借书卡u女生</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>标的金额：</span>
-                </div>
-                <div>
-                  <span>1105元</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>立案日期：</span>
-                </div>
-                <div>
-                  <span>2018-01-02</span>
-                </div>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-          <Flexbox :gutter="0" wrap="wrap" 　class="option">
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap>进展查看</v-touch>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap><span class="f_yel">(平台处理中)</span><span class="f_grey">请求案件变更</span></v-touch>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <div slot="title">
-            <span>案件：</span>
-            <span>杭州互仲信息技术有限公司</span>
-          </div>
-          <slot>
-            <span class="flag_btn jdred">未立案</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>申请人：</span>
-                </div>
-                <div>
-                  <span class="runover_ctrl">杭州钱迷科技有限公司</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>被申请人：</span>
-                </div>
-                <div>
-                  <span>冰河</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>案由：</span>
-                </div>
-                <div>
-                  <span>借书卡u女生</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>标的金额：</span>
-                </div>
-                <div>
-                  <span>1105元</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>立案日期：</span>
-                </div>
-                <div>
-                  <span>2018-01-02</span>
-                </div>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-          <Flexbox :gutter="0" wrap="wrap" 　class="option">
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap>进展查看</v-touch>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap><span class="f_red">(款项未结清)</span><span>请求案件变更</span></v-touch>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <div slot="title">
-            <span>案件：</span>
-            <span>杭州互仲信息技术有限公司</span>
-          </div>
-          <slot>
-            <span class="flag_btn grey">已结束</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>申请人：</span>
-                </div>
-                <div>
-                  <span class="runover_ctrl">杭州钱迷科技有限公司</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>被申请人：</span>
-                </div>
-                <div>
-                  <span>冰河</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>案由：</span>
-                </div>
-                <div>
-                  <span>借书卡u女生</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>标的金额：</span>
-                </div>
-                <div>
-                  <span>1105元</span>
-                </div>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <div class="flex_cont">
-                <div>
-                  <span>立案日期：</span>
-                </div>
-                <div>
-                  <span>2018-01-02</span>
-                </div>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-          <Flexbox :gutter="0" wrap="wrap" 　class="option">
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap="gotoDetail">进展查看</v-touch>
-            </flexbox-item>
-            <flexbox-item :span="1/2">
-              <v-touch class="optionBtn whiteBtn" tag="a" v-on:tap><span class="f_grey">(款项已结清)</span></v-touch>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-    </view-box>
+    </div>
+    </scroller>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import { Flexbox, FlexboxItem, Group, Cell, ViewBox, XHeader } from "vux";
-
-export default {
-  components: {
-    Flexbox,
-    FlexboxItem,
-    Group,
-    Cell,
-    ViewBox,
-    XHeader
-  },
-  data() {
-    return {};
-  },
-  methods:{
-    gotoDetail(){
-      this.$router.push({name:'assetPackageDetail'})
-    }
-  },
-  created () {
-    document.title = '案件进展'
+<script>
+  import { Flexbox, FlexboxItem , XButton } from 'vux'
+import { setTimeout } from 'timers';
+  export default {
+    components : {
+      Flexbox,
+      FlexboxItem,
+      XButton,
+    },
+    data() {
+      return {
+        loadOver : false,
+        searchList : [
+          {
+            text : '全部',
+            active : true,
+            value : '',
+          },
+          {
+            text : '已签收',
+            active : false,
+            value : 3,
+          },
+          {
+            text : '已立案',
+            active : false,
+            value : 0,
+          },
+          {
+            text : '未立案',
+            active : false,
+            value : 1,
+          },
+          {
+            text : '已结束',
+            active : false,
+            value : 2,
+          },
+        ],
+        dataList : [
+          {
+            // 案号
+            arbCaseNo : '',
+            // 申请人
+            arbApplicant : '',
+            // 被申请人
+            arbRespondent : '',
+            // 案由
+            caseCause : '',
+            // 裁决金额
+            adjudicationAmt : '',
+            // 立案日期
+            aaaa : '',
+            // 案件状态 0 已立案 1 未立案 2 已结案 3 已签收
+            caseStatus : 3,
+            // 平台处理状态 0否 1是 2平台处理中
+            repaymentAll : '',
+          }
+        ],
+      }
+    },
+    mounted() {},
+    methods : {
+      // 点击筛选条件
+      handleActive(item,index) {
+        this.searchList = this.searchList.map((v,k) => {
+          v.active = index === k;
+          return v;
+        });
+      },
+      // 滚动底部事件
+      loadMore() {
+        alert('上啦');
+        setTimeout(() => {
+          this.dataList.push({});
+        },2000);
+      },
+      refreshList() {
+        alert('下拉');
+      },
+    },
   }
-};
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
-
-.page {
+.case-advance-sort-list{
   color: #333333;
-  background-color: #eeeeee;
+  font-size: rem(23);
   height: 100%;
-  a {
-    color: #333333;
+  background-color: #eeeeee;
+  .ra-99{
+    border-radius: 99px;
   }
-  .card_item {
-    .card_tit {
+  .btn-yellow{
+    border-color: rgb(240, 179, 0);
+    color: rgb(240, 179, 0);
+  }
+  .search-item{
+    height: rem(82);
+    line-height: rem(82);
+    background-color: #f3f6ff;
+    color: rgb(51, 51, 51);
+    font-size: rem(24);
+    .flex-demo{
+      text-align: center;
+      position: relative;
+      height: 100%;
     }
-    /* button class insert */
-    .card_conts {
-      padding-left: rem(30);
-      & > div {
-      }
+    .vux-flexbox-item .flex-demo::after{
+      content : '';
+      display: inline-block;
+      position: absolute;
+      width: 1px;
+      color: transparent;
+      height: rem(42);
+      background-color: #d5d5d5;
+      top: rem(17);
+      left: rem(142);
     }
-    .flex_cont {
-      display: table;
-      > div {
-        display: table-cell;
-        vertical-align: middle;
+    .vux-flexbox-item:last-child .flex-demo::after{
+      display: none;
+    }
+    .search-active{
+      color: rgb(0, 56, 136);
+    }
+  }
+  .item-list-box{
+    overflow: auto;
+    box-sizing: border-box;
+    height: calc(100% - 1.09333rem);
+    *{
+      box-sizing: border-box;
+    }
+    .item-list{
+      height: rem(344);
+      margin-top: rem(18);
+      background-color: #fff;
+
+      .item-title{
+        min-height: rem(76);
+        padding-left: rem(29);
+        overflow: hidden;
+        border-bottom: 1px solid #eaeaea;
+        .fl{
+          width: calc(100% - 2.66667rem);
+          line-height: rem(76);
+        }
+        .fr{
+          text-align: right;
+          width: rem(200);
+          padding-right: rem(29);
+          line-height: rem(76);
+          margin-top: rem(-2);
+        }
       }
-      span {
+      .item-content{
+        height: rem(202);
+        padding-left: rem(29);
+        .mcontent{
+          margin-top: rem(20);
+        }
+      }
+      .item-handle{
+        height: rem(66);
+        line-height: rem(66);
+        border-top: 1px solid #eaeaea;
       }
     }
   }
 }
 
-.card_conts {
-}
 </style>
