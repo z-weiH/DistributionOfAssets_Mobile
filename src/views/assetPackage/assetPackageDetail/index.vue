@@ -86,7 +86,7 @@
     </div>
     <div class="list_content">
       <div class="list_title">价格确认单</div>
-      <div class="list_wrap">
+      <div class="list_wrap table_info">
         <x-table>
           <thead>
             <tr>
@@ -201,6 +201,9 @@ $line_color:#EBEBEB;
 .f_red {
   color: #de0101;
 }
+.table_info{
+@extend %common_plr;
+}
 
 .list_content{
   margin-top: rem(13);
@@ -217,7 +220,7 @@ $line_color:#EBEBEB;
     margin-bottom: -1px;
   }
   .list_wrap{
-    @extend %common_plr;
+
     >div{
       padding-top: rem(19);
       padding-bottom: rem(17);
