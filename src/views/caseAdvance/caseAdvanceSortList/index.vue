@@ -1,13 +1,5 @@
 <template>
   <div class="case-advance-sort-list">
-    <scroller :probeType="1"
-      :data="dataList"
-      :pulldown="true"
-      :pullup="true"
-      @scrollToEnd="loadMore"
-      @pulldown="refreshList"
-      :loadOver="loadOver"
-    >
     <!-- 筛选条件 -->
     <div class="search-item">
       <flexbox :gutter="0">
@@ -17,17 +9,27 @@
       </flexbox>
     </div>
 
+    <scroller :probeType="1"
+      :data="dataList"
+      :pulldown="true"
+      :pullup="true"
+      @scrollToEnd="loadMore"
+      @pulldown="refreshList"
+      :loadOver="loadOver"
+    >
     <!-- 列表 -->
     <div class="item-list-box">
       <div class="item-list" v-for="(item,index) in dataList" :key="index">
         <div class="item-title">
-          <div class="fl">案件：2017衢仲网裁字8号</div>
-          <div class="fr">
-            <x-button v-if="item.caseStatus === 3" class="ra-99" mini type="primary" plain>已签收</x-button>
-            <x-button v-if="item.caseStatus === 2" class="ra-99" mini type="default" plain>已结案</x-button>
-            <x-button v-if="item.caseStatus === 1" class="ra-99" mini type="warn" plain>未立案</x-button>
-            <x-button v-if="item.caseStatus === 0" class="ra-99 btn-yellow" mini plain>已立案</x-button>
-          </div>
+          <group :gutter="0" class="card_item">
+            <cell :border-intent="false" class="sub-item">
+              <div slot="title" class="card_tit">{{item.arbCaseNo}}</div>
+              <div v-if="item.caseStatus === 3" class="flag_btn green">已签收</div>
+              <div v-if="item.caseStatus === 2" class="flag_btn gray">已结案</div>
+              <div v-if="item.caseStatus === 1" class="flag_btn jdred">未立案</div>
+              <div v-if="item.caseStatus === 0" class="flag_btn yellow">已立案</div>
+            </cell>
+          </group>
         </div>
         <div class="item-content">
           <flexbox :gutter="0">
@@ -94,12 +96,14 @@
 </template>
 
 <script>
-  import { Flexbox, FlexboxItem , XButton } from 'vux'
+  import { Flexbox, FlexboxItem , XButton , Group , Cell} from 'vux'
   export default {
     components : {
       Flexbox,
       FlexboxItem,
       XButton,
+      Group,
+      Cell,
     },
     data() {
       return {
@@ -134,26 +138,35 @@
         dataList : [
           {
             // 案号
-            arbCaseNo : '',
+            arbCaseNo : '我是案号',
             // 申请人
-            arbApplicant : '',
+            arbApplicant : '我是申请人',
             // 被申请人
-            arbRespondent : '',
+            arbRespondent : '我是被申请人',
             // 案由
-            caseCause : '',
+            caseCause : '我是案由',
             // 裁决金额
-            adjudicationAmt : '',
+            adjudicationAmt : '我是裁决金额',
             // 立案日期
-            recordDate : '',
+            recordDate : '我是立案日期',
             // 案件状态 0 已立案 1 未立案 2 已结案 3 已签收
-            caseStatus : 3,
+            caseStatus : 0,
             // 平台处理状态 0未结清 1已结清 2平台处理中
             repaymentAll : 2,
-          }
+          },{},{},{},{},{}
         ],
+
+        // 数据总数
+        total : 11,
+        // 当前页数
+        currentPage : 1,
+        // 每页数量
+        pageSize : 10,
       }
     },
-    mounted() {},
+    mounted() {
+      this.initTableList();
+    },
     methods : {
       // 点击筛选条件
       handleActive(item,index) {
@@ -161,17 +174,20 @@
           v.active = index === k;
           return v;
         });
+        this.initTableList();
       },
       // 下拉加载
       loadMore() {
-        alert('上啦');
-        setTimeout(() => {
-          this.dataList.push({});
-        },2000);
+        if(this.loadOver === true) {
+          return;
+        }
+        this.currentPage = this.currentPage + 1;
+        this.initTableList('push');
       },
       // 上拉刷新
       refreshList() {
-        alert('下拉');
+        this.currentPage = 1;
+        this.initTableList();
       },
       // 点击查看
       handleSee(row,index) {
@@ -181,8 +197,38 @@
       },
       // 点击 案件变更
       handleCaseAlteration(row,index) {
+        console.log(row);
         this.$router.push({
-          path : 'changeReqCase'
+          path : 'changeReqCase',
+          query : {
+            ...row,
+          },
+        });
+      },
+
+      // 初始化 数据
+      initTableList(type) {
+        this.$http({
+          url : '/mobile/queryCaseProgressInfo.htm',
+          method : 'post',
+          data : {
+            pageSize : this.pageSize,
+            currentNum : this.currentPage,
+
+            caseStatus : this.searchList.filter(v => v.active)[0].value,
+          },
+        }).then((res) => {
+          this.total = res.result.count;
+          if(type === 'push') {
+            this.dataList.push(res.result.list);
+          }else{
+            this.dataList = res.result.list;
+          }
+          this.$nextTick(() => {
+            if(this.pageSize * this.currentPage >= this.total) {
+              this.loadOver = true;
+            }
+          });
         });
       },
     },
@@ -216,6 +262,8 @@
     background-color: #f3f6ff;
     color: rgb(51, 51, 51);
     font-size: rem(24);
+    z-index: 1;
+    position: relative;
     .flex-demo{
       text-align: center;
       position: relative;
@@ -247,11 +295,10 @@
       box-sizing: border-box;
     }
     .item-list{
-      height: rem(344);
       margin-top: rem(18);
       background-color: #fff;
 
-      .item-title{
+      /* .item-title{
         min-height: rem(76);
         padding-left: rem(29);
         overflow: hidden;
@@ -267,10 +314,10 @@
           line-height: rem(76);
           margin-top: rem(2);
         }
-      }
+      } */
       .item-content{
-        height: rem(202);
         padding-left: rem(29);
+        margin-bottom: rem(20);
         .mcontent{
           margin-top: rem(20);
         }
