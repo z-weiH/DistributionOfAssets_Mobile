@@ -59,18 +59,31 @@
           <flexbox :gutter="0">
             <flexbox-item>
               <div class="mcontent">
-                立案日期：{{item.aaaa}}
+                立案日期：{{item.recordDate}}
               </div>
             </flexbox-item>
           </flexbox>
         </div>
         <div class="item-handle">
           <flexbox :gutter="0">
-            <flexbox-item>
-              <a>进展查看</a>
+            <flexbox-item class="handle-btn">
+              <a @click="handleSee(item,index)">进展查看</a>
             </flexbox-item>
-            <flexbox-item>
-              请求案件变更
+            <flexbox-item class="handle-btn">
+              <template v-if="item.repaymentAll === ''">
+                <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
+              </template>
+              <template v-if="item.repaymentAll === 0">
+                <span class="color-red">(款项未结清)</span>
+                <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
+              </template>
+              <template v-if="item.repaymentAll === 1">
+                <span>(款项已结清)</span>
+              </template>
+              <template v-if="item.repaymentAll === 2">
+                <span class="color-yellow">(平台处理中)</span>
+                <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
+              </template>
             </flexbox-item>
           </flexbox>
         </div>
@@ -82,7 +95,6 @@
 
 <script>
   import { Flexbox, FlexboxItem , XButton } from 'vux'
-import { setTimeout } from 'timers';
   export default {
     components : {
       Flexbox,
@@ -132,11 +144,11 @@ import { setTimeout } from 'timers';
             // 裁决金额
             adjudicationAmt : '',
             // 立案日期
-            aaaa : '',
+            recordDate : '',
             // 案件状态 0 已立案 1 未立案 2 已结案 3 已签收
             caseStatus : 3,
-            // 平台处理状态 0否 1是 2平台处理中
-            repaymentAll : '',
+            // 平台处理状态 0未结清 1已结清 2平台处理中
+            repaymentAll : 2,
           }
         ],
       }
@@ -150,15 +162,28 @@ import { setTimeout } from 'timers';
           return v;
         });
       },
-      // 滚动底部事件
+      // 下拉加载
       loadMore() {
         alert('上啦');
         setTimeout(() => {
           this.dataList.push({});
         },2000);
       },
+      // 上拉刷新
       refreshList() {
         alert('下拉');
+      },
+      // 点击查看
+      handleSee(row,index) {
+        this.$router.push({
+          path : 'progressView'
+        });
+      },
+      // 点击 案件变更
+      handleCaseAlteration(row,index) {
+        this.$router.push({
+          path : 'changeReqCase'
+        });
       },
     },
   }
@@ -178,6 +203,13 @@ import { setTimeout } from 'timers';
     border-color: rgb(240, 179, 0);
     color: rgb(240, 179, 0);
   }
+  .color-yellow{
+    color: rgb(240, 179, 0);
+  }
+  .color-red{
+    color: rgb(204, 0, 0);
+  }
+
   .search-item{
     height: rem(82);
     line-height: rem(82);
@@ -198,7 +230,7 @@ import { setTimeout } from 'timers';
       height: rem(42);
       background-color: #d5d5d5;
       top: rem(17);
-      left: rem(142);
+      left: rem(148);
     }
     .vux-flexbox-item:last-child .flex-demo::after{
       display: none;
@@ -233,7 +265,7 @@ import { setTimeout } from 'timers';
           width: rem(200);
           padding-right: rem(29);
           line-height: rem(76);
-          margin-top: rem(-2);
+          margin-top: rem(2);
         }
       }
       .item-content{
@@ -247,6 +279,12 @@ import { setTimeout } from 'timers';
         height: rem(66);
         line-height: rem(66);
         border-top: 1px solid #eaeaea;
+        .handle-btn{
+          text-align: center;
+        }
+        .handle-btn:first-child{
+          border-right: 1px solid #eaeaea;
+        }
       }
     }
   }

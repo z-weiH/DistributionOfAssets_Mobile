@@ -1,5 +1,5 @@
 <template>
-  <div class="change-req-case">
+  <div class="progress-view">
 
   </div>
 </template>
@@ -12,8 +12,8 @@
 
 <style lang="scss" scoped>
 
-.change-req-case{
-
+.progress-view{
+  
 }
 
 </style>
