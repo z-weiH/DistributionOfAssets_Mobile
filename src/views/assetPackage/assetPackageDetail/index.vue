@@ -283,7 +283,7 @@ $line_color:#EBEBEB;
 }
 
 .bottom_opts{
-  padding-top: 3vh;
+  padding-top: 2vh;
   position: fixed;
   bottom: 0;
   width: 100vw;
