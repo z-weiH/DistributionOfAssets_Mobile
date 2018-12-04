@@ -205,6 +205,145 @@
           </Flexbox>
         </v-touch>
       </Group>
+
+      <Group :gutter="0" class="card_item">
+        <Cell class="card_tit" :border-intent="false">
+          <span slot="title">杭州互仲信息技术有限公司</span>
+          <slot>
+            <span class="flag_btn green">已确认</span>
+          </slot>
+        </Cell>
+        <v-touch v-on:tap>
+          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>
+                  <em class="dollor">2000,000.00</em>
+                </span>
+                <span class="dollor">元</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>200</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>5</span>
+                <span>个月</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>预计总标的金额</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>案件量</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>委托期</span>
+              </div>
+            </flexbox-item>
+          </Flexbox>
+        </v-touch>
+      </Group>
+      <Group :gutter="0" class="card_item">
+        <Cell class="card_tit" :border-intent="false">
+          <span slot="title">杭州互仲信息技术有限公司</span>
+          <slot>
+            <span class="flag_btn green">已确认</span>
+          </slot>
+        </Cell>
+        <v-touch v-on:tap>
+          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>
+                  <em class="dollor">2000,000.00</em>
+                </span>
+                <span class="dollor">元</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>200</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>5</span>
+                <span>个月</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>预计总标的金额</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>案件量</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>委托期</span>
+              </div>
+            </flexbox-item>
+          </Flexbox>
+        </v-touch>
+      </Group>
+      <Group :gutter="0" class="card_item">
+        <Cell class="card_tit" :border-intent="false">
+          <span slot="title">杭州互仲信息技术有限公司</span>
+          <slot>
+            <span class="flag_btn green">已确认</span>
+          </slot>
+        </Cell>
+        <v-touch v-on:tap>
+          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>
+                  <em class="dollor">2000,000.00</em>
+                </span>
+                <span class="dollor">元</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>200</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>5</span>
+                <span>个月</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>预计总标的金额</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>案件量</span>
+              </div>
+            </flexbox-item>
+            <flexbox-item :span="1/3">
+              <div class="flex_cont">
+                <span>委托期</span>
+              </div>
+            </flexbox-item>
+          </Flexbox>
+        </v-touch>
+      </Group>
     </view-box>
   </div>
 </template>

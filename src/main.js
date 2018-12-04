@@ -47,6 +47,10 @@ import { ToastPlugin, XButton, XInput, Previewer, TransferDom, Box, Toast, Alert
 // import SlimPopup from 'vue-slim-popup'
 
 Vue.use(SlimPopup)
+// 图片上传
+// import uploader from 'vue-easy-uploader'
+// let store = new Vuex.Store({})
+// Vue.use(uploader, store)
 
 // var fundebug = require("fundebug-javascript");
 // fundebug.apikey = "c94312031e7952afd0ca80fcbb59d689bafe693defff971fc0652b696b65e31f";

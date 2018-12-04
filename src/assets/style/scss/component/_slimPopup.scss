@@ -3,7 +3,9 @@
 body {
   .vue-slim-popup {
     .vue-slim-popup__popup {
-      position: relative;
+      // position: relative;
+      position: fixed;
+      z-index: 1001;
       .popup_title {
         background-color: #EEEEEE;
         font-size: 14px; //rem(28)
@@ -11,6 +13,11 @@ body {
         height: 37.5px;
         line-height: 37.5px;
         position: relative;
+      }
+      .popup_smalltit {
+        font-size:12px;
+        text-align: center;
+        background-color: #fff;
       }
       .close-btn {
         position: absolute;
@@ -31,6 +38,34 @@ body {
           height: 16px;
         }
       }
+      .popup_content {
+        background-color: #fff;
+        .popup_text {
+          font-size: 12px;
+          padding-left: rem(30);
+          >div {
+            &:nth-child(1) {
+              color: #999999;
+            }
+            &:nth-child(2) {
+              color: #555555;
+            }
+          }
+        }
+      }
+      .popop_ctrl {
+        display: table;
+        width: 100%;
+        >div {
+          width: 50%;
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
     }
+  }
+  .hahah123213123 {
+    // bottom: rem(42);
+    bottom: 0;
   }
 }
