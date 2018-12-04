@@ -142,7 +142,7 @@
     },
     data() {
       return {
-
+        pullLoading : false,
         loadingData: false,
         loadingConnecting: false,
         pulldownTip: {
@@ -203,6 +203,9 @@
         // 是否派发滚动到底部事件，用于上拉加载
         if (this.pullup) {
           this.scroll.on('scrollEnd', (pos) => {
+            if(this.pullLoading === true) {
+              return;
+            }
             // 滚动到底部
             if(!this.loadingConnecting && !this.loadOver){
               if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
@@ -225,6 +228,10 @@
           this.scroll.on('touchEnd', (pos) => {
             // 下拉动作
             if (pos.y > 50) {
+              this.pullLoading = true;
+              setTimeout(() => {
+                this.pullLoading = false;
+              },2000);
               setTimeout(() => {
                 // 重置提示信息
                 this.pulldownTip = {
