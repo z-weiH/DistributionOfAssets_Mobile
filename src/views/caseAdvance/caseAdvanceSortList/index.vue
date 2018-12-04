@@ -23,7 +23,7 @@
         <div class="item-title">
           <group :gutter="0" class="card_item">
             <cell :border-intent="false" class="sub-item">
-              <div slot="title" class="card_tit">{{item.arbCaseNo}}</div>
+              <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
               <div v-if="item.caseStatus === 3" class="flag_btn green">已签收</div>
               <div v-if="item.caseStatus === 2" class="flag_btn gray">已结案</div>
               <div v-if="item.caseStatus === 1" class="flag_btn jdred">未立案</div>
@@ -297,24 +297,6 @@
     .item-list{
       margin-top: rem(18);
       background-color: #fff;
-
-      /* .item-title{
-        min-height: rem(76);
-        padding-left: rem(29);
-        overflow: hidden;
-        border-bottom: 1px solid #eaeaea;
-        .fl{
-          width: calc(100% - 2.66667rem);
-          line-height: rem(76);
-        }
-        .fr{
-          text-align: right;
-          width: rem(200);
-          padding-right: rem(29);
-          line-height: rem(76);
-          margin-top: rem(2);
-        }
-      } */
       .item-content{
         padding-left: rem(29);
         margin-bottom: rem(20);
