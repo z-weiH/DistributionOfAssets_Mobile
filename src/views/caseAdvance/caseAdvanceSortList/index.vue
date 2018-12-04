@@ -242,6 +242,9 @@
   font-size: rem(23);
   height: 100%;
   background-color: #eeeeee;
+  .card_tit{
+    border : none;
+  }
   .ra-99{
     border-radius: 99px;
   }

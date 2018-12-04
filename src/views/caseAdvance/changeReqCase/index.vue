@@ -260,8 +260,9 @@
         this.dialogVisible = true;
       },
       verifyMessageFn(message) {
-        this.verifyVisible = true;
-        this.verifyMessage = message;
+        /* this.verifyVisible = true;
+        this.verifyMessage = message; */
+        this.$vux.toast.show(message)
       },
       // 提交 校验逻辑
       verifyFn() {
@@ -307,6 +308,9 @@
   font-size: rem(23);
   height: 100%;
   background-color: #fff;
+  .card_tit{
+    border : none;
+  }
   .ra-99{
     border-radius: 99px;
   }
