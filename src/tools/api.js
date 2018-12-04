@@ -1,5 +1,7 @@
 import axios from '@/axios'
 import Host from '@/axios/host'
+import Vue from 'vue'
+Vue.prototype.$http = axios;
 
 export default {
   install(Vue) {
