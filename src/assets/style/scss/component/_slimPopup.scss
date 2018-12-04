@@ -2,6 +2,10 @@
 // 覆盖vue-slim-popup组件样式
 body {
   .vue-slim-popup {
+
+    .vue-slim-popup__mask {
+      touch-action: none;
+    }
     .vue-slim-popup__popup {
       // position: relative;
       position: fixed;
@@ -15,7 +19,7 @@ body {
         position: relative;
       }
       .popup_smalltit {
-        font-size:12px;
+        font-size: 13px;
         text-align: center;
         background-color: #fff;
       }

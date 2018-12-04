@@ -23,10 +23,10 @@
           <div class="icon i_pwd"></div>
         </flexbox-item>
         <flexbox-item :span="7" class="wrap_input">
-          <x-input name="loginPwd" type="password" v-validator="validator.loginPwd" v-model="loginPwd" placeholder="请输入密码" style="font-size:15px"></x-input>
+          <x-input name="password" type="password" v-validator="validator.password" v-model="password" placeholder="请输入密码" style="font-size:15px"></x-input>
         </flexbox-item>
         <flexbox-item :span="4" class="error_holder">
-          <span>{{$validator.firstError('loginPwd')}}</span>   <!-- 手动添加错误提示 -->
+          <span>{{$validator.firstError('password')}}</span>   <!-- 手动添加错误提示 -->
         </flexbox-item>
       </flexbox>
       <div class="buttonwrap">
@@ -58,7 +58,7 @@ export default {
 			arbClassName: '',
 			bindType: false, //是否绑定 (页面是否显示的总开关)
 			loginName: '',
-			loginPwd: '',
+			password: '',
 			validator: {
 				loginName: [
 					{ rule: 'required', message: '必填', trigger: 'blur' },
@@ -70,7 +70,7 @@ export default {
 						trigger: 'blur',
 					},
 				],
-				loginPwd: [{ rule: 'required', message: '必填', trigger: 'blur' }],
+				password: [{ rule: 'required', message: '必填', trigger: 'blur' }],
 			},
 		}
 	},
@@ -83,23 +83,24 @@ export default {
 				if (!reg.tel.test(this.$trim(this.loginName))) {
 					this.$vux.toast.text('手机格式错误')
 				} else {
-					if (this.loginPwd.length < 6) {
+					if (this.password.length < 6) {
 						this.$vux.toast.text('密码位数不对，请输入6～20位')
 					} else {
 						this.$api
-							.post('/mobile/logindo.htm', {
+							.post('/mobile/login.htm', {
 								loginName: this.$trim(this.loginName),
-								loginPwd: this.loginPwd,
-								openId: this.openId,
+								password: this.password,
+								token: this.openId,
 							})
 							.then(res => {
 								if (res.data.code === '0000') {
 									console.log(qs.stringify(res.data.result))
                   // let _username = this.$trim(this.loginName)
-                  // let _pwd = this.loginPwd
+                  // let _pwd = this.password
                   // let finaluser = Object.assign(res.data.result,{uname:_username,pwd:_pwd})
-									localStorage.setItem('$userInfo', qs.stringify(res.data.result))
-									this.$router.push('/wxBind')
+									// localStorage.setItem('$userInfo', qs.stringify(res.data.result))
+									// this.$router.push('/wxBind')
+                   this.$router.replace('home')
 								} else if(res.data.code === '1002'){
                   this.$vux.toast.text(res.data.description)
 								}
@@ -168,7 +169,7 @@ export default {
 	created() {
 		// this.getArbIcoClass();
 		this.openId = localStorage.getItem('currentOpenId')
-		this.bindUserQuery() //账号是否绑定-检测
+		// this.bindUserQuery() //账号是否绑定-检测
 		this.arbName = qs.parse(localStorage.getItem('$arbname'))['shortName']
 	},
 	components: {

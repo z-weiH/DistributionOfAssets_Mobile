@@ -1,5 +1,5 @@
 <template>
-  <div class="page inside">
+  <div class="page inside" ref="inside">
     <div class="header_buttons">
       <template>
         <v-touch tag="a" v-on:tap class="h_btn yellow">待签收</v-touch>
@@ -136,16 +136,6 @@
     </div>
     <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
 
-    <div class="slide_wrap">
-    <div class="slide-box">
-          <div class="slide-item">dfasdfkhdf</div>
-          <div class="slide-item">asdfasdfadsf</div>
-          <div class="slide-item">asdfsdafdasf</div>
-          <div class="slide-item">asdfasdfdsa</div>
-          <div class="slide-item">asdfsadfasdf</div>
-        </div>
-    </div>
-
     <div class="bottom_opts">
       <div>
         <v-touch tag="a" class="optionBtn greyBtn" v-on:tap="showPopop('show_sbackPanel')">退回</v-touch>
@@ -228,200 +218,176 @@
       </div>
     </SlimPopup>
     <!-- end -->
-    <!-- 案件详情 panel -->
-    <SlimPopup
-      :show.sync="show_casePanel"
-      :popupClass="['popup']"
-      popupTransition="slim-slide-in-bottom"
-      popupPosition="bottom"
-      @open="open"
-      @close="close"
-      class="b_popup"
-    >
-      <div class="popup_title">
-        <div>案件查看</div>
-        <v-touch class="close-btn" tag="span" v-on:tap="cancelFoo"></v-touch>
-      </div>
-      <div class="popup_smalltit">
-        <span>奇速贷</span>案件名单-
-        <span>20</span>个
-      </div>
-      <div class="popup_content">
-        <div class="tab">
-          <div class="wrapper" ref="wrapper">
-            <ul ref="wrapperUl">
-              <li class="item" v-for="(n,idx) in 7" :key="idx">反请求{{n}}</li>
-              <li class="item">
-                <span class="btn">申请答辩书</span>
-              </li>
-              <li class="item">
-                <span class="btn">申请辩论书</span>
-              </li>
-              <li class="item">
-                <span class="btn">反请求答辩书</span>
-              </li>
-              <li class="item">
-                <span class="btn">反请求辩论书</span>
-              </li>
-            </ul>
+    <div class="vtdom_casewrap" v-transfer-dom>
+      <!-- 案件详情 panel -->
+      <SlimPopup
+        :show.sync="show_casePanel"
+        :popupClass="['popup']"
+        popupTransition="slim-slide-in-bottom"
+        popupPosition="bottom"
+        @open="open"
+        @close="close"
+        class="b_popup"
+      >
+        <div class="popup_title">
+          <div>案件查看</div>
+          <v-touch class="close-btn" tag="span" v-on:tap="cancelFoo"></v-touch>
+        </div>
+        <div class="popup_smalltit">
+          <span>奇速贷</span>案件名单-
+          <span>20</span>个
+        </div>
+        <div class="popup_content">
+          <div class="slide_wrap">
+            <div class="slide-box">
+              <x-table class="cases_table">
+                <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>案件编号</th>
+                    <th>仲裁申请人</th>
+                    <th>裁决金额</th>
+                    <th>被申请人</th>
+                    <th>法院</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                  <tr>
+                    <td>asdasd</td>
+                    <td>asdasd</td>
+                    <td>asdasdas</td>
+                    <td>asdasdas</td>
+                    <td>asdasd</td>
+                    <td>asdasdsad</td>
+                  </tr>
+                </tbody>
+              </x-table>
+            </div>
           </div>
         </div>
-        <div class="slide_wrap">
-    <div class="slide-box">
-          <div class="slide-item">dfasdfkhdf</div>
-          <div class="slide-item">asdfasdfadsf</div>
-          <div class="slide-item">asdfsdafdasf</div>
-          <div class="slide-item">asdfasdfdsa</div>
-          <div class="slide-item">asdfsadfasdf</div>
-        </div>
+      </SlimPopup>
+      <!-- end -->
     </div>
-        <!-- <div class="table_wrapper">
-          <x-table class="cases_table">
-            <thead>
-              <tr>
-                <th>序号</th>
-                <th>案件编号</th>
-                <th>仲裁申请人</th>
-                <th>裁决金额</th>
-                <th>被申请人</th>
-                <th>法院</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-              <tr>
-                <td>asdasd</td>
-                <td>asdasd</td>
-                <td>asdasdas</td>
-                <td>asdasdas</td>
-                <td>asdasd</td>
-                <td>asdasdsad</td>
-              </tr>
-            </tbody>
-          </x-table>
-        </div>-->
-      </div>
-    </SlimPopup>
-    <!-- end -->
   </div>
 </template>
 
@@ -461,23 +427,6 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    initScroll() {
-      let fs = document.documentElement.style.fontSize.substring(
-        0,
-        document.documentElement.style.fontSize.length - 2
-      );
-      let itemWidth = (fs * 130) / 75;
-      let width = itemWidth * 7;
-      this.$refs.wrapperUl.style.width = width + "px";
-      // this.$refs.wrapperUl.style.width = '800px'
-      console.log(width, this.$refs.wrapperUl);
-      this.$nextTick(() => {
-        this.bscroll = new BScroll(this.$refs.wrapper, {
-          scrollX: true,
-          eventPassthrough: "vertical" //忽略竖直方向的滚动
-        });
-      });
-    },
     getJsSDK() {
       console.log("getJsSDK");
     },
@@ -537,6 +486,12 @@ export default {
       } else if (type == "show_casePanel") {
         // 显示 - 案件
         this.show_casePanel = true;
+        // let _page = this.$refs.inside;
+        // console.log("_page", _page);
+        // _page.addEventListener("touchmove", function(e) {
+        //   e.preventDefault();
+        //   console.log("绑定-touchmove");
+        // });
         this.fetchCaseApi();
       }
     },
@@ -579,6 +534,13 @@ export default {
     close(val) {
       console.log("close", val);
       this.scrollBottom(false);
+      // let _page = this.$refs.inside;
+      // console.log("_page", _page);
+      // _page.addEventListener("touchmove", function(e) {
+      //   _page.removeEventListener("touchmove", function(e) {
+      //     console.log("解绑-touchmove");
+      //   });
+      // });
     }
   },
   beforeCreate() {},
@@ -587,9 +549,7 @@ export default {
     // this.initWechat();
     this.autoHeight();
   },
-  mounted() {
-    this.initScroll();
-  }
+  mounted() {}
 };
 </script>
 
@@ -820,6 +780,8 @@ body {
         }
         th {
           font-size: 16px;
+          height: 35px;
+          line-height: 35px;
           &:nth-child(1) {
             width: rem(120);
           }
@@ -841,46 +803,12 @@ body {
       tbody {
         td {
           font-size: 14px;
+          padding:rem(5) rem(2);
         }
       }
     }
   }
-  // .table_wrapper {
-  //   width: 100vw;
-  //   height: rem(500);
-  //   overflow-x: auto;
-  //   overflow-y: auto;
-  // }
 }
-
-/* scroll style */
-.tab {
-  height: rem(75);
-  background: #fff;
-  line-height: rem(75);
-  display: flex;
-  font-size: rem(16);
-}
-.wrapper {
-  flex: 1;
-  overflow: hidden;
-  white-space: nowrap;
-  ul {
-  }
-  li.item {
-    display: inline-block;
-    line-height: rem(75);
-    width: rem(130);
-  }
-  .btn {
-    border-radius: rem(40);
-    // padding:rem(5) rem(8);
-    &.active {
-      background: #294283;
-    }
-  }
-}
-/* end */
 
 .slide-box {
   display: -webkit-box;
@@ -894,9 +822,15 @@ body {
   margin-right: 30px;
 }
 
-.slide_wrap{
-  width: rem(500);
+.slide_wrap {
+  width: rem(700);
+  margin: 0 auto;
   overflow: hidden;
-  border:1px solid #e4393c;
+  border: 1px solid #787878;//#e4393c
+}
+
+.vtdom_casewrap {
+  position: fixed;
+  z-index: 1000;
 }
 </style>

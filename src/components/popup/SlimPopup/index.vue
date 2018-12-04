@@ -17,7 +17,7 @@
         ref="popup"
         :class="[c('__popup'), c(`__popup--${popupPosition}`), ...popupClass]"
         :style="popupStyle"
-        @touchmove.prevent="preventDefault"  class="hahah123213123"
+         class="hahah123213123"
       >
         <slot/>
       </div>
@@ -27,7 +27,7 @@
 
 <script type="text/ecmascript-6">
 import mixin from "./mixins";
-
+// @touchmove.prevent="preventDefault"
 export default {
   name: "SlimPopup",
   components: {},
