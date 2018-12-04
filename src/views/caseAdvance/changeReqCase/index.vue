@@ -88,6 +88,7 @@
       <group :gutter="0">
         <x-textarea v-model.trim="ruleForm.notes" placeholder="案件进展说明100字以内" :max="100"></x-textarea>
       </group>
+      <upload class="m-upload"></upload>
     </div>
 
     <!-- 底部导航操作 -->
@@ -114,12 +115,13 @@
       <p style="text-align:center;">确定退出吗？</p>
     </confirm>
     <!-- 校验提示语 -->
-    <toast v-model="verifyVisible" type="text" :text="verifyMessage" width="12em"></toast>
+    <toast v-model="verifyVisible" type="text" :text="verifyMessage" width="80vw"></toast>
   </div>
 </template>
 
 <script>
   import { Flexbox, FlexboxItem , XButton , Group , Cell, XInput , PopupPicker , XTextarea , Confirm} from 'vux'
+  import upload from '@/components/upload.vue'
   export default {
     components : {
       Flexbox,
@@ -131,6 +133,7 @@
       PopupPicker,
       XTextarea,
       Confirm,
+      upload,
     },
     data() {
       return {
@@ -376,6 +379,10 @@
     .handle-submit{
       background-color: #003888;
     }
+  }
+  .m-upload{
+    margin-top: 10px;
+    padding-left: rem(31);
   }
 }
 
