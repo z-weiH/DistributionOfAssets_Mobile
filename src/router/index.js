@@ -43,6 +43,7 @@ const Home = () => import('@/views/navigate/home')
 /*---------------案件进展 caseAdvance --------------*/
 const CaseAdvanceSortList = () => import('@/views/caseAdvance/caseAdvanceSortList')
 const ChangeReqCase = () => import('@/views/caseAdvance/changeReqCase')
+const progressView = () => import('@/views/caseAdvance/progressView')
 
 /*---------------资产包模块 assetPackage --------------*/
 const AssetPackageList = () => import('@/views/assetPackage/assetPackageList')
@@ -152,6 +153,19 @@ const routes = [
         meta: {
           keepAlive: false,
           requireAuth: true,
+          handleMenu : false,
+          title: '案件进展',
+        },
+      },
+      {
+        path: 'progressView',
+        name: 'progressView',
+        component: progressView,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          handleMenu : false,
+          title: '案件进展',
         },
       },
       {

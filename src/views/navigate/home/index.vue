@@ -4,6 +4,7 @@
       <!-- 视图层 -->
       <router-view></router-view>
       <!-- 底部选项卡 -->
+      <div v-if="handleMenu !==false">
       <m-tabbar v-model="select" slot="bottom" v-transfer-dom>
         <m-tabbar-item id="tab1" class="tab_zcb" link="/home/assetPackageList">
           <img src="~@/assets/img/hui01.png" alt slot="icon-normal">
@@ -21,6 +22,7 @@
           我的
         </m-tabbar-item>
       </m-tabbar>
+      </div>
     </view-box>
   </div>
 </template>
@@ -42,11 +44,8 @@ export default {
       openId: "",
       defaultSrc: "/home/assetPackageList",
       select: "tab1", //默认选择tab,
-      linkArr: [
-        "/home/assetPackageList",
-        "/home/caseAdvanceSortList",
-        "/home/personCenter"
-      ]
+      linkArr:['/home/assetPackageList','/home/caseAdvanceSortList','/home/personCenter'],
+      handleMenu : '',
     };
   },
   methods: {
@@ -62,15 +61,13 @@ export default {
   watch: {
     $route(to, from) {
       console.log("$route------", to.path);
-      if (to.path === this.linkArr[0]) {
-        this.select = "tab1";
-        this.resetHeight();
-      } else if (to.path === this.linkArr[1]) {
-        this.select = "tab2";
-        this.resetHeight();
-      } else if (to.path === this.linkArr[2]) {
-        this.select = "tab3";
-        this.resetHeight();
+      this.handleMenu = to.meta.handleMenu;
+      if(to.path === this.linkArr[0]){
+        this.select = 'tab1'
+      }else if(to.path === this.linkArr[1]){
+        this.select = 'tab2'
+      }else if(to.path === this.linkArr[2]){
+        this.select = 'tab3'
       }
     }
   },
@@ -85,7 +82,10 @@ export default {
   beforeMount() {
     this.$router.replace(`${this.defaultSrc}`);
   },
-  created() {}
+  created() {},
+  mounted() {
+    this.handleMenu = this.$route.meta.handleMenu;
+  },
 };
 </script>
 

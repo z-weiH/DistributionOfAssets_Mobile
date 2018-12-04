@@ -1,0 +1,404 @@
+<template>
+  <div class="change-req-case">
+    <div class="item-list-box">
+      <div class="item-list" v-for="(item,index) in dataList" :key="index">
+        <div class="item-title">
+          <group :gutter="0" class="card_item">
+            <cell :border-intent="false" class="sub-item">
+              <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
+              <div v-if="item.caseStatus === 3" class="flag_btn green">已签收</div>
+              <div v-if="item.caseStatus === 2" class="flag_btn gray">已结案</div>
+              <div v-if="item.caseStatus === 1" class="flag_btn jdred">未立案</div>
+              <div v-if="item.caseStatus === 0" class="flag_btn yellow">已立案</div>
+            </cell>
+          </group>
+        </div>
+        <div class="item-content">
+          <flexbox :gutter="0">
+            <flexbox-item>
+              <div class="mcontent">
+                申请人：{{item.arbApplicant}}
+              </div>
+            </flexbox-item>
+            <flexbox-item>
+              <div class="mcontent">
+                被申请人：{{item.arbRespondent}}
+              </div>
+            </flexbox-item>
+          </flexbox>
+
+          <flexbox :gutter="0">
+            <flexbox-item>
+              <div class="mcontent">
+                案由：{{item.caseCause}}
+              </div>
+            </flexbox-item>
+            <flexbox-item>
+              <div class="mcontent">
+                裁决金额：{{item.adjudicationAmt}}
+              </div>
+            </flexbox-item>
+          </flexbox>
+
+          <flexbox :gutter="0">
+            <flexbox-item>
+              <div class="mcontent">
+                立案日期：{{item.recordDate}}
+              </div>
+            </flexbox-item>
+          </flexbox>
+        </div>
+      </div>
+    </div>
+    <div class="item-title-box">请求案件变更</div>
+    <div class="checkhandle-box">
+      <group :gutter="0" class="card_item one-group">
+        <x-input title="借款人姓名：" disabled v-model="ruleForm.arbRespondent"></x-input>
+        <popup-picker @on-change="handleCaseStatusChange" title="变更案件状态为：" placeholder="请选择" :data="newStatusSelects" v-model="ruleForm.newStatus" value-text-align="left" class="required"></popup-picker>
+
+        <!-- 请求变更为已立案 -->
+        <template v-if="markChange() === 5">
+          <x-input title="执行案号：" v-model="ruleForm.courtCaseNo" class="required"></x-input>
+        </template>
+        <!-- 请求变更为未立案 -->
+        <template v-if="markChange() === 6">
+          
+        </template>
+        <!-- 已结案4种状态 -->
+        <template v-if="ruleForm.newStatus[0] && markChange() !== 5 && markChange() !== 6">
+          <popup-picker @on-change="handleReasonsForChoice" title="原因选择：" placeholder="请选择" :data="progressReasonSelects" v-model="ruleForm.progressReason" value-text-align="left" class="required"></popup-picker>
+          <x-input disabled title="执行案号：" v-model="ruleForm.courtCaseNo"></x-input>
+
+          <!-- 请求变更为已结案-代理商法催回款 -->
+          <template v-if="markChange() === 1">
+            <x-input type="number" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
+            <popup-picker title="还款方式：" placeholder="请选择" :data="repaymentMethodSelects" v-model="ruleForm.repaymentMethod" value-text-align="left" class="required"></popup-picker>
+          </template>
+          <!-- 请求变更为已结案 自主回款 -->
+          <template v-if="markChange() === 2">
+            <x-input type="number" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
+          </template>
+          <!-- 请求变更为已结案-终止本次执行（临） -->
+          <template v-if="markChange() === 3"></template>
+          <!-- 请求变更为已结案-撤回立案（临） -->
+          <template v-if="markChange() === 4"></template>
+        </template>
+      </group>
+
+      <group :gutter="0">
+        <x-textarea v-model.trim="ruleForm.notes" placeholder="案件进展说明100字以内" :max="100"></x-textarea>
+      </group>
+    </div>
+
+    <!-- 底部导航操作 -->
+    <div class="m-handle-box m-fixed">
+      <flexbox :gutter="0">
+        <flexbox-item>
+          <div class="handle-btn handle-close" @click="handleClose">
+            取消
+          </div>
+        </flexbox-item>
+        <flexbox-item>
+          <div class="handle-btn handle-submit" @click="handleSubmit">
+            确定
+          </div>
+        </flexbox-item>
+      </flexbox>
+    </div>
+
+    <!-- 取消 弹出框 -->
+    <confirm
+      v-model="dialogVisible"
+      @on-confirm="closePageFn"
+    >
+      <p style="text-align:center;">确定退出吗？</p>
+    </confirm>
+    <!-- 校验提示语 -->
+    <toast v-model="verifyVisible" type="text" :text="verifyMessage" width="12em"></toast>
+  </div>
+</template>
+
+<script>
+  import { Flexbox, FlexboxItem , XButton , Group , Cell, XInput , PopupPicker , XTextarea , Confirm} from 'vux'
+  export default {
+    components : {
+      Flexbox,
+      FlexboxItem,
+      XButton,
+      Group,
+      Cell,
+      XInput,
+      PopupPicker,
+      XTextarea,
+      Confirm,
+    },
+    data() {
+      return {
+        dataList : [
+          {
+            // 案号
+            arbCaseNo : '我是案号',
+            // 申请人
+            arbApplicant : '我是申请人',
+            // 被申请人
+            arbRespondent : '我是被申请人',
+            // 案由
+            caseCause : '我是案由',
+            // 裁决金额
+            adjudicationAmt : '我是裁决金额',
+            // 立案日期
+            recordDate : '我是立案日期',
+            // 案件状态 0 已立案 1 未立案 2 已结案 3 已签收
+            caseStatus : 0,
+            // 平台处理状态 0未结清 1已结清 2平台处理中
+            repaymentAll : 2,
+          }
+        ],
+        ruleForm : {
+          // 借款人姓名
+          arbRespondent : '',
+          // 变更案件状态 新 0 已立案 1 未立案 2 已结案
+          newStatus : ['已立案'],
+          // 变更案件状态 旧 0 已立案 1 未立案 2 已结案
+          oldStatus : '',
+          // 执行案号
+          courtCaseNo : '',
+          // 原因选择
+          progressReason : [],
+          // 还款金额
+          repaymentAmt : '',
+          // 还款方式
+          repaymentMethod : [],
+          // 说明
+          notes : '',
+          // 图片
+          pngUrl : '',
+        },
+        // 页面整体状态  1  已结案 法催还款 2 自主还款   3终止本次执行  4撤回立案  5以立案   6 未立案
+        mark : '',
+
+        // 状态变更 select
+        newStatusSelects : [
+          ['已立案','未立案','已结案']
+        ],
+        // 原因选择 select
+        progressReasonSelects : [
+          ['代理商法催回款','自主回款','终止本次执行（临）','撤回立案（临）']
+        ],
+        // 还款方式 select
+        repaymentMethodSelects : [
+          ['支付宝','微信','对公农业银行','对公招商银行']
+        ],
+
+        dialogVisible : false,
+        verifyVisible : false,
+        verifyMessage : '',
+      }
+    },
+    mounted() {
+      this.$http({
+
+      });
+    },
+    methods : {
+      // 根据案件状态 0,1,2 拿到对应中文字段
+      getCaseStatusCN(num) {
+        if(num === 0) {
+          return '已立案'
+        }else if(num === 1) {
+          return '未立案'
+        }else if(num === 2) {
+          return '已结案'
+        }
+      },
+      // 状态响应
+      markChange() {
+        let mark;
+        let newStatus = this.ruleForm.newStatus[0];
+        let progressReason = this.ruleForm.progressReason[0];
+        if(newStatus === '已立案') {
+          mark = 5;
+        }else if(newStatus === '未立案') {
+          mark = 6;
+        }else if(newStatus === '已结案' && progressReason === '代理商法催回款') {
+          mark = 1;
+        }else if(newStatus === '已结案' && progressReason === '自主回款') {
+          mark = 2;
+        }else if(newStatus === '已结案' && progressReason === '终止本次执行（临）') {
+          mark = 3;
+        }else if(newStatus === '已结案' && progressReason === '撤回立案（临）') {
+          mark = 4;
+        }
+        this.mark = mark;
+        return mark;
+      },
+      // 变更案件状态 change
+      handleCaseStatusChange(val) {
+        console.log('变更案件状态');
+        if(val[0] === '已结案') {
+          this.ruleForm.progressReason = ['代理商法催回款'];
+        }
+        // 数据清空
+        this.ruleForm.courtCaseNo = '';
+        this.ruleForm.repaymentAmt = '';
+        this.ruleForm.repaymentMethod = [];
+      },
+      // 原因选择 change
+      handleReasonsForChoice() {
+        console.log('原因选择');
+        // 数据清空
+        this.ruleForm.courtCaseNo = '';
+        this.ruleForm.repaymentAmt = '';
+        this.ruleForm.repaymentMethod = [];
+      },
+
+      closePageFn() {
+        this.$router.push('caseAdvanceSortList');
+      },
+      // 点击 取消
+      handleClose() {
+        this.dialogVisible = true;
+      },
+      verifyMessageFn(message) {
+        /* this.verifyVisible = true;
+        this.verifyMessage = message; */
+        this.$vux.toast.show(message)
+      },
+      // 提交 校验逻辑
+      verifyFn() {
+        if(this.mark === 1) {
+          if(!this.ruleForm.repaymentAmt) {
+            return this.verifyMessageFn('请输入还款金额');
+          }
+          if(!this.ruleForm.repaymentMethod[0]) {
+            return this.verifyMessageFn('请选择还款方式');
+          }
+        }else if(this.mark === 2) {
+          if(!this.ruleForm.repaymentAmt) {
+            return this.verifyMessageFn('请输入还款金额');
+          }
+        }else if(this.mark === 3) {
+          return true;
+        }else if(this.mark === 4) {
+          return true;
+        }else if(this.mark === 5) {
+          if(!this.ruleForm.courtCaseNo) {
+            return this.verifyMessageFn('请输入执行案号');
+          }
+        }else if(this.mark === 6) {
+          return true;
+        }
+        return true;
+      },
+      // 点击 提交
+      handleSubmit() {
+        let success = this.verifyFn();
+        if(success) {
+          alert('提交数据');
+        }
+      },
+    },
+  }
+</script>
+
+<style lang="scss" scoped>
+@import "@/assets/style/scss/helper/_mixin.scss";
+.change-req-case{
+  color: #333333;
+  font-size: rem(23);
+  height: 100%;
+  background-color: #fff;
+  .card_tit{
+    border : none;
+  }
+  .ra-99{
+    border-radius: 99px;
+  }
+  .btn-yellow{
+    border-color: rgb(240, 179, 0);
+    color: rgb(240, 179, 0);
+  }
+  .color-yellow{
+    color: rgb(240, 179, 0);
+  }
+  .color-red{
+    color: rgb(204, 0, 0);
+  }
+
+  .item-list-box{
+    overflow: auto;
+    box-sizing: border-box;
+    *{
+      box-sizing: border-box;
+    }
+    .card_item,.item-list{
+      margin-top: 0!important;
+    }
+    .item-list{
+      margin-top: rem(18);
+      background-color: #fff;
+      .item-content{
+        padding-left: rem(29);
+        padding-bottom: rem(30);
+        .mcontent{
+          margin-top: rem(20);
+        }
+      }
+    }
+  }
+
+  .item-title-box{
+    height: rem(79);
+    line-height: rem(79);
+    padding-left: rem(31);
+    background-color: #f3f6ff;
+    font-size: rem(30);
+    color: rgb(51, 51, 51);
+  }
+  .m-fixed{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+  .m-handle-box{
+    height: rem(100);
+    line-height: rem(100);
+    width: 100%;
+    color: #fff;
+    .handle-btn{
+      width: 100%;
+      height: rem(100);
+      text-align: center;
+    }
+    .handle-close{
+      background-color: #999999;
+    }
+    .handle-submit{
+      background-color: #003888;
+    }
+  }
+}
+
+</style>
+
+<style lang="scss">
+  @import "@/assets/style/scss/helper/_mixin.scss";
+  .change-req-case{
+    .card_item{
+      margin-top: 0;
+    }
+    .required .weui-label::before{
+      content : '*';
+      color: red;
+    }
+    .one-group{
+      .weui-cell__hd{
+        width: rem(300);
+      }
+    }
+
+    .vux-cell-value , .weui-label,.vux-popup-picker-placeholder{
+      font-size : rem(23);
+    }
+  }
+</style>
