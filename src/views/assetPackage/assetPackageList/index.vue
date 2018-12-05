@@ -19,15 +19,9 @@
       </div>
 
       <template v-for="(it,index) in ListItem">
-        <Group :gutter="0" class="card_item">
+        <Group :gutter="0" :class="['card_item',bgClass(it)]">
           <Cell class="card_tit" :border-intent="false">
             <span slot="title">{{it.clientName}}</span>
-            <template v-if="it.packageStatus == 0">
-              <slot>
-                <span v-if="it.timeout == 'file'" class="f_red">已过48小时</span>
-                <span class="flag_btn yellow">待分发</span>
-              </slot>
-            </template>
             <template v-if="it.packageStatus == 1">
               <slot>
                 <span v-if="it.timeout == 'file'" class="f_red">已过48小时</span>
@@ -47,7 +41,7 @@
               </slot>
             </template>
           </Cell>
-          <v-touch v-on:tap>
+          <v-touch v-on:tap="gotoDetail(it)">
             <Flexbox class="card_conts" :gutter="0" wrap="wrap">
               <flexbox-item :span="1/3">
                 <div class="flex_cont">
@@ -397,8 +391,14 @@ export default {
     };
   },
   methods: {
-    gotoDetail() {
-      this.$router.push({ name: "assetPackageDetail" });
+    bgClass(item){
+      return item.timeout == 'file' ? 'stale' : false
+    },
+    gotoDetail(item) {
+      this.$router.push({
+        name: "assetPackageDetail",
+        query: item
+      });
     },
     doQuery() {
       // 资产包列表
@@ -407,7 +407,7 @@ export default {
       this.$api
         .post("/mobile/queryAssetsList.htm", {
           // mock: 1,
-          token: this.openId,
+          // token: this.openId,
           packageStatus: ""
         })
         .then(res => {

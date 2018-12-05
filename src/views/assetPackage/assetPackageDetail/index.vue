@@ -1,12 +1,15 @@
 <template>
   <div class="page inside" ref="inside">
     <div class="header_buttons">
-      <template>
+      <template v-if="parentRtParams.packageStatus == 1">
         <v-touch tag="a" v-on:tap class="h_btn yellow">待签收</v-touch>
-        <span class="f_red">已过48小时，请及时关注处理</span>
+        <span v-if="parentRtParams.timeout && parentRtParams.timeout == 'file'" class="f_red">已过48小时，请及时关注处理</span>
       </template>
-      <template>
-        <v-touch tag="a" v-on:tap class="h_btn grey">状态：已确认</v-touch>
+      <template v-if="parentRtParams.packageStatus == 2">
+        <v-touch tag="a" v-on:tap class="h_btn green">状态：已确认</v-touch>
+      </template>
+      <template v-if="parentRtParams.packageStatus == 3">
+        <v-touch tag="a" v-on:tap class="h_btn grey">已退回</v-touch>
       </template>
     </div>
     <div class="list_content">
@@ -16,41 +19,41 @@
           <flexbox-item :span="2/7">
             <div class="flex_cont">资产包编号：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
-            <div class="flex_cont">425364657576</div>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.packageId}}</div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
           <flexbox-item :span="2/7">
             <div class="flex_cont">资产包名称：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
-            <div class="flex_cont">ajshdajshdasv不良资产</div>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.clientName}}</div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
           <flexbox-item :span="2/7">
             <div class="flex_cont">资产包分发方：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
-            <div class="flex_cont">杭州合仲网络有限公司</div>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.packageSupplier}}</div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
           <flexbox-item :span="2/7">
             <div class="flex_cont">渠道代理方：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
-            <div class="flex_cont">阿斯达实打实的渠道</div>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.agencyName}}</div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
           <flexbox-item :span="2/7">
             <div class="flex_cont">预估标的金额：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
+          <flexbox-item :span="7">
             <div class="flex_cont">
-              <span class="f_red">2000,000,000元</span>
+              <span class="f_red">{{ListItem.estimateAmt}}元</span>
             </div>
           </flexbox-item>
         </Flexbox>
@@ -58,25 +61,32 @@
           <flexbox-item :span="2/7">
             <div class="flex_cont">案件数：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
-            <div class="flex_cont">200个</div>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.caseQuantity}}个</div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
           <flexbox-item :span="2/7">
             <div class="flex_cont">委托期：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
-            <div class="flex_cont">4个月</div>
+          <flexbox-item :span="7">
+            <div class="flex_cont">
+              <template v-if="ListItem.entrustPeriod">
+                {{this.$strStartToEnd(ListItem.entrustPeriod,'至')}}
+                <br>
+                <div>至</div>
+                {{this.$strSpecifyToEnd(ListItem.entrustPeriod,'至')}}
+              </template>
+            </div>
           </flexbox-item>
         </Flexbox>
         <Flexbox>
           <flexbox-item :span="2/7">
             <div class="flex_cont">委托期限：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
+          <flexbox-item :span="7">
             <div class="flex_cont">
-              <span class="linkA">待确认签收后生成</span>
+              <span class="linkB">{{ListItem.entrustDeadline}}个月</span>
             </div>
           </flexbox-item>
         </Flexbox>
@@ -84,8 +94,8 @@
           <flexbox-item :span="2/7">
             <div class="flex_cont">创建时间：</div>
           </flexbox-item>
-          <flexbox-item :span="20">
-            <div class="flex_cont">2018/11/08 13:20:20</div>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.createTime}}</div>
           </flexbox-item>
         </Flexbox>
       </div>
@@ -105,16 +115,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>奇速贷</td>
-              <td>曾诚</td>
-              <td>1000.100</td>
-              <td>50</td>
-              <td>20%</td>
-              <td>
-                <v-touch tag="a" v-on:tap="showPopop('show_casePanel')" class="linkA">查看</v-touch>
-              </td>
-            </tr>
+            <template v-for="(it,index) in ListItem.list">
+              <tr>
+                <td>{{it.productName}}</td>
+                <td>{{it.arbApplicant}}</td>
+                <td>{{it.clientEstimateAmt}}元</td>
+                <td>{{it.actualCaseQuantity}}</td>
+                <td>{{it.commissionRate}}%</td>
+                <td>
+                  <v-touch
+                    tag="a"
+                    v-on:tap="showPopop('show_casePanel'),fetchCaseApi(it.packageClientId)"
+                    class="linkA"
+                  >查看</v-touch>
+                </td>
+              </tr>
+            </template>
           </tbody>
         </x-table>
         <div class="list_todo">
@@ -125,25 +141,29 @@
         </div>
       </div>
     </div>
+    <template v-if="parentRtParams.packageStatus == 2">
     <div class="table_remark">
       <div class="tit">确认说明：</div>
       <div class="tit_text">已确认收到邮寄的材料</div>
       <div class="tit_content"></div>
       <div class="tit_time">
         <span>确认时间：</span>
-        <span>2018-02-04 13：20：12</span>
+        <span>{{ListItem.agencyConfirmTime}}</span>
       </div>
     </div>
     <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
+    </template>
 
-    <div class="bottom_opts">
-      <div>
-        <v-touch tag="a" class="optionBtn greyBtn" v-on:tap="showPopop('show_sbackPanel')">退回</v-touch>
+    <template v-if="parentRtParams.packageStatus === 1">
+      <div class="bottom_opts">
+        <div>
+          <v-touch tag="a" class="optionBtn greyBtn" v-on:tap="showPopop('show_sbackPanel')">退回</v-touch>
+        </div>
+        <div>
+          <v-touch tag="a" class="optionBtn blueBtn" v-on:tap="showPopop('show_signPanel')">确认签收</v-touch>
+        </div>
       </div>
-      <div>
-        <v-touch tag="a" class="optionBtn blueBtn" v-on:tap="showPopop('show_signPanel')">确认签收</v-touch>
-      </div>
-    </div>
+    </template>
     <!-- 签收 panel -->
     <SlimPopup
       :show.sync="show_signPanel"
@@ -252,134 +272,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
-                  <tr>
-                    <td>asdasd</td>
-                    <td>asdasd</td>
-                    <td>asdasdas</td>
-                    <td>asdasdas</td>
-                    <td>asdasd</td>
-                    <td>asdasdsad</td>
-                  </tr>
+                  <template v-for="(it,index) in caseItem">
+                    <tr>
+                      <td>{{index+1}}</td>
+                      <td>{{it.caseId}}</td>
+                      <td>{{it.arbApplicant}}</td>
+                      <td>{{it.adjudicationAmt}}</td>
+                      <td>{{it.arbRespondent}}</td>
+                      <td>{{it.courtName}}</td>
+                    </tr>
+                  </template>
                 </tbody>
               </x-table>
             </div>
@@ -394,6 +296,12 @@
 <script type="text/ecmascript-6">
 import wx from "weixin-js-sdk";
 import BScroll from "better-scroll";
+
+/****
+ * @param parentRtParams 父路由传递参数对象
+ * @param ListItem 详情所有数据
+ * @param caseItem 案件列表所有数据
+ */
 import {
   Flexbox,
   FlexboxItem,
@@ -421,12 +329,28 @@ export default {
       show_signPanel: false,
       show_sbackPanel: false,
       show_casePanel: false,
-      bscroll: null
+      bscroll: null,
+      parentRtParams: {},
+      ListItem: {},
+      caseItem: {},
+      openId: ""
     };
   },
   watch: {},
   computed: {},
   methods: {
+    getParams() {
+      // 获取父路由参数
+      // 主键
+      this.parentRtParams.packageId = this.$route.query.packageId;
+      // 状态
+      this.parentRtParams.packageStatus = this.$route.query.packageStatus;
+
+      console.log(
+        "parentRtParams.packageStatus--",
+        this.parentRtParams.packageStatus
+      );
+    },
     getJsSDK() {
       console.log("getJsSDK");
     },
@@ -492,14 +416,23 @@ export default {
         //   e.preventDefault();
         //   console.log("绑定-touchmove");
         // });
-        this.fetchCaseApi();
+        // this.fetchCaseApi();
       }
     },
-    fetchCaseApi() {
+    fetchCaseApi(item) {
+      console.log("packageClientId - ", item);
       // 获取案件列表数据
-      this.$api.post("", {}).then(res => {
-        console.log(res);
-      });
+      this.$api
+        .post("/mobile/queryPriceConfirmation.htm", {
+          // token: this.openId,
+          packageClientId: item
+        })
+        .then(res => {
+          console.log("获取案件列表数据", res);
+          if (res.data.code === "0000") {
+            this.caseItem = res.data.result;
+          }
+        });
     },
     cancelFoo() {
       // 隐藏popup层
@@ -541,13 +474,34 @@ export default {
       //     console.log("解绑-touchmove");
       //   });
       // });
+    },
+    doQuery() {
+      // 资产包详情
+      this.$api
+        .post("/mobile/queryAssetsDetails.htm", {
+          packageId: this.parentRtParams.packageId,
+          token: this.openId
+        })
+        .then(res => {
+          if (res.data.code === "0000") {
+            this.ListItem = res.data.result;
+            console.log(this.ListItem);
+          }
+        });
     }
   },
   beforeCreate() {},
   created() {
+    if (localStorage.getItem("currentOpenId")) {
+      this.openId = localStorage.getItem("currentOpenId");
+    } else {
+      this.openId = "";
+    }
     document.title = "资产包-详情";
     // this.initWechat();
+    this.getParams();
     this.autoHeight();
+    this.doQuery();
   },
   mounted() {}
 };
@@ -625,6 +579,9 @@ $line_color: #ebebeb;
   }
   &.grey {
     background-color: #999999;
+  }
+  &.green {
+    background-color: #3ca028;
   }
 }
 
@@ -769,8 +726,8 @@ body {
 body {
   .vux-table {
     &.cases_table {
-      table-layout: fixed;
-      width: 500px;
+      // table-layout: fixed;
+      width: 700px;
       tr {
       }
       td {
@@ -795,15 +752,17 @@ body {
             width: rem(150);
           }
           &:nth-child(5) {
+            width: rem(200);
           }
           &:nth-child(6) {
+            width: rem(300);
           }
         }
       }
       tbody {
         td {
           font-size: 14px;
-          padding:rem(5) rem(2);
+          padding: rem(12) rem(4);
         }
       }
     }
@@ -826,7 +785,7 @@ body {
   width: rem(700);
   margin: 0 auto;
   overflow: hidden;
-  border: 1px solid #787878;//#e4393c
+  border: 1px solid #787878; //#e4393c
 }
 
 .vtdom_casewrap {

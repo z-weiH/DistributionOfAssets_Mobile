@@ -2,16 +2,14 @@ import Vue from 'vue'
 import Axios from 'axios'
 import qs from 'qs'
 
-
-
 Axios.create({
   baseURL: '/', // 因为我本地做了反向代理
   timeout: 10000,
   responseType: 'json',
   withCredentials: true, // 是否允许带cookie这些
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-  }
+    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+  },
 })
 
 // 设置全局请求为ajax请求
@@ -25,7 +23,13 @@ Axios.interceptors.request.use(
     // 在发送请求之前做某件事
     if (config.method === 'post' && config.mheaders !== true) {
       // 序列化
-      config.data = qs.stringify(config.data)
+      let _openId = localStorage.getItem('currentOpenId')
+      if (_openId) {
+        let newdata = Object.assign(config.data, { token: _openId })
+        config.data = qs.stringify(newdata)
+      } else {
+        config.data = qs.stringify(config.data)
+      }
       // 温馨提示,若是贵公司的提交能直接接受json 格式,可以不用 qs 来序列化的
     }
 
@@ -129,7 +133,7 @@ Axios.interceptors.request.use(
 
 // 错误处理
 Axios.interceptors.response.use(
-  (response) => {
+  response => {
     const result = response.data
     // result.message = ''
     console.log(result)
@@ -154,7 +158,7 @@ Axios.interceptors.response.use(
     // throw err
     return response
   },
-  (err) => {
+  err => {
     if (err && err.response) {
       switch (err.response.status) {
         case 400:
@@ -194,7 +198,5 @@ Axios.interceptors.response.use(
     return Promise.reject(err)
   }
 )
-
-
 
 export default Axios
