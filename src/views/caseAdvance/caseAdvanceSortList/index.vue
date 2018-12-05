@@ -150,7 +150,7 @@
             // 立案日期
             recordDate : '我是立案日期',
             // 案件状态 0 已立案 1 未立案 2 已结案 3 已签收
-            caseStatus : 0,
+            caseStatus : 1,
             // 平台处理状态 0未结清 1已结清 2平台处理中
             repaymentAll : 2,
           },{},{},{},{},{}
@@ -201,7 +201,7 @@
         this.$router.push({
           path : 'changeReqCase',
           query : {
-            ...row,
+            dataList : JSON.stringify(row),
           },
         });
       },
