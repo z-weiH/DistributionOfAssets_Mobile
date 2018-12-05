@@ -165,7 +165,7 @@ const routes = [
           keepAlive: false,
           requireAuth: true,
           handleMenu : false,
-          title: '案件进展',
+          title: '案件进展-查看',
         },
       },
       {
@@ -220,7 +220,7 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   // 从路由的元信息中获取 title 属性
   if (to.matched.some(record => record.meta.title)) {
-    let _title = to.matched[0].meta.title
+    let _title = to.meta.title
     document.title = _title
     // 如果是 iOS 设备，则使用如下 hack 的写法实现页面标题的更新
     if (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
