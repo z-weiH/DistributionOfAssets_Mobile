@@ -153,6 +153,7 @@
             caseStatus : 1,
             // 平台处理状态 0未结清 1已结清 2平台处理中
             repaymentAll : 2,
+            caseId : '123'
           },{},{},{},{},{}
         ],
 
@@ -192,7 +193,11 @@
       // 点击查看
       handleSee(row,index) {
         this.$router.push({
-          path : 'progressView'
+          path : 'progressView',
+          query : {
+            arbCaseNo : row.arbCaseNo,
+            caseId : row.caseId,
+          },
         });
       },
       // 点击 案件变更

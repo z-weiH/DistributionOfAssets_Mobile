@@ -1,19 +1,293 @@
 <template>
   <div class="progress-view">
+    <div class="page-title">案件： {{arbCaseNo}}</div>
+    <div>
+      <van-steps direction="vertical" :active="dataList.length + 1" active-color="rgb(102, 102, 102)">
+        <van-step v-for="(item,index) in dataList" :key="index">
+          <ul>
+            <!--请求已立案-->
+            <template v-if="item.editState === 1">
+              <li>原有案件状态: {{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>提交者: {{item.operatorName}}</li>
+              <li>补充说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
+            </template>
 
+            <!--请求未立案-->
+            <template v-if="item.editState === 2">
+              <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>提交者: {{item.operatorName}}</li>
+              <li>补充说明: {{item.operationDetail}}</li>
+            </template>
+
+            <!--请求已结案已回款-代理商法催回款-->
+            <template v-if="item.editState === 3">
+              <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>提交者: {{item.operatorName}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>原因选择:{{item.progressReason}}</li>
+              <li>借款人姓名: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>还款方式: {{item.repaymentMethod}}</li>
+              <li>补充说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
+            </template>
+
+            <!--请求变更已结案已回款-自主回款-->
+            <template v-if="item.editState === 4">
+              <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>提交者: {{item.operatorName}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>原因选择:{{item.progressReason}}</li>
+              <li>借款人姓名: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>补充说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
+            </template>
+
+            <!--5.请求变更已结案-终止本次执行（临）-->
+            <template v-if="item.editState === 5">
+              <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>原因选择:{{item.progressReason}}</li>
+              <li>提交者: {{item.operatorName}}</li>
+              <li>补充说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
+            </template>
+
+            <!--请求变更已结案-撤回立案（临）-->
+            <template v-if="item.editState === 6">
+              <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>原因选择:{{item.progressReason}}</li>
+              <li>提交者: {{item.operatorName}}</li>
+              <li>补充说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
+            </template>
+
+            <!--7.已通过的非回款请求的处理记录-->
+            <template v-if="item.editState === 7">
+              <li>操作者: {{item.operatorName}}</li>
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>备注说明: {{item.operationDetail}}</li>
+            </template>
+
+            <!--运营初步确认 回款-->
+            <!-- <template v-if="item.editState === 8">
+              <li>操作者: {{item.operatorName}}（初步确认）</li>
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>备注说明: {{item.operationDetail}}</li>
+              <li>关于案号{{$route.query.arbCaseNo}}回款已确认到账。</li>
+              <li>被申请人: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>还款方式: {{item.repaymentMethod}}</li>
+              <li>结清状况: {{item.progressReason}}</li>
+            </template> -->
+
+            <!--财务复核确认 回款-->
+            <template v-if="item.editState === 9">
+              <li>操作者: {{item.operatorName}}</li>
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>备注说明: {{item.operationDetail}}</li>
+              <li>关于案号{{$route.query.arbCaseNo}}回款已确认到账。</li>
+              <li>被申请人: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>还款方式: {{item.repaymentMethod}}</li>
+              <li>结清状况: {{item.progressReason}}</li>
+              <li>补充说明: 请联系对应对接人领取《结清证明》。</li>
+            </template>
+
+            <!--案件回款已确认但未还清  运营初步确认-->
+            <template v-if="item.editState === 10">
+              <li>操作者: {{item.operatorName}}（初步确认）</li>
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号:{{item.courtCaseNo}}</li>
+              <li>备注说明: {{item.operationDetail}}</li>
+              <li>关于案号{{$route.query.arbCaseNo}}回款已确认。</li>
+              <li>被申请人: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>还款方式: {{item.repaymentMethod}}</li>
+              <li>结清状况: {{item.progressReason}}</li>
+            </template>
+
+            <!--案件回款已确认但未还清  财务复核确认-->
+            <template v-if="item.editState === 11">
+              <li>操作者: {{item.operatorName}}</li>
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>执行案号: {{item.courtCaseNo}}</li>
+              <li>备注说明: {{item.operationDetail}}</li>
+              <li>关于案号{{$route.query.arbCaseNo}}回款已确认。</li>
+              <li>被申请人: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>还款方式: {{item.repaymentMethod}}</li>
+              <li>结清状况: {{item.progressReason}}</li>
+              <li>提醒说明: 请继续跟进。</li>
+            </template>
+
+            <!--/运营驳回 非还款请求-->
+            <template v-if="item.editState === 12">
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>执行案号: {{item.courtCaseNo}}</li>
+              <li>渠道请求案态变更为: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>该请求: 已拒绝</li>
+              <li>操作者: {{item.operatorName}}</li>
+              <li>拒绝说明: {{item.operationDetail}}</li>
+            </template>
+
+            <!--/运营驳回 还款请求-->
+            <template v-if="item.editState === 13">
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>执行案号: {{item.courtCaseNo}}</li>
+              <li>渠道请求案态变更为: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>该请求: 已拒绝</li>
+              <li>操作者: {{item.operatorName}}</li>
+              <li>拒绝说明: {{item.operationDetail}}</li>
+              <li>关于案号{{$route.query.arbCaseNo}}回款已拒绝。</li>
+              <li>被申请人: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>还款方式: {{item.repaymentMethod}}</li>
+              <li>结清状况: {{item.progressReason}}</li>
+              <li>拒绝原因: {{item.operationDetail}}</li>
+            </template>
+
+            <!--财务驳回 还款请求-->
+            <template v-if="item.editState === 14">
+              <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
+              <li>执行案号: {{item.courtCaseNo}}</li>
+              <li>渠道请求案态变更为: {{getCaseStatusCN(item.targetStatus)}}</li>
+              <li>该请求: 已驳回</li>
+              <li>操作者: {{item.operatorName}}</li>
+              <li>驳回说明: {{item.operationDetail}}</li>
+              <li>关于案号{{$route.query.arbCaseNo}}回款已驳回。</li>
+              <li>被申请人: {{item.repaymentName}}</li>
+              <li>还款金额: {{item.repaymentAmt}}</li>
+              <li>还款方式: {{item.repaymentMethod}}</li>
+              <li>结清状况: {{item.progressReason}}</li>
+              <li>驳回原因: {{item.operationDetail}}</li>
+            </template>
+
+            
+          </ul>
+        </van-step>
+      </van-steps>
+    </div>
   </div>
 </template>
 
 <script>
+  import Step from 'vant/lib/step'
+  import Steps from 'vant/lib/steps'
+  import 'vant/lib/step/style'
+  import 'vant/lib/steps/style'
+
+  import { Previewer } from 'vux'
   export default {
-    
+    components: {
+      'van-step' : Step,
+      'van-steps' : Steps,
+      Previewer,
+    },
+    data() {
+      return {
+        arbCaseNo : this.$route.query.arbCaseNo,
+        dataList : [
+          {
+            attachFileList : ['https://pub-static.haozhaopian.net/static/web/site/features/cn/crop/images/crop_20a7dc7fbd29d679b456fa0f77bd9525d.jpg','http://5b0988e595225.cdn.sohucs.com/images/20180617/798b70cbb8364abf8a5699ed22043238.jpeg'],
+            editState : 1,
+          },
+          {
+            attachFileList : ['http://img06.tooopen.com/images/20160722/tooopen_sy_171298721947.jpg','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOATA8mjLxD0MqvjhfgeAqVbnsOodlHgTP0OaNEzMFsBGBVxZT'],
+            editState : 1,
+          }
+        ],
+      }
+    },
+    mounted() {
+      this.$http({
+        method : 'post',
+        url : '/web/case/operationList.htm',
+        data : {
+          caseId : this.$route.query.caseId,
+        },
+      });
+    },
+    methods : {
+      getCaseStatusCN(status){
+        // <!--0 已立案 1 未立案 2 已结案 3待签收 4已签收-->
+        if(status === 0){
+          return '已立案';
+        }else if(status === 1){
+          return '未立案';
+        }else if(status === 2){
+          return '已结案';
+        }else if(status === 3){
+          return '待签收';
+        }else{
+          return '已签收';
+        }
+      },
+      imageFormat(arr) {
+        return arr.map((v) => {
+          return {src : v}
+        });
+      },
+      // 点击图片
+      handleShowImg(index,index2) {
+        this.$refs['previewer' + index][0].show(index2);
+      },
+    },
   }
 </script>
 
 <style lang="scss" scoped>
-
+@import "@/assets/style/scss/helper/_mixin.scss";
 .progress-view{
-  
+  .page-title{
+    height : rem(76);
+    line-height: rem(76);
+    font-size: rem(24);
+    padding-left: rem(29);
+    border-bottom: 1px solid #eaeaea;
+  }
+  li{
+    list-style: none;
+    margin-bottom: rem(10);
+    img{
+      width: rem(102);
+      margin-right: rem(10);
+      vertical-align: middle;
+    }
+  }
 }
 
 </style>
