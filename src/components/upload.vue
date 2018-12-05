@@ -86,6 +86,7 @@
 
         let formData = new FormData();
         formData.append("file",file);
+        formData.append('token',localStorage.getItem("currentOpenId"));
 
         this.$http({
           method : 'post',

@@ -72,7 +72,7 @@
               <a @click="handleSee(item,index)">进展查看</a>
             </flexbox-item>
             <flexbox-item class="handle-btn">
-              <template v-if="item.repaymentAll === ''">
+              <template v-if="item.repaymentAll === '' || item.repaymentAll === void 0 || item.repaymentAll === null">
                 <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
               </template>
               <template v-if="item.repaymentAll === 0">
@@ -175,6 +175,8 @@
           v.active = index === k;
           return v;
         });
+        this.currentPage = 1;
+        this.loadOver = false;
         this.initTableList();
       },
       // 下拉加载
@@ -208,7 +210,7 @@
         this.$router.push({
           path : 'changeReqCase',
           query : {
-            dataList : JSON.stringify(row),
+            arbCaseNo : row.arbCaseNo,
           },
         });
       },
@@ -225,9 +227,10 @@
             caseStatus : this.searchList.filter(v => v.active)[0].value,
           },
         }).then((res) => {
+          res = res.data;
           this.total = res.result.count;
           if(type === 'push') {
-            this.dataList.push(res.result.list);
+            this.dataList = this.dataList.concat(res.result.list);
           }else{
             this.dataList = res.result.list;
           }

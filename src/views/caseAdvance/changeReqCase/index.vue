@@ -199,19 +199,19 @@
       }
     },
     mounted() {
-      // 回显头部基本信息
-      let dataList = [JSON.parse(this.$route.query.dataList)];
-      this.dataList = dataList;
 
       // 回显 案件状态
       this.$http({
         method : 'post',
         url : '/mobile/queryCaseProgress.htm',
         data : {
-          arbCaseNo : dataList[0].arbCaseNo,
+          arbCaseNo : this.$route.query.arbCaseNo,
         },
       }).then((res) => {
+        res = res.data;
         let result = res.result;
+        // 回显头部基本信息
+        this.dataList = [result];
         // 回显数据处理
         let ruleForm = {
           arbRespondent : result.arbRespondent,
@@ -224,6 +224,7 @@
           notes : result.notes,
           pngUrl : result.pngUrl ? result.pngUrl.split(',') : [],
         };
+        this.ruleForm = Object.assign(this.ruleForm,ruleForm);
       });
     },
     methods : {
