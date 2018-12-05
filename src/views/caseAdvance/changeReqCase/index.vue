@@ -88,6 +88,7 @@
       <group :gutter="0">
         <x-textarea v-model.trim="ruleForm.notes" placeholder="案件进展说明100字以内" :max="100"></x-textarea>
       </group>
+      <upload v-model="ruleForm.pngUrl" class="m-upload"></upload>
     </div>
 
     <!-- 底部导航操作 -->
@@ -114,12 +115,13 @@
       <p style="text-align:center;">确定退出吗？</p>
     </confirm>
     <!-- 校验提示语 -->
-    <toast v-model="verifyVisible" type="text" :text="verifyMessage" width="12em"></toast>
+    <toast v-model="verifyVisible" type="text" :text="verifyMessage" width="80vw"></toast>
   </div>
 </template>
 
 <script>
   import { Flexbox, FlexboxItem , XButton , Group , Cell, XInput , PopupPicker , XTextarea , Confirm} from 'vux'
+  import upload from '@/components/upload.vue'
   export default {
     components : {
       Flexbox,
@@ -131,6 +133,7 @@
       PopupPicker,
       XTextarea,
       Confirm,
+      upload,
     },
     data() {
       return {
@@ -158,9 +161,9 @@
           // 借款人姓名
           arbRespondent : '',
           // 变更案件状态 新 0 已立案 1 未立案 2 已结案
-          newStatus : ['已立案'],
+          newStatus : [],
           // 变更案件状态 旧 0 已立案 1 未立案 2 已结案
-          oldStatus : '',
+          oldStatus : [],
           // 执行案号
           courtCaseNo : '',
           // 原因选择
@@ -172,7 +175,7 @@
           // 说明
           notes : '',
           // 图片
-          pngUrl : '',
+          pngUrl : [],
         },
         // 页面整体状态  1  已结案 法催还款 2 自主还款   3终止本次执行  4撤回立案  5以立案   6 未立案
         mark : '',
@@ -196,8 +199,31 @@
       }
     },
     mounted() {
-      this.$http({
+      // 回显头部基本信息
+      let dataList = [JSON.parse(this.$route.query.dataList)];
+      this.dataList = dataList;
 
+      // 回显 案件状态
+      this.$http({
+        method : 'post',
+        url : '/mobile/queryCaseProgress.htm',
+        data : {
+          arbCaseNo : dataList[0].arbCaseNo,
+        },
+      }).then((res) => {
+        let result = res.result;
+        // 回显数据处理
+        let ruleForm = {
+          arbRespondent : result.arbRespondent,
+          newStatus : result.oldStatus ? [getCaseStatusCN(result.oldStatus)] : [],
+          oldStatus : result.oldStatus ? [getCaseStatusCN(result.oldStatus)] : [],
+          courtCaseNo : result.courtCaseNo,
+          progressReason : result.progressReason ? [result.progressReason] : [],
+          repaymentAmt : result.repaymentAmt,
+          repaymentMethod : result.repaymentMethod ? [result.repaymentMethod] : [],
+          notes : result.notes,
+          pngUrl : result.pngUrl ? result.pngUrl.split(',') : [],
+        };
       });
     },
     methods : {
@@ -266,6 +292,9 @@
       },
       // 提交 校验逻辑
       verifyFn() {
+        if(this.ruleForm.caseStatus === '') {
+          return this.verifyMessageFn('请选择案件变更状态');
+        }
         if(this.mark === 1) {
           if(!this.ruleForm.repaymentAmt) {
             return this.verifyMessageFn('请输入还款金额');
@@ -294,7 +323,24 @@
       handleSubmit() {
         let success = this.verifyFn();
         if(success) {
-          alert('提交数据');
+          console.log(this.ruleForm);
+          let form = {...this.ruleForm};
+          // 处理提交数据格式
+          form.arbCaseNo = this.dataList[0].arbCaseNo;
+          form.mark = this.mark;
+          form.newStatus = form.newStatus[0];
+          form.oldStatus = form.oldStatus[0];
+          form.progressReason = form.progressReason[0];
+          form.repaymentMethod = form.repaymentMethod[0];
+          form.pngUrl = form.pngUrl.join(',');
+          this.$http({
+            method : 'post',
+            url : '/mobile/updateCaseProgress.htm',
+            data : form,
+          }).then((res) => {
+            this.$vux.toast.show('操作成功');
+            this.closePageFn();
+          });
         }
       },
     },
@@ -376,6 +422,10 @@
     .handle-submit{
       background-color: #003888;
     }
+  }
+  .m-upload{
+    margin-top: 10px;
+    padding-left: rem(31);
   }
 }
 

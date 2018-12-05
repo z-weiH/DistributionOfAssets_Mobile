@@ -1,6 +1,9 @@
 import axios from '@/axios'
 import Host from '@/axios/host'
 import Mock from 'mockjs'
+import Vue from 'vue'
+Vue.prototype.$http = axios;
+
 export default {
   install(Vue) {
     Vue.prototype.$api = {

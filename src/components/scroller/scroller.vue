@@ -287,7 +287,7 @@
   $cube-size: 10px; // 项目中用了scss，没用的话，替换掉样式中的变量即可
   .better-scroll-root {
     /*background-color: rgba(7, 17, 27, 0.7);*/
-    height: 100vh;
+    height: calc(100vh - 2.4rem);
     .loading-pos, .pulldown-tip {
       position: absolute;
       left: 0;
