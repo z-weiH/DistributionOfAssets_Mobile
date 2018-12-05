@@ -55,6 +55,19 @@ const isAndroid = () => {
   return navigator.userAgent.indexOf('Android') > -1 || u.indexOf('Adr') > -1
 }
 
+// 从指定字符位置开始截取到末尾
+const strSpecifyToEnd = (obj,font) => {
+  var index = obj.lastIndexOf(font)
+  var obj = obj.substring(index + 1, obj.length)
+  return obj
+}
+// 从0位置到指定位置
+const strStartToEnd = (obj,font) => {
+  var index = obj.lastIndexOf(font)
+  var obj = obj.substring(0, index)
+  return obj
+}
+
 // 字符串转dom元素方法
 const parseDom = arg => {
   var objE = document.createElement('div')
@@ -110,3 +123,5 @@ Vue.prototype.$changeArrPos = changeArrPos
 Vue.prototype.$isEmptyArr = isEmptyArr
 Vue.prototype.$setSession = setSession
 Vue.prototype.toJSON = toJSON
+Vue.prototype.$strSpecifyToEnd = strSpecifyToEnd
+Vue.prototype.$strStartToEnd = strStartToEnd
