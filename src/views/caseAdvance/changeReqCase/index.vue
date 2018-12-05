@@ -354,6 +354,7 @@
   font-size: rem(23);
   height: 100%;
   background-color: #fff;
+  overflow: auto;
   .card_tit{
     border : none;
   }

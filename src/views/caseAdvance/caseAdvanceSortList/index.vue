@@ -268,7 +268,6 @@
 
   .search-item{
     height: rem(82);
-    line-height: rem(82);
     background-color: #f3f6ff;
     color: rgb(51, 51, 51);
     font-size: rem(24);
@@ -276,22 +275,12 @@
     position: relative;
     .flex-demo{
       text-align: center;
-      position: relative;
-      height: 100%;
+      height: rem(40);
+      margin-top: rem(25);
+      border-right: 1px solid #d5d5d5;
     }
-    .vux-flexbox-item .flex-demo::after{
-      content : '';
-      display: inline-block;
-      position: absolute;
-      width: 1px;
-      color: transparent;
-      height: rem(42);
-      background-color: #d5d5d5;
-      top: rem(17);
-      left: rem(148);
-    }
-    .vux-flexbox-item:last-child .flex-demo::after{
-      display: none;
+    .vux-flexbox-item:last-child .flex-demo{
+      border-right: none;
     }
     .search-active{
       color: rgb(0, 56, 136);
