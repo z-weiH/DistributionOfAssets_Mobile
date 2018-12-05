@@ -197,6 +197,8 @@
           query : {
             arbCaseNo : row.arbCaseNo,
             caseId : row.caseId,
+            repaymentAll : row.repaymentAll,
+            caseStatus : row.caseStatus,
           },
         });
       },
