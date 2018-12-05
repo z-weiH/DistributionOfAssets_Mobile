@@ -88,7 +88,8 @@ export default {
 					} else {
 						this.$api
 							.post('/mobile/login.htm', {
-								loginName: this.$trim(this.loginName),
+								loginName: this.$trim(this
+                .loginName),
 								password: this.password,
 								token: this.openId,
 							})

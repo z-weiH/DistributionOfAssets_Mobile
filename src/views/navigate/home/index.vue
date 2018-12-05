@@ -49,13 +49,7 @@ export default {
     };
   },
   methods: {
-    resetHeight() {
-      let vux_body = document.getElementById("vux_view_box_body");
-      console.log(vux_body);
-      if (vux_body) {
-        vux_body.removeAttribute("style");
-      }
-    },
+
 
   },
   watch: {
@@ -82,7 +76,9 @@ export default {
   beforeMount() {
     this.$router.replace(`${this.defaultSrc}`);
   },
-  created() {},
+  created() {
+
+  },
   mounted() {
     this.handleMenu = this.$route.meta.handleMenu;
   },

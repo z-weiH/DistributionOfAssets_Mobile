@@ -45,16 +45,16 @@ Axios.interceptors.request.use(
 )
 
 // 拦截-有返回结果的数据，根据code回显错误提示
-Axios.interceptors.response.use(res => {
-  if (res.data && res.data.code === '1004') {
-    Vue.prototype.instance.$vux.toast.show('登陆失效')
-  } else if (res.data && res.data.code === '1005') {
-    Vue.prototype.instance.$vux.toast.show('仲裁委未关联')
-  } else if (res.data && res.data.code != '0000') {
-    Vue.prototype.instance.$vux.toast.text(res.data.description)
-  }
-  return res
-})
+// Axios.interceptors.response.use(res => {
+//   if (res.data && res.data.code === '1004') {
+//     Vue.prototype.instance.$vux.toast.show('登陆失效')
+//   } else if (res.data && res.data.code === '1005') {
+//     Vue.prototype.instance.$vux.toast.show('仲裁委未关联')
+//   } else if (res.data && res.data.code != '0000') {
+//     Vue.prototype.instance.$vux.toast.text(res.data.description)
+//   }
+//   return res
+// })
 // 返回状态判断(添加响应拦截器)
 // Axios.interceptors.response.use(
 //   res => {
