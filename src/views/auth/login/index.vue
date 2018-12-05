@@ -91,7 +91,6 @@ export default {
 								loginName: this.$trim(this
                 .loginName),
 								password: this.password,
-								token: this.openId,
 							})
 							.then(res => {
 								if (res.data.code === '0000') {
@@ -99,7 +98,7 @@ export default {
                   // let _username = this.$trim(this.loginName)
                   // let _pwd = this.password
                   // let finaluser = Object.assign(res.data.result,{uname:_username,pwd:_pwd})
-									// localStorage.setItem('$userInfo', qs.stringify(res.data.result))
+									localStorage.setItem('$userInfo', qs.stringify(res.data.result))
 									// this.$router.push('/wxBind')
                    this.$router.replace('home')
 								} else if(res.data.code === '1002'){

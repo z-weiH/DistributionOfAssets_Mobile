@@ -8,7 +8,7 @@ export default {
   install(Vue) {
     Vue.prototype.$api = {
       get(url, params) {
-        if (params.mock === 1) {
+        if (params.mock && params.mock === 1) {
           return axios
             .get(Host.target + url, { params: params })
             .then(res => {
@@ -19,16 +19,14 @@ export default {
             })
         } else {
           return axios
-            .get(Host.target + url, {
-              params: params,
-            })
+            .get(Host.target + url, { params: params })
             .catch(error => {
               console.log(error)
             })
         }
       },
       post(url, params) {
-        if (params.mock === 1) {
+        if (params.mock && params.mock === 1) {
           return axios
             .get(Host.target + url, { params: params })
             .then(res => {

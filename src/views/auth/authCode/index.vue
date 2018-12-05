@@ -73,9 +73,8 @@ export default {
 					text: '加载中',
 				})
 				this.$api
-					.post('/mobile/validcode/get.htm', {
-						loginName: this.loginName,
-						openId: this.openId,
+					.post('/web/sendAuthCode.htm', {
+						phone: this.loginName,
 					})
 					.then(res => {
 						this.$vux.loading.hide()
@@ -94,17 +93,17 @@ export default {
 		goToResetInfo() {
 			if (this.loginName && this.loginName != '') {
 				this.$api
-					.post('/mobile/validcode/validate.htm', {
-						loginName: this.loginName,
-						validCode: this.validCode,
+					.post('/web/validation.htm', {
+						phone: this.loginName,
+						code: this.validCode,
 					})
 					.then(res => {
 						if (res.data.code === '0000') {
 							this.$router.push({
 								name: 'resetPwd',
 								params: {
-									loginName: this.loginName,
-									validCode: this.validCode,
+									phone: this.loginName,
+									code: this.validCode,
 								},
 							})
 						}
