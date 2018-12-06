@@ -211,7 +211,7 @@ export default {
 			&:before {
 				content: '';
 				display: inline-block;
-				background-image: url(/static/img/con@2x004.png);
+				background-image: url(~@/assets/img/con@2x004.png);
 				width: rem(30);
 				height: rem(30);
 				background-repeat: no-repeat;

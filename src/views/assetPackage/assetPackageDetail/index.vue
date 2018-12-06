@@ -123,7 +123,7 @@
                 <td>{{it.productName}}</td>
                 <td>{{it.arbApplicant}}</td>
                 <td>{{it.clientEstimateAmt}}元</td>
-                <td>{{it.actualCaseQuantity}}</td>
+                <td>{{it.actualCaseQuantity}}个</td>
                 <td v-if="com_rate == 1">{{it.commissionRate}}%</td>
                 <td>
                   <v-touch
@@ -355,6 +355,8 @@ export default {
       this.parentRtParams.packageId = this.$route.query.packageId;
       // 状态
       this.parentRtParams.packageStatus = this.$route.query.packageStatus;
+      // 已过48小时状态
+      this.parentRtParams.timeout = this.$route.query.timeout;
       // 用户登录信息
       let _users = qs.parse(localStorage.getItem("$userInfo"));
       // 用户称谓权限
@@ -437,7 +439,7 @@ export default {
     fetchCaseApi(item) {
       console.log("packageClientId - ", item);
       // 获取案件列表数据
-      this.$api
+      this.$http
         .post("/mobile/queryPriceConfirmation.htm", {
           // token: this.openId,
           packageClientId: item
@@ -492,7 +494,7 @@ export default {
     },
     doQuery() {
       // 资产包详情
-      this.$api
+      this.$http
         .post("/mobile/queryAssetsDetails.htm", {
           packageId: this.parentRtParams.packageId,
           token: this.openId

@@ -56,7 +56,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       // inject: 'head', //true
-      favicon: './static/img/favicon.ico', // ico图标地址
+      favicon: '.~@/assets/img/favicon.ico', // ico图标地址
       // chunks: ['index'],
     }),
     new webpack.DllReferencePlugin({

@@ -90,7 +90,7 @@ export default {
         this.newPassword != "" &&
         this.confirmPassword != ""
       ) {
-        this.$api
+        this.$http
           .post(`/mobile/personalCenterUpdatePassword.htm`, {
             confirmPassword: this.confirmPassword,
             oldPassword: this.oldPassword,
@@ -148,7 +148,7 @@ html {
   &:after {
     width: rem(35);
     height: rem(42);
-    background-image: url(/static/img/con@2x011.png);
+    background-image: url(~@/assets/img/con@2x011.png);
     @extend %ico_set_com;
   }
 }

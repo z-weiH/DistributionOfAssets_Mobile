@@ -55,7 +55,7 @@ export default {
       } else if (this.newPassword.length != this.newPassword.length) {
         this.$vux.toast.text("两次输入的密码不一致");
       } else {
-        this.$api
+        this.$http
           .post(`/mobile/updatePassword.htm`, {
             confirmPassword: this.confirmPassword,
             newPassword: this.newPassword,
@@ -112,7 +112,7 @@ html {
   &:after {
     width: rem(35);
     height: rem(42);
-    background-image: url(/static/img/con@2x011.png);
+    background-image: url(~@/assets/img/con@2x011.png);
     @extend %ico_set_com;
   }
 }

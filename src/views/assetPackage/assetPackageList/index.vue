@@ -3,20 +3,20 @@
     <view-box ref="viewBox">
       <div slot="header" class="tab_card">
         <Flexbox class="t_wrap">
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap>待签收</v-touch>
-          </FlexboxItem>
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap>已退回</v-touch>
-          </FlexboxItem>
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap>已确认</v-touch>
-          </FlexboxItem>
-          <FlexboxItem>
-            <v-touch tag="a" v-on:tap class="active">全部</v-touch>
-          </FlexboxItem>
+          <template v-for="(it,index) in tabList">
+            <FlexboxItem>
+              <v-touch
+                tag="a"
+                v-on:tap="tabSearch(it,index)"
+                :class="{active: index === selected}"
+              >{{it.name}}</v-touch>
+            </FlexboxItem>
+          </template>
         </Flexbox>
       </div>
+
+      <!--BEGIN 暂无案件 -->
+      <div class="nfcase_panel" v-if="show_nfdata">当前阶段暂无数据</div>
 
       <template v-for="(it,index) in ListItem">
         <Group :gutter="0" :class="['card_item',bgClass(it)]">
@@ -24,8 +24,13 @@
             <span slot="title">{{it.clientName}}</span>
             <template v-if="it.packageStatus == 1">
               <slot>
-                <span v-if="it.timeout == 'file'" class="f_red">已过48小时</span>
-                <span class="flag_btn yellow">待签收</span>
+                <template v-if="it.timeout == 'file'">
+                  <span class="f_red">已过48小时</span>
+                  <span class="flag_btn orange">待签收</span>
+                </template>
+                <template v-else>
+                  <span class="flag_btn yellow">待签收</span>
+                </template>
               </slot>
             </template>
             <template v-if="it.packageStatus == 2">
@@ -81,287 +86,6 @@
           </v-touch>
         </Group>
       </template>
-
-      <Group :gutter="0" class="card_item stale">
-        <Cell class="card_tit" :border-intent="false">
-          <span slot="title">杭州互仲信息技术有限公司</span>
-          <slot>
-            <span class="f_red">已过48小时</span>
-            <span class="flag_btn orange">待签收</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap="gotoDetail">
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>
-                  <em class="dollor">2000,000.00</em>
-                </span>
-                <span class="dollor">元</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>200</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>5</span>
-                <span>个月</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>预计总标的金额</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>案件量</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>委托期</span>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <span slot="title">杭州互仲信息技术有限公司</span>
-          <slot>
-            <span class="flag_btn gray">已退回</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>
-                  <em class="dollor">2000,000.00</em>
-                </span>
-                <span class="dollor">元</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>200</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>5</span>
-                <span>个月</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>预计总标的金额</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>案件量</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>委托期</span>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <span slot="title">杭州互仲信息技术有限公司</span>
-          <slot>
-            <span class="flag_btn green">已确认</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>
-                  <em class="dollor">2000,000.00</em>
-                </span>
-                <span class="dollor">元</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>200</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>5</span>
-                <span>个月</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>预计总标的金额</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>案件量</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>委托期</span>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <span slot="title">杭州互仲信息技术有限公司</span>
-          <slot>
-            <span class="flag_btn green">已确认</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>
-                  <em class="dollor">2000,000.00</em>
-                </span>
-                <span class="dollor">元</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>200</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>5</span>
-                <span>个月</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>预计总标的金额</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>案件量</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>委托期</span>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <span slot="title">杭州互仲信息技术有限公司</span>
-          <slot>
-            <span class="flag_btn green">已确认</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>
-                  <em class="dollor">2000,000.00</em>
-                </span>
-                <span class="dollor">元</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>200</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>5</span>
-                <span>个月</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>预计总标的金额</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>案件量</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>委托期</span>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
-      <Group :gutter="0" class="card_item">
-        <Cell class="card_tit" :border-intent="false">
-          <span slot="title">杭州互仲信息技术有限公司</span>
-          <slot>
-            <span class="flag_btn green">已确认</span>
-          </slot>
-        </Cell>
-        <v-touch v-on:tap>
-          <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>
-                  <em class="dollor">2000,000.00</em>
-                </span>
-                <span class="dollor">元</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>200</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>5</span>
-                <span>个月</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>预计总标的金额</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>案件量</span>
-              </div>
-            </flexbox-item>
-            <flexbox-item :span="1/3">
-              <div class="flex_cont">
-                <span>委托期</span>
-              </div>
-            </flexbox-item>
-          </Flexbox>
-        </v-touch>
-      </Group>
     </view-box>
   </div>
 </template>
@@ -370,6 +94,8 @@
 import { Flexbox, FlexboxItem, Group, Cell, ViewBox, XHeader } from "vux";
 /****
  *@param ListItem 案件列表数据
+ *@param selected 默认0 代表未选中
+ *@param packageStatus 列表类型 默认-1
  */
 export default {
   components: {
@@ -384,15 +110,68 @@ export default {
     return {
       openId: "",
       show_btn: false,
+      show_nfdata: false,
+      selected: 3,
+      packageStatus: -1,
+      tabList: [
+        {
+          name: "待签收",
+          pageNum: 1,
+          packageStatus: 1
+        },
+        {
+          name: "已退回",
+          pageNum: 1,
+          packageStatus: 3
+        },
+        {
+          name: "已确认",
+          pageNum: 1,
+          packageStatus: 2
+        },
+        {
+          name: "全部",
+          pageNum: 1
+        }
+      ],
       pager: {
-        count: 0
+        count: 0,
+        pageNum: 1,
+        pageSize: 10,
+        keyWord: ""
       },
-      ListItem: {}
+      ListItem: []
     };
   },
   methods: {
-    bgClass(item){
-      return item.timeout == 'file' ? 'stale' : false
+    tabSearch(item, index) {
+      this.$vux.loading.show({
+        text: "加载中"
+      });
+      this.selected = index;
+      this.packageStatus = item.packageStatus ? item.packageStatus : "";
+      this.pager.pageNum = 1; //重置
+      this.ListItem = []; //先清空-之前搜索结果
+
+      this.$http
+        .post("/mobile/queryAssetsList.htm", {
+          packageStatus: this.packageStatus
+        })
+        .then(res => {
+          if (res.data.code === "0000") {
+            this.$vux.loading.hide();
+            this.pager.count = res.data.result.count;
+            if (!this.$isEmptyArr(res.data.result.list)) {
+              this.show_nfdata = false;
+              this.ListItem = res.data.result.list;
+            } else {
+              this.show_nfdata = true;
+            }
+          }
+        });
+    },
+    bgClass(item) {
+      return item.timeout == "file" ? "stale" : false;
     },
     gotoDetail(item) {
       this.$router.push({
@@ -400,11 +179,14 @@ export default {
         query: item
       });
     },
-    doQuery() {
+    doQuery(plus) {
+      this.$vux.loading.show({
+        text: "加载中"
+      });
       // 资产包列表
       // rap:/46/mobile/queryAssetsList.htm
       // online:/mobile/queryAssetsList.htm
-      this.$api
+      this.$http
         .post("/mobile/queryAssetsList.htm", {
           // mock: 1,
           // token: this.openId,
@@ -415,8 +197,23 @@ export default {
           // console.log(_data);
           console.log("eeee", res.data);
           if (res.data.code === "0000") {
+            this.$vux.loading.hide();
             this.pager.count = res.data.result.count;
-            this.ListItem = res.data.result.list;
+            if (!this.$isEmptyArr(res.data.result.list)) {
+              this.show_nfdata = false;
+              this.ListItem = res.data.result.list;
+            } else {
+              this.show_nfdata = true;
+            }
+            if (plus) {
+							this.ListItem.push.apply(this.ListItem, res.data.result.list)
+							if (res.data.result.list.length < this.pager.pageSize) {
+								this.loadOver = true
+							}
+						} else {
+							this.loadOver = false
+							this.ListItem = res.data.result.list;
+						}
           }
         });
     },

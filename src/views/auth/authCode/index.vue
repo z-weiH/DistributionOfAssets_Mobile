@@ -72,7 +72,7 @@ export default {
 				this.$vux.loading.show({
 					text: '加载中',
 				})
-				this.$api
+				this.$http
 					.post('/web/sendAuthCode.htm', {
 						phone: this.loginName,
 					})
@@ -92,7 +92,7 @@ export default {
 		},
 		goToResetInfo() {
 			if (this.loginName && this.loginName != '') {
-				this.$api
+				this.$http
 					.post('/web/validation.htm', {
 						phone: this.loginName,
 						code: this.validCode,
@@ -157,7 +157,7 @@ html {
 	&:after {
 		width: rem(35);
 		height: rem(47);
-		background-image: url(/static/img/con@2x012.png);
+		background-image: url(~@/assets/img/con@2x012.png);
 		@extend %ico_set_com;
 	}
 }
@@ -166,7 +166,7 @@ html {
 	&:after {
 		width: rem(37);
 		height: rem(42);
-		background-image: url(/static/img/con@2x009.png);
+		background-image: url(~@/assets/img/con@2x009.png);
 		@extend %ico_set_com;
 	}
 }
