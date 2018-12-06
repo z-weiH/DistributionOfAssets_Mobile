@@ -155,6 +155,10 @@ Axios.interceptors.response.use(
     // const err = result
     err.data = result
     err.response = response
+    if(result.code !== '0000') {
+      Vue.prototype.instance.$vux.toast.show(result.description)
+      return Promise.reject(result);
+    }
     // throw err
     return response
   },

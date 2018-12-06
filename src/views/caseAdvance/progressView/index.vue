@@ -243,6 +243,9 @@
         data : {
           caseId : this.$route.query.caseId,
         },
+      }).then((res) => {
+        res = res.data;
+        this.dataList = res.result;
       });
     },
     methods : {
