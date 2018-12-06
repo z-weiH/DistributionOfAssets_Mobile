@@ -428,12 +428,15 @@ export default {
        * @augments packageStatus
        * @augments pngUrl
        */
+       this.$vux.loading.show({
+        text: "加载中"
+      });
       this.$http
         .post("/mobile/updateAssetPackageStatus.htm", {
           notes: args.notes,
           packageId: args.packageId,
           packageStatus: args.packageStatus, //已确认
-          pngUrl: args.pngUrl
+          pngUrl: this.pngUrl.join(','),
         })
         .then(res => {
           if (res.data.code === "0000") {
@@ -559,6 +562,9 @@ export default {
       // });
     },
     doQuery() {
+      this.$vux.loading.show({
+        text: "加载中"
+      });
       // 资产包详情
       this.$http
         .post("/mobile/queryAssetsDetails.htm", {
@@ -567,6 +573,7 @@ export default {
         })
         .then(res => {
           if (res.data.code === "0000") {
+            this.$vux.loading.hide();
             this.ListItem = res.data.result;
             console.log(this.ListItem);
           }
