@@ -607,7 +607,11 @@ $line_color: #ebebeb;
 }
 
 .table_info {
-  @extend %common_plr;
+  // @extend %common_plr;
+  display: table;
+  width: 100%;
+  padding-top: rem(20);
+  margin: 0 auto;
 }
 
 .list_content {
@@ -637,6 +641,8 @@ $line_color: #ebebeb;
       border-left: 1px solid $line_color;
       border-right: 1px solid $line_color;
       margin-top: rem(22);
+      width: rem(700);
+      margin: 0 auto;
       thead {
         font-size: rem(21);
         tr {
@@ -678,6 +684,8 @@ $line_color: #ebebeb;
       padding-top: rem(24);
       color: #adadad;
       padding-bottom: rem(43);
+      padding-left: rem(30);
+      padding-right: rem(30);
     }
   }
 }

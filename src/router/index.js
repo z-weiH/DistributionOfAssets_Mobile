@@ -143,6 +143,7 @@ const routes = [
         meta: {
           keepAlive: false,
           requireAuth: true,
+          handleMenu: false,
           title: '资产包-详情',
         },
       },
@@ -153,7 +154,7 @@ const routes = [
         meta: {
           keepAlive: false,
           requireAuth: true,
-          handleMenu : false,
+          handleMenu: false,
           title: '案件进展',
         },
       },
@@ -164,7 +165,7 @@ const routes = [
         meta: {
           keepAlive: false,
           requireAuth: true,
-          handleMenu : false,
+          handleMenu: false,
           title: '案件进展-查看',
         },
       },
