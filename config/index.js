@@ -14,7 +14,8 @@ module.exports = {
         changeOrigin: true,
         // target: 'http://localhost', // 本机
         // target: 'http://192.168.30.120:8080/mockjs/36', // rap
-        target: 'http://swq.tunnel.qydev.com',   //史文强
+        // target: 'http://swq.tunnel.qydev.com', //史文强
+        target: 'http://192.168.30.80:7065', //费余波
         // target : 'http://hzapi.arbexpress.cn' , // 正式环境
       },
     },
