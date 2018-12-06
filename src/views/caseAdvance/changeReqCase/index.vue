@@ -6,10 +6,10 @@
           <group :gutter="0" class="card_item">
             <cell :border-intent="false" class="sub-item">
               <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
-              <div v-if="item.caseStatus === 3" class="flag_btn green">已签收</div>
-              <div v-if="item.caseStatus === 2" class="flag_btn gray">已结案</div>
-              <div v-if="item.caseStatus === 1" class="flag_btn jdred">未立案</div>
-              <div v-if="item.caseStatus === 0" class="flag_btn yellow">已立案</div>
+              <div v-if="$route.query.caseStatus === 3" class="flag_btn green">已签收</div>
+              <div v-if="$route.query.caseStatus === 2" class="flag_btn gray">已结案</div>
+              <div v-if="$route.query.caseStatus === 1" class="flag_btn jdred">未立案</div>
+              <div v-if="$route.query.caseStatus === 0" class="flag_btn yellow">已立案</div>
             </cell>
           </group>
         </div>
@@ -205,7 +205,7 @@
         method : 'post',
         url : '/mobile/queryCaseProgress.htm',
         data : {
-          arbCaseNo : this.$route.query.arbCaseNo,
+          caseId : this.$route.query.caseId,
         },
       }).then((res) => {
         res = res.data;
@@ -236,6 +236,15 @@
           return '未立案'
         }else if(num === 2) {
           return '已结案'
+        }
+      },
+      getCaseStatusEn(str) {
+        if(str === '已立案') {
+          return 0
+        }else if(str === '未立案') {
+          return 1
+        }else if(str === '已结案') {
+          return 2
         }
       },
       // 状态响应
@@ -293,7 +302,7 @@
       },
       // 提交 校验逻辑
       verifyFn() {
-        if(this.ruleForm.caseStatus === '') {
+        if(!this.ruleForm.newStatus[0]) {
           return this.verifyMessageFn('请选择案件变更状态');
         }
         if(this.mark === 1) {
@@ -329,8 +338,8 @@
           // 处理提交数据格式
           form.arbCaseNo = this.dataList[0].arbCaseNo;
           form.mark = this.mark;
-          form.newStatus = form.newStatus[0];
-          form.oldStatus = form.oldStatus[0];
+          form.newStatus = this.getCaseStatusEn(form.newStatus[0]);
+          form.oldStatus = this.getCaseStatusEn(form.oldStatus[0]) || '';
           form.progressReason = form.progressReason[0];
           form.repaymentMethod = form.repaymentMethod[0];
           form.pngUrl = form.pngUrl.join(',');

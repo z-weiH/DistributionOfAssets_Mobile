@@ -84,7 +84,6 @@
               </template>
               <template v-if="item.repaymentAll === 2">
                 <span class="color-yellow">(平台处理中)</span>
-                <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
               </template>
             </flexbox-item>
           </flexbox>
@@ -210,7 +209,8 @@
         this.$router.push({
           path : 'changeReqCase',
           query : {
-            arbCaseNo : row.arbCaseNo,
+            caseId : row.caseId,
+            caseStatus : row.caseStatus,
           },
         });
       },
