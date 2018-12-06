@@ -121,8 +121,8 @@ export default {
       show_btn: false,
       show_nfdata: false,
       selected: 3,
-      packageStatus: -1,
-      loadOver : false,
+      packageStatus: null,
+      loadOver: false,
       tabList: [
         {
           name: "待签收",
@@ -165,7 +165,9 @@ export default {
 
       this.$http
         .post("/mobile/queryAssetsList.htm", {
-          packageStatus: this.packageStatus
+          packageStatus: this.packageStatus,
+          pageSize: this.pager.pageSize,
+          currentNum: this.pager.currentNum
         })
         .then(res => {
           if (res.data.code === "0000") {
@@ -185,8 +187,13 @@ export default {
         return;
       }
     },
-    refreshList(){
-
+    refreshList() {
+      // 重置pager对象
+      this.pager.pageNum = 1;
+      this.pager.currentNum = 10;
+      // 关闭暂无搜索结果样式
+      this.show_nfdata = false;
+      this.doQuery();
     },
     bgClass(item) {
       return item.timeout == "file" ? "stale" : false;
@@ -208,7 +215,9 @@ export default {
         .post("/mobile/queryAssetsList.htm", {
           // mock: 1,
           // token: this.openId,
-          packageStatus: ""
+          packageStatus: this.packageStatus,
+          pageSize: this.pager.pageSize,
+          currentNum: this.pager.currentNum
         })
         .then(res => {
           // let _data = res;

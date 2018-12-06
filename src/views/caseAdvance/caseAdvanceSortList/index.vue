@@ -224,7 +224,6 @@
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-
             caseStatus : this.searchList.filter(v => v.active)[0].value,
           },
         }).then((res) => {
