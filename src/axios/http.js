@@ -19,7 +19,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
   config => {
     // 在发送请求之前做某件事
-    if (config.method === 'post') {
+    if (config.method === 'post' && config.mheaders !== true) {
       // 序列化
       // config.data = qs.stringify(config.data);
       // config.data = JSON.stringify(config.data);
@@ -38,6 +38,12 @@ Axios.interceptors.request.use(
     // if (localStorage.token) {
     //   config.headers.Authorization = localStorage.token;
     // }
+
+    // 如果是文件上传类型
+    if(config.data.constructor.name === 'FormData' && config.mheaders === true) {
+      config.data.append('token',localStorage.getItem('currentOpenId'));
+    }
+    
     return config
   },
   error => {
