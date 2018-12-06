@@ -6,11 +6,18 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '*': {
+        changeOrigin: true,
+        // target: 'http://localhost', // 本机
+        // target: 'http://192.168.30.120:8080/mockjs/36', // rap
+        target: 'http://swq.tunnel.qydev.com',   //史文强
+        // target : 'http://hzapi.arbexpress.cn' , // 正式环境
+      },
+    },
 
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST
@@ -45,7 +52,7 @@ module.exports = {
     // (https://github.com/webpack/css-loader#sourcemaps)
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
-    cssSourceMap: false
+    cssSourceMap: false,
   },
 
   build: {
@@ -69,6 +76,6 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
-  }
+    bundleAnalyzerReport: process.env.npm_config_report,
+  },
 }

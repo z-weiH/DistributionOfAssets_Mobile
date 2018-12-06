@@ -3,7 +3,10 @@
     <div class="header_buttons">
       <template v-if="parentRtParams.packageStatus == 1">
         <v-touch tag="a" v-on:tap class="h_btn yellow">待签收</v-touch>
-        <span v-if="parentRtParams.timeout && parentRtParams.timeout == 'file'" class="f_red">已过48小时，请及时关注处理</span>
+        <span
+          v-if="parentRtParams.timeout && parentRtParams.timeout == 'file'"
+          class="f_red"
+        >已过48小时，请及时关注处理</span>
       </template>
       <template v-if="parentRtParams.packageStatus == 2">
         <v-touch tag="a" v-on:tap class="h_btn green">状态：已确认</v-touch>
@@ -110,7 +113,7 @@
               <th>仲裁申请人</th>
               <th>预估资产标的</th>
               <th>案件量</th>
-              <th>佣金比例</th>
+              <th v-if="com_rate == 1">佣金比例</th>
               <th>案件详情</th>
             </tr>
           </thead>
@@ -120,8 +123,8 @@
                 <td>{{it.productName}}</td>
                 <td>{{it.arbApplicant}}</td>
                 <td>{{it.clientEstimateAmt}}元</td>
-                <td>{{it.actualCaseQuantity}}</td>
-                <td>{{it.commissionRate}}%</td>
+                <td>{{it.actualCaseQuantity}}个</td>
+                <td v-if="com_rate == 1">{{it.commissionRate}}%</td>
                 <td>
                   <v-touch
                     tag="a"
@@ -142,16 +145,16 @@
       </div>
     </div>
     <template v-if="parentRtParams.packageStatus == 2">
-    <div class="table_remark">
-      <div class="tit">确认说明：</div>
-      <div class="tit_text">已确认收到邮寄的材料</div>
-      <div class="tit_content"></div>
-      <div class="tit_time">
-        <span>确认时间：</span>
-        <span>{{ListItem.agencyConfirmTime}}</span>
+      <div class="table_remark">
+        <div class="tit">确认说明：</div>
+        <div class="tit_text">已确认收到邮寄的材料</div>
+        <div class="tit_content"></div>
+        <div class="tit_time">
+          <span>确认时间：</span>
+          <span>{{ListItem.agencyConfirmTime}}</span>
+        </div>
       </div>
-    </div>
-    <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
+      <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
     </template>
 
     <template v-if="parentRtParams.packageStatus === 1">
@@ -187,7 +190,8 @@
           </div>
           <x-textarea :max="100" name="description" placeholder="备注说明100字以内"></x-textarea>
           <div class="popup_uploader">
-            <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch>
+            <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
+            <upload v-model="pngUrl" class="m-upload"></upload>
           </div>
         </group>
       </div>
@@ -224,7 +228,8 @@
           </div>
           <x-textarea :max="100" name="description" placeholder="备注说明100字以内"></x-textarea>
           <div class="popup_uploader">
-            <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch>
+            <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
+            <upload v-model="pngUrl" class="m-upload"></upload>
           </div>
           <div class="popop_ctrl">
             <div>
@@ -301,6 +306,7 @@ import BScroll from "better-scroll";
  * @param parentRtParams 父路由传递参数对象
  * @param ListItem 详情所有数据
  * @param caseItem 案件列表所有数据
+ * @param com_rate 佣金比例
  */
 import {
   Flexbox,
@@ -312,7 +318,8 @@ import {
   Group,
   Cell
 } from "vux";
-
+import upload from "@/components/upload.vue";
+import qs from "qs";
 export default {
   components: {
     Flexbox,
@@ -322,7 +329,8 @@ export default {
     XTextarea,
     XInput,
     Group,
-    Cell
+    Cell,
+    upload
   },
   data() {
     return {
@@ -332,7 +340,9 @@ export default {
       bscroll: null,
       parentRtParams: {},
       ListItem: {},
+      pngUrl: [],
       caseItem: {},
+      com_rate: null,
       openId: ""
     };
   },
@@ -345,7 +355,14 @@ export default {
       this.parentRtParams.packageId = this.$route.query.packageId;
       // 状态
       this.parentRtParams.packageStatus = this.$route.query.packageStatus;
+      // 已过48小时状态
+      this.parentRtParams.timeout = this.$route.query.timeout;
+      // 用户登录信息
+      let _users = qs.parse(localStorage.getItem("$userInfo"));
+      // 用户称谓权限
+      this.com_rate = _users.type;
 
+      console.log('用户称谓权限',this.com_rate);
       console.log(
         "parentRtParams.packageStatus--",
         this.parentRtParams.packageStatus
@@ -422,7 +439,7 @@ export default {
     fetchCaseApi(item) {
       console.log("packageClientId - ", item);
       // 获取案件列表数据
-      this.$api
+      this.$http
         .post("/mobile/queryPriceConfirmation.htm", {
           // token: this.openId,
           packageClientId: item
@@ -477,7 +494,7 @@ export default {
     },
     doQuery() {
       // 资产包详情
-      this.$api
+      this.$http
         .post("/mobile/queryAssetsDetails.htm", {
           packageId: this.parentRtParams.packageId,
           token: this.openId

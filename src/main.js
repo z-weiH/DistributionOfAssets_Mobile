@@ -5,11 +5,14 @@ import Vuex from 'vuex'
 import FastClick from 'fastclick'
 import router from './router'
 import App from './App'
-import api from './tools/api'
 import errorHandle from './tools/errorHandle'
 import filters from './tools/filters'
 import './tools/utils'
 
+//封装好的有拦截器的axios：this.$http
+import packedAxios from './axios/http'
+//使用this.$http代替封装好的axios
+Vue.use(packedAxios)
 
 let VueTouch = require('vue-touch')
 Vue.use(VueTouch, {
@@ -38,9 +41,9 @@ import { WechatPlugin } from 'vux'
 Vue.use(WechatPlugin)
 // console.log(Vue.wechat) // 可以直接访问 wx 对象。
 /* eslint-disable no-unused-vars */
-// import Vconsole from 'vconsole';
-// const _win = window
-// _win.vConsole = new Vconsole()
+import Vconsole from 'vconsole';
+const _win = window
+_win.vConsole = new Vconsole()
 
 import { ToastPlugin, XButton, XInput, Previewer, TransferDom, Box, Toast, Alert,AlertPlugin,ConfirmPlugin,Countdown,Loading } from 'vux'
 
@@ -52,40 +55,40 @@ Vue.use(SlimPopup)
 // let store = new Vuex.Store({})
 // Vue.use(uploader, store)
 
-// var fundebug = require("fundebug-javascript");
-// fundebug.apikey = "c94312031e7952afd0ca80fcbb59d689bafe693defff971fc0652b696b65e31f";
+var fundebug = require("fundebug-javascript");
+fundebug.apikey = "120bf008cd37cc0e1333d94f18b0ae085404edef37f5be01b85e47086ba566dd";
 
 // 微信第三方js错误监控 插件fundebug
-// function formatComponentName(vm) {
-//   if (vm.$root === vm) return "root";
+function formatComponentName(vm) {
+  if (vm.$root === vm) return "root";
 
-//   var name = vm._isVue ?
-//     (vm.$options && vm.$options.name) ||
-//     (vm.$options && vm.$options._componentTag) :
-//     vm.name;
-//   return (
-//     (name ? "component <" + name + ">" : "anonymous component") +
-//     (vm._isVue && vm.$options && vm.$options.__file ?
-//       " at " + (vm.$options && vm.$options.__file) :
-//       "")
-//   );
-// }
+  var name = vm._isVue ?
+    (vm.$options && vm.$options.name) ||
+    (vm.$options && vm.$options._componentTag) :
+    vm.name;
+  return (
+    (name ? "component <" + name + ">" : "anonymous component") +
+    (vm._isVue && vm.$options && vm.$options.__file ?
+      " at " + (vm.$options && vm.$options.__file) :
+      "")
+  );
+}
 
-// Vue.config.errorHandler = function (err, vm, info) {
-//   if (vm) {
-//     var componentName = formatComponentName(vm);
-//     var propsData = vm.$options && vm.$options.propsData;
-//     fundebug.notifyError(err, {
-//       metaData: {
-//         componentName: componentName,
-//         propsData: propsData,
-//         info: info
-//       }
-//     });
-//   } else {
-//     fundebug.notifyError(err);
-//   }
-// };
+Vue.config.errorHandler = function (err, vm, info) {
+  if (vm) {
+    var componentName = formatComponentName(vm);
+    var propsData = vm.$options && vm.$options.propsData;
+    fundebug.notifyError(err, {
+      metaData: {
+        componentName: componentName,
+        propsData: propsData,
+        info: info
+      }
+    });
+  } else {
+    fundebug.notifyError(err);
+  }
+};
 
 require('animate.css/animate.min.css')
 
@@ -119,7 +122,6 @@ Vue.use(ToastPlugin, {
   time: 3000
 })
 Vue.use(AlertPlugin)
-Vue.use(api)
 Vue.use(errorHandle)
 Vue.use(filters)
 

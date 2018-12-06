@@ -474,7 +474,7 @@ export default {
 	&:after {
 		content: '';
 		display: block;
-		background-image: url(/static/img/close_fill.png);
+		background-image: url(~@/assets/img/close_fill.png);
 		background-repeat: no-repeat;
 		background-size: contain;
 		width: rem(32);
@@ -485,7 +485,7 @@ export default {
 	&:after {
 		content: '';
 		display: block;
-		background-image: url(/static/img/search.png);
+		background-image: url(~@/assets/img/search.png);
 		background-repeat: no-repeat;
 		background-size: contain;
 		width: rem(32);

@@ -109,7 +109,7 @@ export default {
 			this.caseItem = options.item
 			this.actionCode = options.actionCode
 			if (options.type === 0) {
-				this.$api
+				this.$http
 					.post('/mobile/case/approved.htm', {
 						actionCode: options.actionCode,
 						approvedCode: 1,
@@ -139,7 +139,7 @@ export default {
 				this.showWarningText = true
 				return
 			}
-			this.$api
+			this.$http
 				.post('/mobile/case/approved.htm', {
 					actionCode: this.actionCode,
 					approvedCode: 2,

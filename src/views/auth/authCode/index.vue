@@ -72,10 +72,9 @@ export default {
 				this.$vux.loading.show({
 					text: '加载中',
 				})
-				this.$api
-					.post('/mobile/validcode/get.htm', {
-						loginName: this.loginName,
-						openId: this.openId,
+				this.$http
+					.post('/web/sendAuthCode.htm', {
+						phone: this.loginName,
 					})
 					.then(res => {
 						this.$vux.loading.hide()
@@ -93,18 +92,18 @@ export default {
 		},
 		goToResetInfo() {
 			if (this.loginName && this.loginName != '') {
-				this.$api
-					.post('/mobile/validcode/validate.htm', {
-						loginName: this.loginName,
-						validCode: this.validCode,
+				this.$http
+					.post('/web/validation.htm', {
+						phone: this.loginName,
+						code: this.validCode,
 					})
 					.then(res => {
 						if (res.data.code === '0000') {
 							this.$router.push({
 								name: 'resetPwd',
 								params: {
-									loginName: this.loginName,
-									validCode: this.validCode,
+									phone: this.loginName,
+									code: this.validCode,
 								},
 							})
 						}
@@ -158,7 +157,7 @@ html {
 	&:after {
 		width: rem(35);
 		height: rem(47);
-		background-image: url(/static/img/con@2x012.png);
+		background-image: url(~@/assets/img/con@2x012.png);
 		@extend %ico_set_com;
 	}
 }
@@ -167,7 +166,7 @@ html {
 	&:after {
 		width: rem(37);
 		height: rem(42);
-		background-image: url(/static/img/con@2x009.png);
+		background-image: url(~@/assets/img/con@2x009.png);
 		@extend %ico_set_com;
 	}
 }
