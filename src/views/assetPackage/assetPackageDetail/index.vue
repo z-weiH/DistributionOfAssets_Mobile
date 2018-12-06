@@ -188,7 +188,7 @@
               <div>请上传物流签收截图</div>
             </div>
           </div>
-          <x-textarea :max="100" name="description" placeholder="备注说明100字以内"></x-textarea>
+          <x-textarea :max="100" name="description" placeholder="备注说明100字以内" v-model="sign_notes"></x-textarea>
           <div class="popup_uploader">
             <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
             <upload v-model="pngUrl" class="m-upload"></upload>
@@ -226,7 +226,12 @@
               <div>请上传物流签收截图</div>
             </div>
           </div>
-          <x-textarea :max="100" name="description" placeholder="备注说明100字以内"></x-textarea>
+          <x-textarea
+            :max="100"
+            name="description"
+            placeholder="备注说明100字以内"
+            v-model="sendback_notes"
+          ></x-textarea>
           <div class="popup_uploader">
             <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
             <upload v-model="pngUrl" class="m-upload"></upload>
@@ -307,6 +312,9 @@ import BScroll from "better-scroll";
  * @param ListItem 详情所有数据
  * @param caseItem 案件列表所有数据
  * @param com_rate 佣金比例
+ * @param sign_notes 签收-备注
+ * @param sendback_notes 退回-备注
+ * @param packageStatus 1待签收 2已确认 3已退回
  */
 import {
   Flexbox,
@@ -343,7 +351,9 @@ export default {
       pngUrl: [],
       caseItem: {},
       com_rate: null,
-      openId: ""
+      openId: "",
+      sign_notes: "",
+      sendback_notes: ""
     };
   },
   watch: {},
@@ -362,7 +372,7 @@ export default {
       // 用户称谓权限
       this.com_rate = _users.type;
 
-      console.log('用户称谓权限',this.com_rate);
+      console.log("用户称谓权限", this.com_rate);
       console.log(
         "parentRtParams.packageStatus--",
         this.parentRtParams.packageStatus
@@ -410,11 +420,67 @@ export default {
         vux_body.style.height = "auto";
       }
     },
+    updateAssetPackStatus(args) {
+      // 更新-资产包状态方法
+      /****
+       * @augments notes
+       * @augments packageId
+       * @augments packageStatus
+       * @augments pngUrl
+       */
+      this.$http
+        .post("/mobile/updateAssetPackageStatus.htm", {
+          notes: args.notes,
+          packageId: args.packageId,
+          packageStatus: args.packageStatus, //已确认
+          pngUrl: args.pngUrl
+        })
+        .then(res => {
+          if (res.data.code === "0000") {
+            this.$vux.loading.hide();
+            switch (args.packageStatus) {
+              case 1:
+                break;
+              case 2:
+                console.log("提交 - 签收", res.data);
+                this.show_signPanel = false;
+                this.$vux.toast.text("签收成功");
+                setTimeout(() => {
+                  this.$router.go(-1);
+                }, 10);
+                break;
+              case 3:
+                console.log("提交 - 退回", res.data);
+                this.show_sbackPanel = false;
+                this.$vux.toast.text("退回成功");
+                setTimeout(() => {
+                  this.$router.go(-1);
+                }, 10);
+                break;
+              default:
+                break;
+
+            }
+          }
+        });
+    },
     confirmReceipt() {
       // 提交 - 签收
+      this.updateAssetPackStatus({
+        notes: this.sign_notes,
+        packageId: this.parentRtParams.packageId,
+        packageStatus: 2, //已确认
+        pngUrl: ""
+      });
     },
     confirmSback() {
       // 提交 - 退回
+      this.updateAssetPackStatus({
+        notes: this.sendback_notes,
+        packageId: this.parentRtParams.packageId,
+        packageStatus: 3, //已退回
+        pngUrl: ""
+      });
     },
     showPopop(type) {
       // 显示popup层
@@ -607,7 +673,11 @@ $line_color: #ebebeb;
 }
 
 .table_info {
-  @extend %common_plr;
+  // @extend %common_plr;
+  display: table;
+  width: 100%;
+  padding-top: rem(20);
+  margin: 0 auto;
 }
 
 .list_content {
@@ -637,6 +707,8 @@ $line_color: #ebebeb;
       border-left: 1px solid $line_color;
       border-right: 1px solid $line_color;
       margin-top: rem(22);
+      width: rem(700);
+      margin: 0 auto;
       thead {
         font-size: rem(21);
         tr {
@@ -678,6 +750,8 @@ $line_color: #ebebeb;
       padding-top: rem(24);
       color: #adadad;
       padding-bottom: rem(43);
+      padding-left: rem(30);
+      padding-right: rem(30);
     }
   }
 }
