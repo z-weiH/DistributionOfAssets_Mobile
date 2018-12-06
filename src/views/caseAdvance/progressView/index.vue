@@ -27,7 +27,7 @@
               <li>执行案号:{{item.courtCaseNo}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
-                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
                 <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
               </li>
             </template>
@@ -50,7 +50,7 @@
               <li>还款方式: {{item.repaymentMethod}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
-                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
                 <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
               </li>
             </template>
@@ -65,7 +65,7 @@
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
-                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
                 <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
               </li>
             </template>
@@ -78,7 +78,7 @@
               <li>原因选择:{{item.progressReason}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
-                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
                 <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
               </li>
             </template>
@@ -91,7 +91,7 @@
               <li>原因选择:{{item.progressReason}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
-                <img @click="handleShowImg(index,index2)" :src="item2" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
                 <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
               </li>
             </template>
@@ -325,7 +325,7 @@
       },
       imageFormat(arr) {
         return arr.map((v) => {
-          return {src : v}
+          return {src : v.pngUrl}
         });
       },
       // 点击图片

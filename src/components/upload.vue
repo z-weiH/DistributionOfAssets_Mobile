@@ -40,7 +40,7 @@
       // 限制文件上传大小 M
       size : {
         type : Number,
-        default : 5,
+        default : 20,
       },
       // 用于回显的 value
       value : {
