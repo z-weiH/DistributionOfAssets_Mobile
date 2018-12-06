@@ -223,15 +223,15 @@ router.afterEach((to, from) => {
     let _title = to.meta.title
     document.title = _title
     // 如果是 iOS 设备，则使用如下 hack 的写法实现页面标题的更新
-    if (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-      const hackIframe = document.createElement('iframe')
-      hackIframe.style.display = 'none'
-      hackIframe.src = '/robots.txt?r=' + Math.random()
-      document.body.appendChild(hackIframe)
-      setTimeout(_ => {
-        document.body.removeChild(hackIframe)
-      }, 300)
-    }
+    // if (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+    //   const hackIframe = document.createElement('iframe')
+    //   hackIframe.style.display = 'none'
+    //   hackIframe.src = '/robots.txt?r=' + Math.random()
+    //   document.body.appendChild(hackIframe)
+    //   setTimeout(_ => {
+    //     document.body.removeChild(hackIframe)
+    //   }, 300)
+    // }
   }
   // console.log(window.location.href)
   NProgress.done()

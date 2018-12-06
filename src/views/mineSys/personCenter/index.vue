@@ -8,15 +8,18 @@
     <Group :gutter="0">
       <Cell class="cell_line" :border-intent="false">
         <div slot="title">姓名：</div>
-        <div class="text">张三</div>
+        <div class="text">{{userName}}</div>
       </Cell>
       <Cell class="cell_line" :border-intent="false">
         <div slot="title">手机：</div>
-        <div class="text">15258887529</div>
+        <div class="text">{{userPhone}}</div>
       </Cell>
       <Cell class="cell_line" :border-intent="false">
         <div slot="title">角色类型：</div>
-        <div class="text">公司代理</div>
+        <div class="text">
+          <template v-if="type == 0">员工</template>
+          <template v-if="type == 1">公司负责人</template>
+        </div>
       </Cell>
       <Cell class="cell_line" :border-intent="false">
         <div slot="title">绑定微信：</div>
@@ -24,13 +27,13 @@
       </Cell>
       <Cell class="cell_line" :border-intent="false">
         <div slot="title">所在渠道：</div>
-        <div class="text">杭州合仲科技有限公司</div>
+        <div class="text">{{agencyName}}</div>
       </Cell>
     </Group>
 
     <Group :gutter="0" class="ctrl_boot">
-      <Cell class="cell_line" :border-intent="false">
-        <div slot="title">
+      <Cell class="cell_line" :border-intent="false" @click.native="setpwd">
+        <div slot="title" >
           <div class="pic_box">
             <span class="ico_wheelgear"></span>
             <span>修改密码</span>
@@ -41,13 +44,14 @@
 
 
     <div class="button_ctrl">
-      <v-touch tag="a" v-on:tap="" class="exit_btn"><span>退出登录</span></v-touch>
+      <v-touch tag="a" v-on:tap="exitFoo" class="exit_btn"><span>退出登录</span></v-touch>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import { Flexbox, FlexboxItem, Group, Cell } from "vux";
+import qs from 'qs';
 export default {
   components: {
     Flexbox,
@@ -56,11 +60,40 @@ export default {
     Cell
   },
   data() {
-    return {};
+    return {
+      userName:'',
+      userPhone:'',
+      type:'',
+      agencyName:'',
+    };
   },
-  methods: {},
+  methods: {
+    getParams(){
+      let _users =  qs.parse(localStorage.getItem('$userInfo'));
+      console.log('_users:',_users);
+      this.userName = _users.userName;
+      this.userPhone = _users.userPhone;
+      this.type = _users.type;
+      this.agencyName = _users.agencyName;
+    },
+    setpwd(){
+      // 修改旧密码
+      this.$router.replace({
+        name:'resetInfo'
+      })
+
+    },
+    exitFoo(){
+      // 退出登录
+      localStorage.removeItem('$userInfo')
+      this.$router.replace({
+        name:'login'
+      })
+    }
+  },
   created() {
     document.title = "我的";
+    this.getParams();
   }
 };
 </script>

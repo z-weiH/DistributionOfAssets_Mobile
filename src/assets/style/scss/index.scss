@@ -38,7 +38,7 @@ body {
 .box_quzhou {
   @extend %wys_ib;
   &:before {
-    background-image: url(/static/img/con137@2x.png);
+    background-image: url(~@/assets/img/con137@2x.png);
     width: rem(137);
     height: rem(137);
   }
@@ -47,7 +47,7 @@ body {
 .box_zhoushan {
   @extend %wys_ib;
   &:before {
-    background-image: url(/static/img/con139@2x.png);
+    background-image: url(~@/assets/img/con139@2x.png);
     width: rem(139);
     height: rem(139);
   }
@@ -348,7 +348,7 @@ body {
     margin-bottom: rem(24);
     width: rem(167);
     height: rem(125);
-    background-image: url(/static/img/nf@2x.png);
+    background-image: url(~@/assets/img/nf@2x.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: 0 0;
