@@ -241,14 +241,74 @@
         method : 'post',
         url : '/web/case/operationList.htm',
         data : {
-          caseId : this.$route.query.caseId,
+          caseInfoId : this.$route.query.caseInfoId,
         },
       }).then((res) => {
         res = res.data;
+        if(res.result.length > 0) {
+          res.result.map((v) => {
+            v.attachFileList = v.list;
+            this.setEditState(v);
+          });
+        }
         this.dataList = res.result;
       });
     },
     methods : {
+      //设置记录的类型
+      setEditState(obj){
+          // operationType	操作类型	number	1 客户操作 2 运营操作
+          if(obj.operationType === 1){
+              if(obj.targetStatus === 0){ //请求已立案
+                  obj.editState = 1;
+              }
+              else if(obj.targetStatus === 1){ //请求未立案
+                  obj.editState = 2;
+              }else if(obj.targetStatus === 2){ //已结案
+                  if(obj.progressReason === '代理商法催回款'){
+                      obj.editState =3;
+                  }else if(obj.progressReason === '自主回款'){
+                      obj.editState = 4;
+                  }else if(obj.progressReason === '终止本次执行（临）'){
+                      obj.editState = 5;
+                  }else if(obj.progressReason === '撤回立案（临）'){
+                      obj.editState = 6;
+                  }
+              }
+          }else if(obj.operationType === 2){
+              // caseOperationStatus		number	1 还款请求 2 未还款请求
+              // confirmedStatus		number	案件状态是否确认 1 运营驳回 2 运营确认 3财务驳回 4财务确认
+
+                if(obj.caseOperationStatus === 2){
+                  if(obj.confirmedStatus === 2){
+                      obj.editState = 7;
+                  }
+                  else if(obj.confirmedStatus === 1){
+                      obj.editState = 12; //运营驳回 非还款请求
+                  }
+              }else if(obj.caseOperationStatus === 1){
+                    if(obj.confirmedStatus === 1){
+                        obj.editState = 13; //运营驳回 还款请求
+                    }
+                  else if(obj.confirmedStatus === 3){
+                        obj.editState = 14; //财务驳回 还款请求
+                    }
+                    else if(obj.progressReason === '款项已结清'){
+                      if(obj.confirmedStatus === 2){
+                          obj.editState = 8;
+                      }else if(obj.confirmedStatus === 4){
+                          obj.editState = 9;
+                      }
+                  }else if(obj.progressReason === '款项未结清'){
+                      if(obj.confirmedStatus === 2){
+                          obj.editState = 10;
+                      }else if(obj.confirmedStatus === 4){
+                          obj.editState = 11;
+                      }
+                  }
+              }
+          }
+      },
       getCaseStatusCN(status){
         // <!--0 已立案 1 未立案 2 已结案 3待签收 4已签收-->
         if(status === 0){

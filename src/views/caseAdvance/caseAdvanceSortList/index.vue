@@ -200,6 +200,7 @@
             caseId : row.caseId,
             repaymentAll : row.repaymentAll,
             caseStatus : row.caseStatus,
+            caseInfoId : row.caseInfoId,
           },
         });
       },
