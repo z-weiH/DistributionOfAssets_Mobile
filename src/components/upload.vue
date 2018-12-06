@@ -4,23 +4,27 @@
     <input @change="handleUpload" ref="file" type="file" class="file" accept="image/*" />
     <flexbox :gutter="0">
       <flexbox-item :span="1/5" v-for="(item,index) in imgList" :key="index">
-        <div :style="{'background-image' : `url(${item.url})`}" class="m-img">
-          <span @click="handleDeleteImg(index)" class="icon-close">x</span>
+        <div @click="handleShowImg(index)" :style="{'background-image' : `url(${item})`}" class="m-img">
+          <span @click.stop="handleDeleteImg(index)" class="icon-close">x</span>
         </div>
       </flexbox-item>
       <flexbox-item :span="1/5" v-if="imgList.length <= max - 1">
         <img @click="handleClick" src="~@/assets/img/uploadimg.png" class="upload-img" />
       </flexbox-item>
     </flexbox>
+
+    <!-- 图片放大 -->
+    <previewer ref="previewer" :list="imageFormat(imgList)"></previewer>
   </div>
 </template>
 
 <script>
-  import {Flexbox, FlexboxItem} from 'vux'
+  import {Flexbox, FlexboxItem , Previewer} from 'vux'
   export default {
     components : {
       Flexbox,
       FlexboxItem,
+      Previewer,
     },
     props : {
       // 上传最大数量
@@ -54,7 +58,7 @@
     },
     data() {
       return {
-        imgList : [{url : 'https://image-static.segmentfault.com/260/413/2604130476-594b8f86e100f_articlex'}],
+        imgList : ['https://image-static.segmentfault.com/260/413/2604130476-594b8f86e100f_articlex'],
       }
     },
     mounted() {
@@ -92,15 +96,24 @@
           url : '/file/upload.htm',
           data : formData,
           mheaders : true,
-        }).then(() => {
-          this.imgList.push({
-            url : 'https://image-static.segmentfault.com/260/413/2604130476-594b8f86e100f_articlex' + +new Date(),
-          });
+        }).then((res) => {
+          res = res.data;
+          this.imgList.push(res.result);
         });
       },
       // 删除图片
       handleDeleteImg(index) {
         this.imgList.splice(index,1);
+      },
+      // 显示图片
+      handleShowImg(index) {
+        this.$refs.previewer.show(index);
+      },
+      // 图片格式化
+      imageFormat(arr) {
+        return arr.map((v) => {
+          return {src : v}
+        });
       },
     },
   }
@@ -115,6 +128,7 @@
     border-radius: 5px;
     position: relative;
     display: inline-block;
+    background-size: 100% 100%;
   }
   .icon-close{
     width: 16px;
