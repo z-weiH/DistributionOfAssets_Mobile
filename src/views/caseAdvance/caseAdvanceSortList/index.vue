@@ -116,7 +116,7 @@
           {
             text : '已签收',
             active : false,
-            value : 3,
+            value : 4,
           },
           {
             text : '已立案',
