@@ -199,7 +199,7 @@
       }
     },
     mounted() {
-
+      
       // 回显 案件状态
       this.$http({
         method : 'post',
@@ -352,7 +352,9 @@
             data : form,
           }).then((res) => {
             this.$vux.toast.show('操作成功');
-            this.closePageFn();
+            setTimeout(() => {
+              this.closePageFn();
+            },1500);
           });
         }
       },
