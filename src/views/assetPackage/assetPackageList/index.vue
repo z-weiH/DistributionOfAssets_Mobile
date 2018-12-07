@@ -186,11 +186,12 @@ export default {
       if (this.loadOver === true) {
         return;
       }
+      this.doQuery(true)
     },
     refreshList() {
       // 重置pager对象
-      this.pager.pageNum = 1;
-      this.pager.currentNum = 10;
+      this.pager.currentNum = 1;
+      this.pager.pageNum = 10;
       // 关闭暂无搜索结果样式
       this.show_nfdata = false;
       this.doQuery();
