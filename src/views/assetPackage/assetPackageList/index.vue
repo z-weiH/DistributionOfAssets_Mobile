@@ -1,31 +1,31 @@
 <template>
   <div class="page">
-    <view-box ref="viewBox">
-      <div slot="header" class="tab_card">
-        <Flexbox class="t_wrap">
-          <template v-for="(it,index) in tabList">
-            <FlexboxItem>
-              <v-touch
-                tag="a"
-                v-on:tap="tabSearch(it,index)"
-                :class="{active: index === selected}"
-              >{{it.name}}</v-touch>
-            </FlexboxItem>
-          </template>
-        </Flexbox>
-      </div>
+    <div class="tab_card">
+      <Flexbox class="t_wrap">
+        <template v-for="(it,index) in tabList">
+          <FlexboxItem>
+            <v-touch
+              tag="a"
+              v-on:tap="tabSearch(it,index)"
+              :class="{active: index === selected}"
+            >{{it.name}}</v-touch>
+          </FlexboxItem>
+        </template>
+      </Flexbox>
+    </div>
 
-      <scroller
-        :probeType="1"
-        :data="ListItem"
-        :pulldown="true"
-        :pullup="true"
-        @scrollToEnd="loadMore"
-        @pulldown="refreshList"
-        :loadOver="loadOver"
-      >
-        <!--BEGIN 暂无案件 -->
-        <div class="nfcase_panel" v-if="show_nfdata">当前阶段暂无数据</div>
+    <scroller
+      :probeType="1"
+      :data="ListItem"
+      :pulldown="true"
+      :pullup="true"
+      @scrollToEnd="loadMore"
+      @pulldown="refreshList"
+      :loadOver="loadOver"
+    >
+      <!--BEGIN 暂无案件 -->
+      <div class="nfcase_panel" v-if="show_nfdata">当前阶段暂无数据</div>
+      <div class="scroll_item_wrapper">
         <template v-for="(it,index) in ListItem">
           <Group :gutter="0" :class="['card_item',bgClass(it)]">
             <Cell class="card_tit" :border-intent="false">
@@ -94,13 +94,13 @@
             </v-touch>
           </Group>
         </template>
-      </scroller>
-    </view-box>
+      </div>
+    </scroller>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { Flexbox, FlexboxItem, Group, Cell, ViewBox, XHeader } from "vux";
+import { Flexbox, FlexboxItem, Group, Cell } from "vux";
 /****
  *@param ListItem 案件列表数据
  *@param selected 默认0 代表未选中
@@ -111,9 +111,7 @@ export default {
     Flexbox,
     FlexboxItem,
     Group,
-    Cell,
-    ViewBox,
-    XHeader
+    Cell
   },
   data() {
     return {
@@ -186,7 +184,8 @@ export default {
       if (this.loadOver === true) {
         return;
       }
-      this.doQuery(true)
+      this.pager.currentNum += 1;
+      this.doQuery(true);
     },
     refreshList() {
       // 重置pager对象
@@ -234,7 +233,9 @@ export default {
               this.show_nfdata = true;
             }
             if (plus) {
-              this.ListItem.push.apply(this.ListItem, res.data.result.list);
+              Array.prototype.push.apply(this.ListItem, res.data.result.list)
+              console.log('res.data.result.list.length:',res.data.result.list.length)
+              console.log('pager.pageSize:',this.pager.pageSize)
               if (res.data.result.list.length < this.pager.pageSize) {
                 this.loadOver = true;
               }
@@ -264,7 +265,7 @@ export default {
   },
   beforeMount() {
     // 重置子页面设置的容器样式fixed-bug
-    this.resetHeight();
+    // this.resetHeight();
   },
   mounted() {}
 };
@@ -278,6 +279,19 @@ export default {
   height: 100%;
   a {
     color: #333333;
+  }
+}
+.tab_card {
+  position: relative;
+  z-index: 1;
+}
+
+.scroll_item_wrapper {
+  overflow: auto;
+  box-sizing: border-box;
+  height: calc(100% - 1.09333rem);
+  * {
+    box-sizing: border-box;
   }
 }
 </style>

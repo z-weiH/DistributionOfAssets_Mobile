@@ -95,7 +95,7 @@ body {
 }
 
 .page {
-  height: 100%;
+  // height: 100%;
 }
 .tabbar_bottom {
   .label {

@@ -474,3 +474,9 @@ body {
     overflow-x: hidden;
   }
 }
+
+.body {
+  .weui-tab__panel {
+    height: auto !important;
+  }
+}

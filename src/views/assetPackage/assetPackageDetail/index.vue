@@ -428,7 +428,7 @@ export default {
        * @augments packageStatus
        * @augments pngUrl
        */
-       this.$vux.loading.show({
+      this.$vux.loading.show({
         text: "加载中"
       });
       this.$http
@@ -436,7 +436,7 @@ export default {
           notes: args.notes,
           packageId: args.packageId,
           packageStatus: args.packageStatus, //已确认
-          pngUrl: this.pngUrl.join(','),
+          pngUrl: this.pngUrl.join(",")
         })
         .then(res => {
           if (res.data.code === "0000") {
@@ -462,7 +462,6 @@ export default {
                 break;
               default:
                 break;
-
             }
           }
         });
@@ -590,7 +589,7 @@ export default {
     document.title = "资产包-详情";
     // this.initWechat();
     this.getParams();
-    this.autoHeight();
+    // this.autoHeight();
     this.doQuery();
   },
   mounted() {}
@@ -634,8 +633,10 @@ $line_color: #ebebeb;
   z-index: 501;
   // height: 100vh !important;
   &.inside {
-    height: 100%;
+    // height: 100%;
     // padding-bottom: 40vh;
+    height: calc(100% - 0.453333rem);
+    margin-bottom: 0.453333rem;
   }
 }
 
@@ -890,4 +891,5 @@ body {
   position: fixed;
   z-index: 1000;
 }
+
 </style>
