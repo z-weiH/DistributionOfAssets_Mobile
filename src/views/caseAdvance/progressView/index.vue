@@ -8,7 +8,7 @@
         </template>
 
         <template v-else>
-          <span v-if="caseStatus === 3" class="color-green">已签收</span>
+          <span v-if="caseStatus === 4" class="color-green">已签收</span>
           <span v-if="caseStatus === 2" class="color-gray">已结案</span>
           <span v-if="caseStatus === 1" class="color-red">未立案</span>
           <span v-if="caseStatus === 0" class="color-yellow">已立案</span>

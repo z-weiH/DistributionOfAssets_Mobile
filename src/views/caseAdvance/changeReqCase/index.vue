@@ -6,7 +6,7 @@
           <group :gutter="0" class="card_item">
             <cell :border-intent="false" class="sub-item">
               <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
-              <div v-if="$route.query.caseStatus === 3" class="flag_btn green">已签收</div>
+              <div v-if="$route.query.caseStatus === 4" class="flag_btn green">已签收</div>
               <div v-if="$route.query.caseStatus === 2" class="flag_btn gray">已结案</div>
               <div v-if="$route.query.caseStatus === 1" class="flag_btn jdred">未立案</div>
               <div v-if="$route.query.caseStatus === 0" class="flag_btn yellow">已立案</div>

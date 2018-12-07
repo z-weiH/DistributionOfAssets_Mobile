@@ -24,7 +24,7 @@
           <group :gutter="0" class="card_item">
             <cell :border-intent="false" class="sub-item">
               <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
-              <div v-if="item.caseStatus === 3" class="flag_btn green">已签收</div>
+              <div v-if="item.caseStatus === 4" class="flag_btn green">已签收</div>
               <div v-if="item.caseStatus === 2" class="flag_btn gray">已结案</div>
               <div v-if="item.caseStatus === 1" class="flag_btn jdred">未立案</div>
               <div v-if="item.caseStatus === 0" class="flag_btn yellow">已立案</div>
@@ -148,7 +148,7 @@
             adjudicationAmt : '我是裁决金额',
             // 立案日期
             recordDate : '我是立案日期',
-            // 案件状态 0 已立案 1 未立案 2 已结案 3 已签收
+            // 案件状态 0 已立案 1 未立案 2 已结案 3待签收 4已签收
             caseStatus : 1,
             // 平台处理状态 0未结清 1已结清 2平台处理中
             repaymentAll : 2,
