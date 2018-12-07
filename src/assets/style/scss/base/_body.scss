@@ -1,71 +1,70 @@
-@import "../helper/mixin";
+@import '../helper/mixin';
 body {
-    // font-family: Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft Yahei, Heiti SC, WenQuanYi Micro Hei, Arial, sans-serif;
-    font-family: "Microsoft YaHei", "PingFang SC", sans-serif; //微软雅黑：\5FAE\8F6F\96C5\9ED1
-    //英文细黑：arial narrow
-    //中文黑体：\9ED1\4F53
-    //华文细黑: \534E\6587\7EC6\9ED1
-    min-height: 100%; // min-width: 1200px;
-    width: 100%; // background-color: #fff;
+  // font-family: Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft Yahei, Heiti SC, WenQuanYi Micro Hei, Arial, sans-serif;
+  font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; //微软雅黑：\5FAE\8F6F\96C5\9ED1
+  //英文细黑：arial narrow
+  //中文黑体：\9ED1\4F53
+  //华文细黑: \534E\6587\7EC6\9ED1
+  // min-height: 100%; // min-width: 1200px;
+  width: 100%; // background-color: #fff;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body {
-    height: 100%;
-    font-size: 14px;
-    // overflow: hidden;
-    min-height: 100%;
-    overflow-x:hidden;
+  // height: 100%;
+  font-size: 14px; // overflow: hidden;
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
 }
 
 ol,
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 body {
-    a {
-        text-decoration: none;
-    }
+  a {
+    text-decoration: none;
+  }
 }
 
-input[type=checkbox],
-input[type=radio] {
-    visibility: hidden;
+input[type='checkbox'],
+input[type='radio'] {
+  visibility: hidden;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .show {
-    display: block;
+  display: block;
 }
 
 .v-hidden {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .v-show {
-    visibility: visible;
+  visibility: visible;
 }
-
 
 /*粘连footer方法*/
 
 .push {
-    margin-bottom: -198px;
+  margin-bottom: -198px;
 }
 
 .push,
 .footer {
-    height: 198px;
+  height: 198px;
 }
-
 
 /* end */
