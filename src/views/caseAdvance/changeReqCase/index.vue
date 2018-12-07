@@ -213,18 +213,22 @@
         // 回显头部基本信息
         this.dataList = [result];
         // 回显数据处理
-        let ruleForm = {
-          arbRespondent : result.arbRespondent,
-          newStatus : result.oldStatus ? [getCaseStatusCN(result.oldStatus)] : [],
-          oldStatus : result.oldStatus ? [getCaseStatusCN(result.oldStatus)] : [],
-          courtCaseNo : result.courtCaseNo,
-          progressReason : result.progressReason ? [result.progressReason] : [],
-          repaymentAmt : result.repaymentAmt,
-          repaymentMethod : result.repaymentMethod ? [result.repaymentMethod] : [],
-          notes : result.notes,
-          pngUrl : result.pngUrl ? result.pngUrl.split(',') : [],
-        };
-        this.ruleForm = Object.assign(this.ruleForm,ruleForm);
+        this.ruleForm.newStatus = result.oldStatus ? [this.getCaseStatusCN(result.oldStatus)] : [];
+        this.ruleForm.oldStatus = result.oldStatus ? [this.getCaseStatusCN(result.oldStatus)] : [];
+
+        this.$nextTick(() => {
+          let ruleForm = {
+            arbRespondent : result.arbRespondent,
+            courtCaseNo : result.courtCaseNo,
+            courtCaseNoDefault : result.courtCaseNo, // 缓存默认案号
+            progressReason : result.progressReason ? [result.progressReason] : [],
+            repaymentAmt : result.repaymentAmt,
+            repaymentMethod : result.repaymentMethod ? [result.repaymentMethod] : [],
+            notes : result.notes,
+            pngUrl : result.pngUrl ? result.pngUrl.split(',') : [],
+          };
+          this.ruleForm = Object.assign(this.ruleForm,ruleForm);
+        });
       });
     },
     methods : {
@@ -270,20 +274,19 @@
       },
       // 变更案件状态 change
       handleCaseStatusChange(val) {
-        console.log('变更案件状态');
         if(val[0] === '已结案') {
           this.ruleForm.progressReason = ['代理商法催回款'];
+          this.ruleForm.courtCaseNo = this.ruleForm.courtCaseNoDefault;
+        }else{
+          this.ruleForm.courtCaseNo = '';
         }
         // 数据清空
-        this.ruleForm.courtCaseNo = '';
         this.ruleForm.repaymentAmt = '';
         this.ruleForm.repaymentMethod = [];
       },
       // 原因选择 change
       handleReasonsForChoice() {
-        console.log('原因选择');
         // 数据清空
-        this.ruleForm.courtCaseNo = '';
         this.ruleForm.repaymentAmt = '';
         this.ruleForm.repaymentMethod = [];
       },
