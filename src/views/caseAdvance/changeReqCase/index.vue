@@ -199,7 +199,7 @@
       }
     },
     mounted() {
-      
+
       // 回显 案件状态
       this.$http({
         method : 'post',
@@ -301,7 +301,7 @@
       verifyMessageFn(message) {
         /* this.verifyVisible = true;
         this.verifyMessage = message; */
-        this.$vux.toast.show(message)
+        this.$vux.toast.show(message);
       },
       // 提交 校验逻辑
       verifyFn() {

@@ -189,7 +189,9 @@
       // 上拉刷新
       refreshList() {
         this.currentPage = 1;
-        this.initTableList();
+        this.initTableList('reload',() => {
+          this.$vux.toast.show('刷新成功');
+        });
       },
       // 点击查看
       handleSee(row,index) {
@@ -217,7 +219,7 @@
       },
 
       // 初始化 数据
-      initTableList(type) {
+      initTableList(type,callback) {
         this.$http({
           url : '/mobile/queryCaseProgressInfo.htm',
           method : 'post',
@@ -234,6 +236,7 @@
           }else{
             this.dataList = res.result.list;
           }
+          callback && callback();
           this.$nextTick(() => {
             if(this.pageSize * this.currentPage >= this.total) {
               this.loadOver = true;
