@@ -64,7 +64,7 @@ Axios.interceptors.response.use(res => {
   }else if(res.data && res.data.code === '2001'){
      Vue.prototype.instance.$vux.toast.show('系统异常')
   }
-  if(result.code !== '0000') {
+  if(res.data.code !== '0000') {
     Vue.prototype.instance.$vux.toast.show(result.description)
     return Promise.reject(result);
   }
@@ -190,7 +190,7 @@ Axios.interceptors.response.use(
     }
 
     Vue.prototype.instance.$vux.toast.show(err.message)
-    this.$vux.loading.hide()
+    //this.$vux.loading.hide()
     return Promise.reject(err)
   }
 )
