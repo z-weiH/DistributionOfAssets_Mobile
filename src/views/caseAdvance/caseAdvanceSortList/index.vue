@@ -189,9 +189,7 @@
       // 上拉刷新
       refreshList() {
         this.currentPage = 1;
-        this.initTableList('reload',() => {
-          this.$vux.toast.show('刷新成功');
-        });
+        this.initTableList('reload');
       },
       // 点击查看
       handleSee(row,index) {
@@ -220,6 +218,7 @@
 
       // 初始化 数据
       initTableList(type,callback) {
+        this.$vux.loading.show();
         this.$http({
           url : '/mobile/queryCaseProgressInfo.htm',
           method : 'post',
@@ -229,6 +228,7 @@
             caseStatus : this.searchList.filter(v => v.active)[0].value,
           },
         }).then((res) => {
+          this.$vux.loading.hide();
           res = res.data;
           this.total = res.result.count;
           if(type === 'push') {
@@ -242,6 +242,8 @@
               this.loadOver = true;
             }
           });
+        }).catch(() => {
+          this.$vux.loading.hide();
         });
       },
     },

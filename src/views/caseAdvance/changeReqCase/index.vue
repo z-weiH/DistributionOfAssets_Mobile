@@ -337,6 +337,7 @@
         let success = this.verifyFn();
         if(success) {
           console.log(this.ruleForm);
+          this.$vux.loading.show();
           let form = {...this.ruleForm};
           // 处理提交数据格式
           form.arbCaseNo = this.dataList[0].arbCaseNo;
@@ -351,10 +352,13 @@
             url : '/mobile/updateCaseProgress.htm',
             data : form,
           }).then((res) => {
-            this.$vux.toast.show('操作成功');
+            this.$vux.loading.hide();
+            this.$vux.toast.show('提交成功');
             setTimeout(() => {
               this.closePageFn();
             },1500);
+          }).catch(() => {
+            this.$vux.loading.hide();
           });
         }
       },
