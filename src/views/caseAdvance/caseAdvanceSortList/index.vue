@@ -72,7 +72,7 @@
               <a @click="handleSee(item,index)">进展查看</a>
             </flexbox-item>
             <flexbox-item class="handle-btn">
-              <template v-if="item.repaymentAll === '' || item.repaymentAll === void 0 || item.repaymentAll === null">
+              <template v-if="item.confirmedStatus === 1 || item.confirmedStatus === 3 || item.confirmedStatus === null">
                 <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
               </template>
               <template v-if="item.repaymentAll === 0">
@@ -82,7 +82,7 @@
               <template v-if="item.repaymentAll === 1">
                 <span>(款项已结清)</span>
               </template>
-              <template v-if="item.repaymentAll === 2">
+              <template v-if="item.confirmedStatus === 0 || item.confirmedStatus === 2">
                 <span class="color-yellow">(平台处理中)</span>
               </template>
             </flexbox-item>
@@ -198,9 +198,10 @@
           query : {
             arbCaseNo : row.arbCaseNo,
             caseId : row.caseId,
-            repaymentAll : row.repaymentAll,
+            confirmedStatus : row.confirmedStatus,
             caseStatus : row.caseStatus,
             caseInfoId : row.caseInfoId,
+            id : row.id,
           },
         });
       },

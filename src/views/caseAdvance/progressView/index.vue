@@ -3,7 +3,7 @@
     <div class="page-title">
       <div class="fl">案件： {{arbCaseNo}}</div>
       <div class="fr">
-        <template v-if="repaymentAll === 2">
+        <template v-if="confirmedStatus === 0 || confirmedStatus === 2">
           <span class="color-yellow">(平台处理中)</span>
         </template>
 
@@ -221,7 +221,7 @@
     data() {
       return {
         arbCaseNo : this.$route.query.arbCaseNo,
-        repaymentAll : this.$route.query.repaymentAll,
+        confirmedStatus : this.$route.query.confirmedStatus,
         caseStatus : this.$route.query.caseStatus,
         dataList : [
           {
@@ -242,6 +242,7 @@
         url : '/web/case/operationList.htm',
         data : {
           caseInfoId : this.$route.query.caseInfoId,
+          id : this.$route.query.id,
         },
       }).then((res) => {
         res = res.data;
