@@ -32,7 +32,7 @@ export default {
       manageUrl = `${mdomain_src}/mobile/openid/query.htm`; //后端逻辑接口
 
     const loginConfig = {
-      appid: "wx9f95c4206c9c49fc",
+      appid: "wx746461e45ce02735",
       redirect_uri: manageUrl, // + '?param=' + _caseId + '?caseId=1535621810722'
       response_type: "code",
       scope: "snsapi_base"
