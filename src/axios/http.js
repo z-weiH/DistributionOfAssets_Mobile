@@ -59,6 +59,7 @@ Axios.interceptors.response.use(res => {
     Vue.prototype.instance.$vux.toast.show('参数异常')
   } else if (res.data && res.data.code === '6667') {
     console.log('token失效或错误')
+    Vue.prototype.instance.$vux.toast.show('token失效或错误')
   } else if (res.data && res.data.code === '2001') {
      Vue.prototype.instance.$vux.toast.show('业务异常')
   }else if(res.data && res.data.code === '2001'){

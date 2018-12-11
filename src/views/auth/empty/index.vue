@@ -68,6 +68,10 @@ export default {
         }else if(res.data.code === "0000"){
           this.$router.replace('home')
         }
+      }).catch((err) => {
+        if (err.data.code === "6667") {
+          this.$router.replace('login')
+        }
       });
     }
   },
