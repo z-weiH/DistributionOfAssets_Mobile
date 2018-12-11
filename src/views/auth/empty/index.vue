@@ -26,7 +26,7 @@ export default {
       localStorage.setItem("currentOpenId", $openid);
     }
 
-    let mdomain_src = "http://swq.tunnel.qydev.com", //后端代理域名test： http://swq.tunnel.qydev.com
+    let mdomain_src = "http://arbmobiletest.arbexpress.cn", //后端代理域名test： http://swq.tunnel.qydev.com
       Tencent_WxCode_api =
         "https://open.weixin.qq.com/connect/oauth2/authorize?", //微信oauth-网页授权api地址
       manageUrl = `${mdomain_src}/mobile/openid/query.htm`; //后端逻辑接口
@@ -38,16 +38,16 @@ export default {
       scope: "snsapi_base"
     };
 
-    let swq_config =
-      "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx746461e45ce02735&redirect_uri=http%3a%2f%2fswq.tunnel.qydev.com%2fmobile%2fopenid%2fquery.htm&response_type=code&scope=snsapi_base";
+    // let swq_config =
+    //   "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx746461e45ce02735&redirect_uri=http%3a%2f%2fswq.tunnel.qydev.com%2fmobile%2fopenid%2fquery.htm&response_type=code&scope=snsapi_base";
 
     if (_openId === null || _openId === "") {
       console.log("_openId", "null");
-      // window.location.replace(
-      //   Tencent_WxCode_api + qs.stringify(loginConfig) + "#wechat_redirect"
-      // );
+      window.location.replace(
+        Tencent_WxCode_api + qs.stringify(loginConfig) + "#wechat_redirect"
+      );
       // 史文强
-      window.location.replace(swq_config);
+      // window.location.replace(swq_config);
       console.log("安卓11： ", this.$isAndroid());
       // console.log(
       //   Tencent_WxCode_api + qs.stringify(loginConfig) + "#wechat_redirect"
