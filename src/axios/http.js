@@ -43,7 +43,7 @@ Axios.interceptors.request.use(
     if(config.data.constructor.name === 'FormData' && config.mheaders === true) {
       config.data.append('token',localStorage.getItem('currentOpenId'));
     }
-    
+
     return config
   },
   error => {
@@ -60,6 +60,7 @@ Axios.interceptors.response.use(res => {
   } else if (res.data && res.data.code === '6667') {
     console.log('token失效或错误')
     Vue.prototype.instance.$vux.toast.show('token失效或错误')
+    this.$router.go({name:'login'})
   } else if (res.data && res.data.code === '2001') {
      Vue.prototype.instance.$vux.toast.show('业务异常')
   }else if(res.data && res.data.code === '2001'){
