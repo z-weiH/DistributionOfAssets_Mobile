@@ -72,7 +72,7 @@
       handleUpload(event) {
         let file = event.target.files[0];
         event.target.value = '';
-        let fileName = file.name.split('.').pop();
+        let fileName = file.name.split('.').pop().toLocaleLowerCase();
         let fileSize = file.size;
         if(this.accept.indexOf(fileName) === -1) {
           return this.$vux.toast.show({
