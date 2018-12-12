@@ -213,8 +213,8 @@
         // 回显头部基本信息
         this.dataList = [result];
         // 回显数据处理
-        this.ruleForm.newStatus = result.oldStatus ? [this.getCaseStatusCN(result.oldStatus)] : [];
-        this.ruleForm.oldStatus = result.oldStatus ? [this.getCaseStatusCN(result.oldStatus)] : [];
+        this.ruleForm.newStatus = result.oldStatus === 4 ? [] : [this.getCaseStatusCN(result.oldStatus)];
+        this.ruleForm.oldStatus = result.oldStatus === 4 ? [] : [this.getCaseStatusCN(result.oldStatus)];
 
         this.$nextTick(() => {
           let ruleForm = {
