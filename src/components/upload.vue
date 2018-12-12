@@ -90,7 +90,7 @@
 
         let formData = new FormData();
         formData.append("file",file);
-
+        this.$vux.loading.show();
         this.$http({
           method : 'post',
           url : '/file/upload.htm',
@@ -99,6 +99,9 @@
         }).then((res) => {
           res = res.data;
           this.imgList.push(res.result);
+          this.$vux.loading.hide();
+        }).catch(() => {
+          this.$vux.loading.hide();
         });
       },
       // 删除图片
