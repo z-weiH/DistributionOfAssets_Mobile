@@ -126,6 +126,9 @@ export default {
                 } else if (res.data.code === "1002") {
                   this.$vux.toast.text(res.data.description);
                 }
+              })
+              .catch(err => {
+                this.$vux.loading.hide();
               });
           }
         }
