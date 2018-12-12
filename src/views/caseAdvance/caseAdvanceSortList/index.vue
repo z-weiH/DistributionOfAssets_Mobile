@@ -73,7 +73,7 @@
               <a @click="handleSee(item,index)">进展查看</a>
             </flexbox-item>
             <flexbox-item class="handle-btn">
-              <template v-if="item.confirmedStatus === 1 || item.confirmedStatus === 3 || item.confirmedStatus === null">
+              <template v-if="item.confirmedStatus === 1 || item.confirmedStatus === 3 || item.confirmedStatus === null || item.confirmedStatus === 4">
                 <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
               </template>
               <template v-if="item.repaymentAll === 0">
