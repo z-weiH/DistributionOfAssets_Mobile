@@ -61,18 +61,21 @@ export default {
       console.log(_openId.slice(0, _openId.length - 2));
 
       // 自动登录传递
-      this.$http.post("/mobile/auto/login.htm").then(res => {
-        console.log("http自动登录传递-", res);
-        if (res.data.code === "6667") {
-          this.$router.replace('login')
-        }else if(res.data.code === "0000"){
-          this.$router.replace('home')
-        }
-      }).catch((err) => {
-        if (err.data.code === "6667") {
-          this.$router.replace('login')
-        }
-      });
+      this.$http
+        .post("/mobile/auto/login.htm")
+        .then(res => {
+          console.log("http自动登录传递-", res);
+          if (res.data.code === "6667") {
+            this.$router.replace("login");
+          } else if (res.data.code === "0000") {
+            this.$router.replace("home");
+          }
+        })
+        .catch(err => {
+          if (err.data.code === "6667") {
+            this.$router.replace("login");
+          }
+        });
     }
   },
   created() {

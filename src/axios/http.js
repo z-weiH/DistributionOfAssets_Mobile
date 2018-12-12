@@ -40,8 +40,8 @@ Axios.interceptors.request.use(
     // }
 
     // 如果是文件上传类型
-    if(config.data.constructor.name === 'FormData' && config.mheaders === true) {
-      config.data.append('token',localStorage.getItem('currentOpenId'));
+    if (config.data.constructor.name === 'FormData' && config.mheaders === true) {
+      config.data.append('token', localStorage.getItem('currentOpenId'))
     }
 
     return config
@@ -52,26 +52,6 @@ Axios.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-
-// 返回结果中不同code情况的处理
-Axios.interceptors.response.use(res => {
-  if (res.data && res.data.code === '1001 ') {
-    Vue.prototype.instance.$vux.toast.show('参数异常')
-  } else if (res.data && res.data.code === '6667') {
-    console.log('token失效或错误')
-    Vue.prototype.instance.$vux.toast.show('token失效或错误')
-    this.$router.go({name:'login'})
-  } else if (res.data && res.data.code === '2001') {
-     Vue.prototype.instance.$vux.toast.show('业务异常')
-  }else if(res.data && res.data.code === '2001'){
-     Vue.prototype.instance.$vux.toast.show('系统异常')
-  }
-  if(res.data.code !== '0000') {
-    Vue.prototype.instance.$vux.toast.show(result.description)
-    return Promise.reject(result);
-  }
-  return res
-})
 
 //返回状态判断(添加响应拦截器)
 Axios.interceptors.response.use(
@@ -149,8 +129,22 @@ Axios.interceptors.response.use(
 
 // 错误处理
 Axios.interceptors.response.use(
-  response => {
-    return response
+  res => {
+    // 返回结果中不同code情况的处理
+    if (res.data && res.data.code === '1001 ') {
+      Vue.prototype.instance.$vux.toast.show('参数异常')
+    } else if (res.data && res.data.code === '6667') {
+      console.log('token失效或错误')
+      Vue.prototype.instance.$vux.toast.show('token失效或错误')
+      setTimeout(() => {
+        this.$router.go({ name: 'login' })
+      }, 10)
+    } else if (res.data && res.data.code === '2001') {
+      Vue.prototype.instance.$vux.toast.show('业务异常')
+    } else if (res.data && res.data.code === '2001') {
+      Vue.prototype.instance.$vux.toast.show('系统异常')
+    }
+    return res
   },
   err => {
     if (err && err.response) {
