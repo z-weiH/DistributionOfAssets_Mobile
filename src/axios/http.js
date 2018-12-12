@@ -136,13 +136,13 @@ Axios.interceptors.response.use(
     } else if (res.data && res.data.code === '6667') {
       console.log('token失效或错误')
       Vue.prototype.instance.$vux.toast.show('token失效或错误')
-      setTimeout(() => {
-        this.$router.go({ name: 'login' })
-      }, 10)
     } else if (res.data && res.data.code === '2001') {
       Vue.prototype.instance.$vux.toast.show('业务异常')
     } else if (res.data && res.data.code === '2001') {
       Vue.prototype.instance.$vux.toast.show('系统异常')
+    }
+    if(res.data.code !== '0000') {
+      return Promise.reject(res);
     }
     return res
   },
