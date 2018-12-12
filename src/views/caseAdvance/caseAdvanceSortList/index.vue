@@ -16,6 +16,7 @@
       @scrollToEnd="loadMore"
       @pulldown="refreshList"
       :loadOver="loadOver"
+      :class="{'nodata' : dataList.length === 0}"
     >
     <!-- 列表 -->
     <div class="item-list-box">
@@ -89,6 +90,8 @@
           </flexbox>
         </div>
       </div>
+
+      <div v-if="dataList.length === 0" class="nfcase_panel">当前阶段暂无数据</div>
     </div>
     </scroller>
   </div>
@@ -328,3 +331,13 @@
 }
 
 </style>
+
+<style lang="scss">
+
+.case-advance-sort-list{
+  .nodata .vux-divider{
+    display: none;
+  }
+}
+
+</style> 
