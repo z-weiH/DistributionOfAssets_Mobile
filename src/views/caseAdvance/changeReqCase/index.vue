@@ -71,12 +71,12 @@
 
           <!-- 请求变更为已结案-代理商法催回款 -->
           <template v-if="markChange() === 1">
-            <x-input type="number" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
+            <x-input type="tel" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
             <popup-picker title="还款方式：" placeholder="请选择" :data="repaymentMethodSelects" v-model="ruleForm.repaymentMethod" value-text-align="left" class="required"></popup-picker>
           </template>
           <!-- 请求变更为已结案 自主回款 -->
           <template v-if="markChange() === 2">
-            <x-input type="number" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
+            <x-input type="tel" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
           </template>
           <!-- 请求变更为已结案-终止本次执行（临） -->
           <template v-if="markChange() === 3"></template>
@@ -312,12 +312,18 @@
           if(!this.ruleForm.repaymentAmt) {
             return this.verifyMessageFn('请输入还款金额');
           }
+          if(!/^(0.\d)|([1-9]\d*(.\d+)?)$/.test(this.ruleForm.repaymentAmt)) {
+            return this.verifyMessageFn('还款金额必须大于0');
+          }
           if(!this.ruleForm.repaymentMethod[0]) {
             return this.verifyMessageFn('请选择还款方式');
           }
         }else if(this.mark === 2) {
           if(!this.ruleForm.repaymentAmt) {
             return this.verifyMessageFn('请输入还款金额');
+          }
+          if(!/^(0.\d)|([1-9]\d*(.\d+)?)$/.test(this.ruleForm.repaymentAmt)) {
+            return this.verifyMessageFn('还款金额必须大于0');
           }
         }else if(this.mark === 3) {
           return true;
