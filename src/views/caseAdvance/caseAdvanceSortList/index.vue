@@ -73,10 +73,7 @@
               <a @click="handleSee(item,index)">进展查看</a>
             </flexbox-item>
             <flexbox-item class="handle-btn">
-              <template v-if="item.confirmedStatus === 1 || item.confirmedStatus === 3 || item.confirmedStatus === null || item.confirmedStatus === 4">
-                <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
-              </template>
-              <template v-else-if="item.repaymentAll === 0">
+              <template v-if="item.repaymentAll === 0">
                 <span class="color-red">(款项未结清)</span>
                 <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
               </template>
@@ -85,6 +82,9 @@
               </template>
               <template v-else-if="item.confirmedStatus === 0 || item.confirmedStatus === 2">
                 <span class="color-yellow">(平台处理中)</span>
+              </template>
+              <template v-else>
+                <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
               </template>
             </flexbox-item>
           </flexbox>
