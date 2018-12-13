@@ -1,98 +1,100 @@
 <template>
   <div class="change-req-case">
-    <div class="item-list-box">
-      <div class="item-list" v-for="(item,index) in dataList" :key="index">
-        <div class="item-title">
-          <group :gutter="0" class="card_item">
-            <cell :border-intent="false" class="sub-item">
-              <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
-              <div v-if="$route.query.caseStatus === 4" class="flag_btn green">已签收</div>
-              <div v-if="$route.query.caseStatus === 2" class="flag_btn gray">已结案</div>
-              <div v-if="$route.query.caseStatus === 1" class="flag_btn jdred">未立案</div>
-              <div v-if="$route.query.caseStatus === 0" class="flag_btn yellow">已立案</div>
-            </cell>
-          </group>
-        </div>
-        <div class="item-content">
-          <flexbox :gutter="0">
-            <flexbox-item>
-              <div class="mcontent">
-                申请人：{{item.arbApplicant}}
-              </div>
-            </flexbox-item>
-            <flexbox-item>
-              <div class="mcontent">
-                被申请人：{{item.arbRespondent}}
-              </div>
-            </flexbox-item>
-          </flexbox>
+    <div class="change-req-case-content">
+      <div class="item-list-box">
+        <div class="item-list" v-for="(item,index) in dataList" :key="index">
+          <div class="item-title">
+            <group :gutter="0" class="card_item">
+              <cell :border-intent="false" class="sub-item">
+                <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
+                <div v-if="$route.query.caseStatus === 4" class="flag_btn green">已签收</div>
+                <div v-if="$route.query.caseStatus === 2" class="flag_btn gray">已结案</div>
+                <div v-if="$route.query.caseStatus === 1" class="flag_btn jdred">未立案</div>
+                <div v-if="$route.query.caseStatus === 0" class="flag_btn yellow">已立案</div>
+              </cell>
+            </group>
+          </div>
+          <div class="item-content">
+            <flexbox :gutter="0">
+              <flexbox-item>
+                <div class="mcontent">
+                  申请人：{{item.arbApplicant}}
+                </div>
+              </flexbox-item>
+              <flexbox-item>
+                <div class="mcontent">
+                  被申请人：{{item.arbRespondent}}
+                </div>
+              </flexbox-item>
+            </flexbox>
 
-          <flexbox :gutter="0">
-            <flexbox-item>
-              <div class="mcontent">
-                案由：{{item.caseCause}}
-              </div>
-            </flexbox-item>
-            <flexbox-item>
-              <div class="mcontent">
-                裁决金额：{{item.adjudicationAmt}}
-              </div>
-            </flexbox-item>
-          </flexbox>
+            <flexbox :gutter="0">
+              <flexbox-item>
+                <div class="mcontent">
+                  案由：{{item.caseCause}}
+                </div>
+              </flexbox-item>
+              <flexbox-item>
+                <div class="mcontent">
+                  裁决金额：{{item.adjudicationAmt}}
+                </div>
+              </flexbox-item>
+            </flexbox>
 
-          <flexbox :gutter="0">
-            <flexbox-item>
-              <div class="mcontent">
-                立案日期：{{item.recordDate}}
-              </div>
-            </flexbox-item>
-          </flexbox>
+            <flexbox :gutter="0">
+              <flexbox-item>
+                <div class="mcontent">
+                  立案日期：{{item.recordDate}}
+                </div>
+              </flexbox-item>
+            </flexbox>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="item-title-box">请求案件变更</div>
-    <div class="checkhandle-box">
-      <group :gutter="0" class="card_item one-group">
-        <x-input title="借款人姓名：" disabled v-model="ruleForm.arbRespondent"></x-input>
-        <popup-picker @on-change="handleCaseStatusChange" title="变更案件状态为：" placeholder="请选择" :data="newStatusSelects" v-model="ruleForm.newStatus" value-text-align="left" class="required"></popup-picker>
+      <div class="item-title-box">请求案件变更</div>
+      <div class="checkhandle-box">
+        <group :gutter="0" class="card_item one-group">
+          <x-input title="借款人姓名：" disabled v-model="ruleForm.arbRespondent"></x-input>
+          <popup-picker @on-change="handleCaseStatusChange" title="变更案件状态为：" placeholder="请选择" :data="newStatusSelects" v-model="ruleForm.newStatus" value-text-align="left" class="required"></popup-picker>
 
-        <!-- 请求变更为已立案 -->
-        <template v-if="markChange() === 5">
-          <x-input title="执行案号：" v-model="ruleForm.courtCaseNo" class="required"></x-input>
-        </template>
-        <!-- 请求变更为未立案 -->
-        <template v-if="markChange() === 6">
-          
-        </template>
-        <!-- 已结案4种状态 -->
-        <template v-if="ruleForm.newStatus[0] && markChange() !== 5 && markChange() !== 6">
-          <popup-picker @on-change="handleReasonsForChoice" title="原因选择：" placeholder="请选择" :data="progressReasonSelects" v-model="ruleForm.progressReason" value-text-align="left" class="required"></popup-picker>
-          <x-input disabled title="执行案号：" v-model="ruleForm.courtCaseNo"></x-input>
-
-          <!-- 请求变更为已结案-代理商法催回款 -->
-          <template v-if="markChange() === 1">
-            <x-input type="tel" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
-            <popup-picker title="还款方式：" placeholder="请选择" :data="repaymentMethodSelects" v-model="ruleForm.repaymentMethod" value-text-align="left" class="required"></popup-picker>
+          <!-- 请求变更为已立案 -->
+          <template v-if="markChange() === 5">
+            <x-input title="执行案号：" v-model="ruleForm.courtCaseNo" class="required"></x-input>
           </template>
-          <!-- 请求变更为已结案 自主回款 -->
-          <template v-if="markChange() === 2">
-            <x-input type="tel" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
+          <!-- 请求变更为未立案 -->
+          <template v-if="markChange() === 6">
+            
           </template>
-          <!-- 请求变更为已结案-终止本次执行（临） -->
-          <template v-if="markChange() === 3"></template>
-          <!-- 请求变更为已结案-撤回立案（临） -->
-          <template v-if="markChange() === 4"></template>
-        </template>
-      </group>
+          <!-- 已结案4种状态 -->
+          <template v-if="ruleForm.newStatus[0] && markChange() !== 5 && markChange() !== 6">
+            <popup-picker @on-change="handleReasonsForChoice" title="原因选择：" placeholder="请选择" :data="progressReasonSelects" v-model="ruleForm.progressReason" value-text-align="left" class="required"></popup-picker>
+            <x-input disabled title="执行案号：" v-model="ruleForm.courtCaseNo"></x-input>
 
-      <group :gutter="0">
-        <x-textarea v-model.trim="ruleForm.notes" placeholder="案件进展说明100字以内" :max="100"></x-textarea>
-      </group>
-      <upload v-model="ruleForm.pngUrl" class="m-upload"></upload>
+            <!-- 请求变更为已结案-代理商法催回款 -->
+            <template v-if="markChange() === 1">
+              <x-input type="tel" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
+              <popup-picker title="还款方式：" placeholder="请选择" :data="repaymentMethodSelects" v-model="ruleForm.repaymentMethod" value-text-align="left" class="required"></popup-picker>
+            </template>
+            <!-- 请求变更为已结案 自主回款 -->
+            <template v-if="markChange() === 2">
+              <x-input type="tel" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
+            </template>
+            <!-- 请求变更为已结案-终止本次执行（临） -->
+            <template v-if="markChange() === 3"></template>
+            <!-- 请求变更为已结案-撤回立案（临） -->
+            <template v-if="markChange() === 4"></template>
+          </template>
+        </group>
+
+        <group :gutter="0">
+          <x-textarea v-model.trim="ruleForm.notes" placeholder="案件进展说明100字以内" :max="100"></x-textarea>
+        </group>
+        <upload v-model="ruleForm.pngUrl" class="m-upload"></upload>
+      </div>
     </div>
 
     <!-- 底部导航操作 -->
-    <div class="m-handle-box m-fixed">
+    <div class="m-handle-box">
       <flexbox :gutter="0">
         <flexbox-item>
           <div class="handle-btn handle-close" @click="handleClose">
@@ -377,9 +379,11 @@
 .change-req-case{
   color: #333333;
   font-size: rem(23);
-  height: 100%;
-  background-color: #fff;
-  overflow: auto;
+  .change-req-case-content{
+    background-color: #fff;
+    height: calc(100vh - 1.33333rem);
+    overflow: auto;
+  }
   .card_tit{
     border : none;
   }
