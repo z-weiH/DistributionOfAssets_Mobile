@@ -118,12 +118,14 @@
     </confirm>
     <!-- 校验提示语 -->
     <toast v-model="verifyVisible" type="text" :text="verifyMessage" width="80vw"></toast>
+    <inputRebound el=".change-req-case-content" fix="1.33333rem"></inputRebound>
   </div>
 </template>
 
 <script>
   import { Flexbox, FlexboxItem , XButton , Group , Cell, XInput , PopupPicker , XTextarea , Confirm} from 'vux'
   import upload from '@/components/upload.vue'
+  import inputRebound from '@/components/inputRebound.vue'
   export default {
     components : {
       Flexbox,
@@ -136,6 +138,7 @@
       XTextarea,
       Confirm,
       upload,
+      inputRebound,
     },
     data() {
       return {
