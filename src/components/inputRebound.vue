@@ -44,7 +44,7 @@
     mounted() {
       this.$nextTick(() => {
         this.clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-        window.addEventListener('resize',this.fn);
+        isAndroid() && window.addEventListener('resize',this.fn);
       });
     },
     methods : {
@@ -63,7 +63,7 @@
       },
     },
     beforeDestroy() {
-      window.removeEventListener('resize',this.fn);
+      isAndroid() && window.removeEventListener('resize',this.fn);
     },
   }
 </script>
