@@ -19,7 +19,7 @@
 
  //检测-android终端
   const isAndroid = () => {
-    return navigator.userAgent.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+    return navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1;
   }
   export default {
     props : {
