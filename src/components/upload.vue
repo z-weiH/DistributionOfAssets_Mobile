@@ -9,7 +9,11 @@
         </div>
       </flexbox-item>
       <flexbox-item :span="1/5" v-if="imgList.length <= max - 1">
-        <img @click="handleClick" src="~@/assets/img/uploadimg.png" class="upload-img" />
+        <v-touch
+          v-on:tap="handleClick"
+          class="upload-img"
+        >
+        </v-touch>
       </flexbox-item>
     </flexbox>
 
@@ -153,6 +157,8 @@
     width: rem(100);
     height: rem(100);
     cursor: pointer;
+    background-image: url('../assets/img/uploadimg.png');
+    background-size: 100% 100%;
   }
   .file{
     font-size: 0;
