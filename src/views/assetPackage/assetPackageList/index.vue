@@ -24,7 +24,7 @@
       :loadOver="loadOver"
     >
       <!--BEGIN 暂无案件 -->
-      <div class="nfcase_panel" v-if="show_nfdata">当前阶段暂无数据</div>
+      <div class="nfcase_panel" v-if="ListItem.length === 0">当前阶段暂无数据</div>
       <div class="scroll_item_wrapper">
         <template v-for="(it,index) in ListItem">
           <Group :gutter="0" :class="['card_item',bgClass(it)]">
@@ -172,10 +172,10 @@ export default {
             this.$vux.loading.hide();
             this.pager.count = res.data.result.count;
             if (!this.$isEmptyArr(res.data.result.list)) {
-              this.show_nfdata = false;
+              // this.show_nfdata = false;
               this.ListItem = res.data.result.list;
             } else {
-              this.show_nfdata = true;
+              // this.show_nfdata = true;
             }
           }
         });
@@ -184,15 +184,15 @@ export default {
       if (this.loadOver === true) {
         return;
       }
-      this.pager.currentNum += 1;
-      this.doQuery(true);
+      this.pager.currentNum ++;
+      this.doQuery('push');
     },
     refreshList() {
       // 重置pager对象
       this.pager.currentNum = 1;
       this.pager.pageNum = 10;
       // 关闭暂无搜索结果样式
-      this.show_nfdata = false;
+      // this.show_nfdata = false;
       this.doQuery();
     },
     bgClass(item) {
@@ -204,7 +204,9 @@ export default {
         query: item
       });
     },
-    doQuery(plus) {
+    doQuery(plus,callback) {
+      console.log("**************doQuery");
+
       this.$vux.loading.show({
         text: "加载中"
       });
@@ -225,25 +227,27 @@ export default {
           console.log("eeee", res.data);
           if (res.data.code === "0000") {
             this.$vux.loading.hide();
-            this.pager.count = res.data.result.count;
-            if (!this.$isEmptyArr(res.data.result.list)) {
-              this.show_nfdata = false;
-              this.ListItem = res.data.result.list;
-            } else {
-              this.show_nfdata = true;
-            }
-            if (plus) {
-              Array.prototype.push.apply(this.ListItem, res.data.result.list)
-              console.log('res.data.result.list.length:',res.data.result.list.length)
+            res = res.data;
+            this.pager.count = res.result.count;
+
+            if (plus === 'push') {
+              this.ListItem = this.ListItem.concat(res.result.list)
+              console.log('res.data.result.list.length:',res.result.list.length)
               console.log('pager.pageSize:',this.pager.pageSize)
-              if (res.data.result.list.length < this.pager.pageSize) {
+            } else {
+              console.log('res.result.list---',res.result.list)
+              this.ListItem = res.result.list;
+            }
+            callback && callback();
+            this.$nextTick(()=>{
+              if( this.pager.pageSize * this.pager.currentNum >= this.pager.count ){
                 this.loadOver = true;
               }
-            } else {
-              this.loadOver = false;
-              this.ListItem = res.data.result.list;
-            }
+            });
+
           }
+        }).catch(()=>{
+          this.$vux.loading.hide();
         });
     },
     resetHeight() {
@@ -261,13 +265,15 @@ export default {
       this.openId = "";
     }
     document.title = "资产包";
-    this.doQuery();
+
   },
   beforeMount() {
     // 重置子页面设置的容器样式fixed-bug
     // this.resetHeight();
   },
-  mounted() {}
+  mounted() {
+    this.doQuery();
+  }
 };
 </script>
 

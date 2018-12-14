@@ -2,7 +2,7 @@
   <div class="page inside" ref="inside">
     <div class="header_buttons">
       <template v-if="parentRtParams.packageStatus == 1">
-        <v-touch tag="a" v-on:tap class="h_btn yellow">待签收</v-touch>
+        <v-touch tag="a" v-on:tap class="h_btn yellow">状态：待签收</v-touch>
         <span
           v-if="parentRtParams.timeout && parentRtParams.timeout == 'file'"
           class="f_red"
@@ -12,7 +12,7 @@
         <v-touch tag="a" v-on:tap class="h_btn green">状态：已确认</v-touch>
       </template>
       <template v-if="parentRtParams.packageStatus == 3">
-        <v-touch tag="a" v-on:tap class="h_btn grey">已退回</v-touch>
+        <v-touch tag="a" v-on:tap class="h_btn grey">状态：已退回</v-touch>
       </template>
     </div>
     <div class="list_content">

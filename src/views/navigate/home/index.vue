@@ -74,7 +74,7 @@ export default {
     next();
   },
   beforeMount() {
-    this.$router.replace(`${this.defaultSrc}`);
+    // this.$router.replace(`${this.defaultSrc}`);
   },
   created() {
 

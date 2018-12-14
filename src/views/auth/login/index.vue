@@ -6,7 +6,7 @@
       </ul>
     </div>
     <div class="main_wrap">
-      <flexbox class="info_box">
+      <flexbox class="info_box" @click.native="focusclick">
         <flexbox-item :span="1" class="wrap_icon">
           <div class="icon i_user"></div>
         </flexbox-item>
@@ -20,6 +20,7 @@
             style="font-size:15px"
             mask="999 9999 9999"
             :max="13"
+            ref="ipt0"
           ></x-input>
         </flexbox-item>
         <flexbox-item :span="4" class="error_holder">
@@ -27,7 +28,7 @@
           <!-- 手动添加错误提示 -->
         </flexbox-item>
       </flexbox>
-      <flexbox class="info_box">
+      <flexbox class="info_box" @click.native="focusclick1">
         <flexbox-item :span="1" class="wrap_icon">
           <div class="icon i_pwd"></div>
         </flexbox-item>
@@ -39,6 +40,7 @@
             v-model="password"
             placeholder="请输入密码"
             style="font-size:15px"
+            ref="ipt1"
           ></x-input>
         </flexbox-item>
         <flexbox-item :span="4" class="error_holder">
@@ -91,15 +93,23 @@ export default {
     };
   },
   methods: {
+    focusclick() {
+      this.$refs.ipt0.focus();
+    },
+    focusclick1() {
+      this.$refs.ipt1.focus();
+    },
     loginInfoFoo() {
       if (this.openId === "" || this.openId === null) {
         // 如果openid丢失，页面重定向到 仲裁委关联页面
         this.$router.replace("/");
       } else {
-        if (!reg.tel.test(this.$trim(this.loginName))) {
-          this.$vux.toast.text("手机格式错误");
+        if (this.loginName == '') {
+          this.$vux.toast.text("手机号不能为空");
         } else {
-          if (this.password.length < 6) {
+           if(!reg.tel.test(this.$trim(this.loginName))){
+             this.$vux.toast.text("手机号格式错误");
+          }else if (this.password.length < 6) {
             this.$vux.toast.text("密码位数不对，请输入6～20位");
           } else {
             this.$vux.loading.show({
@@ -122,7 +132,7 @@ export default {
                     qs.stringify(res.data.result)
                   );
                   // this.$router.push('/wxBind')
-                  this.$router.replace("home");
+                  this.$router.replace("/home/assetPackageList");
                 } else if (res.data.code === "1002") {
                   this.$vux.toast.text(res.data.description);
                 }
@@ -191,8 +201,13 @@ export default {
             phone: LoginName
           }
         });
-      } else if (this.loginName == "") {
-        this.$vux.toast.text("不能为空哦");
+      } else  {
+       this.$router.push({
+          name: "authCode",
+          params: {
+            phone: this.loginName
+          }
+        });
       }
     }
   },
