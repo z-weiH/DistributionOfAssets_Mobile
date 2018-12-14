@@ -74,9 +74,7 @@
           </flexbox-item>
           <flexbox-item :span="7">
             <div class="flex_cont">
-              <template v-if="ListItem.entrustPeriod.length < 39">
-                {{ListItem.entrustPeriod}}
-              </template>
+              <template v-if="ListItem.entrustPeriod.length != 39">{{ListItem.entrustPeriod}}</template>
               <template v-else>
                 {{this.$strStartToEnd(ListItem.entrustPeriod,'至')}}
                 <br>
@@ -513,13 +511,16 @@ export default {
       this.$http
         .post("/mobile/queryPriceConfirmation.htm", {
           // token: this.openId,
-          packageClientId: item.packageClientId
+          packageClientId: item.packageClientId,
+          proCode: item.proCode,
+          clientCode: item.clientCode,
+          packageId: this.parentRtParams.packageId
         })
         .then(res => {
           console.log("获取案件列表数据", res);
           if (res.data.code === "0000") {
-            this.caseItem = Object.assign(res.data.result,item);
-            console.log('this.caseItem',this.caseItem)
+            this.caseItem = Object.assign(res.data.result, item);
+            console.log("this.caseItem", this.caseItem);
           }
         });
     },
@@ -895,5 +896,4 @@ body {
   position: fixed;
   z-index: 1000;
 }
-
 </style>
