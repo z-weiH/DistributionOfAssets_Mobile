@@ -105,7 +105,7 @@
             </template>
 
             <!--运营初步确认 回款-->
-            <!-- <template v-if="item.editState === 8">
+            <template v-if="item.editState === 8">
               <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
@@ -115,7 +115,7 @@
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>还款方式: {{item.repaymentMethod}}</li>
               <li>结清状况: {{item.progressReason}}</li>
-            </template> -->
+            </template>
 
             <!--财务复核确认 回款-->
             <template v-if="item.editState === 9">
