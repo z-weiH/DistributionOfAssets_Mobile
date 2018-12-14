@@ -135,6 +135,10 @@ export default {
                   this.$router.replace("/home/assetPackageList");
                 } else if (res.data.code === "1002") {
                   this.$vux.toast.text(res.data.description);
+                } else if (res.data.code === "6666"){
+                  this.$vux.toast.text(res.data.description);
+                } else if(res.data.code === "1001"){
+                  this.$vux.toast.text(res.data.description);
                 }
               })
               .catch(err => {
