@@ -96,6 +96,7 @@
           url : '/file/upload.htm',
           data : formData,
           mheaders : true,
+          timeout : 1000 * 60,
         }).then((res) => {
           res = res.data;
           this.imgList.push(res.result);
