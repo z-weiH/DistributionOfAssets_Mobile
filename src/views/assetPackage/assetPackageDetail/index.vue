@@ -74,7 +74,10 @@
           </flexbox-item>
           <flexbox-item :span="7">
             <div class="flex_cont">
-              <template v-if="ListItem.entrustPeriod">
+              <template v-if="ListItem.entrustPeriod.length < 39">
+                {{ListItem.entrustPeriod}}
+              </template>
+              <template v-else>
                 {{this.$strStartToEnd(ListItem.entrustPeriod,'至')}}
                 <br>
                 <div>至</div>
@@ -128,7 +131,7 @@
                 <td>
                   <v-touch
                     tag="a"
-                    v-on:tap="showPopop('show_casePanel'),fetchCaseApi(it.packageClientId)"
+                    v-on:tap="showPopop('show_casePanel'),fetchCaseApi(it)"
                     class="linkA"
                   >查看</v-touch>
                 </td>
@@ -264,8 +267,8 @@
           <v-touch class="close-btn" tag="span" v-on:tap="cancelFoo"></v-touch>
         </div>
         <div class="popup_smalltit">
-          <span>奇速贷</span>案件名单-
-          <span>20</span>个
+          <span>&nbsp;&nbsp;{{caseItem.productName}}&nbsp;&nbsp;</span>案件名单-
+          <span>{{caseItem.actualCaseQuantity}}</span>个
         </div>
         <div class="popup_content">
           <div class="slide_wrap">
@@ -510,12 +513,13 @@ export default {
       this.$http
         .post("/mobile/queryPriceConfirmation.htm", {
           // token: this.openId,
-          packageClientId: item
+          packageClientId: item.packageClientId
         })
         .then(res => {
           console.log("获取案件列表数据", res);
           if (res.data.code === "0000") {
-            this.caseItem = res.data.result;
+            this.caseItem = Object.assign(res.data.result,item);
+            console.log('this.caseItem',this.caseItem)
           }
         });
     },

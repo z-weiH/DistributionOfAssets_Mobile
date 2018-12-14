@@ -10,7 +10,7 @@
           type="password"
           v-validator="validator.oldPassword"
           v-model="oldPassword"
-          placeholder="输入原密码"
+          placeholder="输入原密码" :min='6' :max='20'
         ></x-input>
       </flexbox-item>
     </flexbox>
@@ -24,7 +24,7 @@
           type="password"
           v-validator="validator.newPassword"
           v-model="newPassword"
-          placeholder="请输入新密码(6位或以上的数字或字母)"
+          placeholder="请输入新密码(6位或以上的数字或字母)" :min='6' :max='20'
         ></x-input>
       </flexbox-item>
     </flexbox>
@@ -38,7 +38,7 @@
           type="password"
           v-validator="validator.confirmPassword"
           v-model="confirmPassword"
-          placeholder="请再次输入密码"
+          placeholder="请再次输入密码" :min='6' :max='20'
         ></x-input>
       </flexbox-item>
     </flexbox>
@@ -63,7 +63,7 @@ export default {
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
-      userId:"",
+      userId: "",
       validator: {
         oldPassword: [{ rule: "required", message: "必填", trigger: "blur" }],
         newPassword: [{ rule: "required", message: "必填", trigger: "blur" }],
@@ -74,36 +74,42 @@ export default {
     };
   },
   methods: {
-    getParams(){
-      let _users =  qs.parse(localStorage.getItem('$userInfo'));
-      this.userId = _users.userId
+    getParams() {
+      let _users = qs.parse(localStorage.getItem("$userInfo"));
+      this.userId = _users.userId;
     },
     postNewInfoFoo() {
       if (this.oldPassword == "") {
-        this.$vux.toast.text("请输入原密码");
+        this.$vux.toast.text("不能为空");
       } else if (this.newPassword == "") {
-        this.$vux.toast.text("请输入新密码");
+        this.$vux.toast.text("不能为空");
       } else if (this.confirmPassword == "") {
-        this.$vux.toast.text("请输入确认密码");
+        this.$vux.toast.text("不能为空");
       } else if (
         this.oldPassword != "" &&
         this.newPassword != "" &&
         this.confirmPassword != ""
       ) {
-        this.$http
-          .post(`/mobile/personalCenterUpdatePassword.htm`, {
-            confirmPassword: this.confirmPassword,
-            oldPassword: this.oldPassword,
-            newPassword: this.newPassword,
-            userId: this.userId
-          })
-          .then(res => {
-            if (res.data.code === "0000") {
-              // 修改密码成功则清空用户本地对象
-              localStorage.removeItem("$userInfo");
-              this.$router.push("/login");
-            }
-          });
+        if (this.oldPassword == this.newPassword) {
+          this.$vux.toast.text("新密码不建议和原密码一样哦");
+        } else if (this.newPassword != this.confirmPassword) {
+          this.$vux.toast.text("新密码和重复密码不一致");
+        } else if (this.newPassword == this.confirmPassword) {
+          this.$http
+            .post(`/mobile/personalCenterUpdatePassword.htm`, {
+              confirmPassword: this.confirmPassword,
+              oldPassword: this.oldPassword,
+              newPassword: this.newPassword,
+              userId: this.userId
+            })
+            .then(res => {
+              if (res.data.code === "0000") {
+                // 修改密码成功则清空用户本地对象
+                localStorage.removeItem("$userInfo");
+                this.$router.push("/login");
+              }
+            });
+        }
       }
     }
   },
