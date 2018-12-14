@@ -73,11 +73,11 @@
               <a @click="handleSee(item,index)">进展查看</a>
             </flexbox-item>
             <flexbox-item class="handle-btn">
-              <template v-if="item.repaymentAll === 0">
+              <template v-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 0">
                 <span class="color-red">(款项未结清)</span>
                 <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
               </template>
-              <template v-else-if="item.repaymentAll === 1">
+              <template v-else-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 1">
                 <span>(款项已结清)</span>
               </template>
               <template v-else-if="item.confirmedStatus === 0 || item.confirmedStatus === 2">
