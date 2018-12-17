@@ -178,6 +178,8 @@ export default {
               // this.show_nfdata = true;
             }
           }
+        }).catch(err=>{
+          this.$vux.toast.text(err.data.description)
         });
     },
     loadMore() {
@@ -248,6 +250,7 @@ export default {
           }
         }).catch(()=>{
           this.$vux.loading.hide();
+          this.$vux.toast.text(err.data.description)
         });
     },
     resetHeight() {

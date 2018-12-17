@@ -104,12 +104,12 @@ export default {
         // 如果openid丢失，页面重定向到 仲裁委关联页面
         this.$router.replace("/");
       } else {
-        if (this.loginName == '') {
+        if (this.loginName == "") {
           this.$vux.toast.text("手机号不能为空");
         } else {
-           if(!reg.tel.test(this.$trim(this.loginName))){
-             this.$vux.toast.text("手机号格式错误");
-          }else if (this.password.length < 6) {
+          if (!reg.tel.test(this.$trim(this.loginName))) {
+            this.$vux.toast.text("手机号格式错误");
+          } else if (this.password.length < 6) {
             this.$vux.toast.text("密码位数不对，请输入6～20位");
           } else {
             this.$vux.loading.show({
@@ -133,16 +133,18 @@ export default {
                   );
                   // this.$router.push('/wxBind')
                   this.$router.replace("/home/assetPackageList");
-                } else if (res.data.code === "1002") {
-                  this.$vux.toast.text(res.data.description);
-                } else if (res.data.code === "6666"){
-                  this.$vux.toast.text(res.data.description);
-                } else if(res.data.code === "1001"){
-                  this.$vux.toast.text(res.data.description);
                 }
               })
               .catch(err => {
                 this.$vux.loading.hide();
+                if (err.data.code === "1002") {
+                  this.$vux.toast.text(err.data.description);
+                } else if (err.data.code === "6666") {
+                  this.$vux.toast.text(err.data.description);
+                  // console.log(err);
+                } else if (err.data.code === "1001") {
+                  this.$vux.toast.text(err.data.description);
+                }
               });
           }
         }
@@ -205,8 +207,8 @@ export default {
             phone: LoginName
           }
         });
-      } else  {
-       this.$router.push({
+      } else {
+        this.$router.push({
           name: "authCode",
           params: {
             phone: this.loginName

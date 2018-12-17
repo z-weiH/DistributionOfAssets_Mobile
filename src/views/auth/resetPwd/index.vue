@@ -67,6 +67,8 @@ export default {
               localStorage.removeItem("$userInfo");
               this.$router.push("/login");
             }
+          }).catch(err=>{
+            this.$vux.toast.text(err.data.description)
           });
       }
     }

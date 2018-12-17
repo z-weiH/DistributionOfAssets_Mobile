@@ -465,6 +465,8 @@ export default {
                 break;
             }
           }
+        }).catch(err=>{
+          this.$vux.toast.text(err.data.description)
         });
     },
     confirmReceipt() {
@@ -522,6 +524,8 @@ export default {
             this.caseItem = Object.assign(res.data.result, item);
             console.log("this.caseItem", this.caseItem);
           }
+        }).catch(err=>{
+          this.$vux.toast.text(err.data.description)
         });
     },
     cancelFoo() {
@@ -581,6 +585,8 @@ export default {
             this.ListItem = res.data.result;
             console.log(this.ListItem);
           }
+        }).catch(err=>{
+          this.$vux.toast.text(err.data.description)
         });
     }
   },

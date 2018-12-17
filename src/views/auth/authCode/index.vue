@@ -85,7 +85,9 @@ export default {
 							this.getDjs = true
 							this.start = true
 						}
-					})
+					}).catch(err=>{
+            	this.$vux.toast.text(err.data.description)
+          })
 			} else {
 				this.$vux.toast.text('手机号不能为空哦！')
 			}
@@ -99,15 +101,22 @@ export default {
 					})
 					.then(res => {
 						if (res.data.code === '0000') {
-							this.$router.push({
-								name: 'resetPwd',
-								params: {
-									phone: this.loginName,
-									code: this.validCode,
-								},
-							})
+              if(res.result){
+                this.$router.push({
+                name: 'resetPwd',
+                params: {
+                  phone: this.loginName,
+                  code: this.validCode,
+                },
+                })
+              }else{
+                this.$vux.toast.text('输入有误请重新输入')
+              }
+
 						}
-					})
+					}).catch(err=>{
+              this.$vux.toast.text(err.data.description)
+          })
 			} else {
 				this.$vux.toast.text('手机号不能为空哦！')
 			}
