@@ -16,7 +16,7 @@ export default {
     next();
   },
   beforeCreate(to, from, next) {
-    return;
+    // return;
 
     console.log("beforeCreate--", window.location.href);
     let _openId = this.$GetUrlParam("openId");
