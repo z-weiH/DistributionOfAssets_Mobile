@@ -5,7 +5,7 @@ import Host from './host'
 import router from '../router'
 
 const Axios = axios.create({
-  // baseURL: Host.target, // 基础URL
+  // baseURL: '/', // 基础URL Host.target 本地调试时开启
   timeout: 10000,
   responseType: 'json',
   withCredentials: true, // 是否允许带cookie这些
@@ -14,6 +14,10 @@ const Axios = axios.create({
     // 'Content-Type': 'application/json;charset=utf-8',
   },
 })
+// 本地
+// let _openId = 'oIXMh1WTDzb_n4DB5Lt7Vm-gy0MY' || 'oIXMh1VEa5aVgPbCEHCshFT7t19I'
+// 线上 测试
+// let _openId = 'oIXMh1WTDzb_n4DB5Lt7Vm-gy0MY'  //oIXMh1SNx49YZZfjVNLdzVejcrXE
 
 //POST传参序列化(添加请求拦截器)
 Axios.interceptors.request.use(
@@ -135,7 +139,7 @@ Axios.interceptors.response.use(
       Vue.prototype.instance.$vux.toast.show('参数异常')
     } else if (res.data && res.data.code === '6667') {
       console.log('token失效或错误')
-      Vue.prototype.instance.$vux.toast.show('token失效或错误')
+      // Vue.prototype.instance.$vux.toast.show('token失效或错误')
     } else if (res.data && res.data.code === '2001') {
       Vue.prototype.instance.$vux.toast.show('业务异常')
     } else if (res.data && res.data.code === '2001') {
