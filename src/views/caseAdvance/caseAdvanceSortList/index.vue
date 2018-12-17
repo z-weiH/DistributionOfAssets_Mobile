@@ -214,8 +214,8 @@
         this.$router.push({
           path : 'changeReqCase',
           query : {
-            caseId : row.caseId,
             caseStatus : row.caseStatus,
+            id : row.id,
           },
         });
       },
