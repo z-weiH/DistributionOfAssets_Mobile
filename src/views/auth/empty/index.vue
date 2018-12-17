@@ -74,9 +74,10 @@ export default {
           }
         })
         .catch(err => {
-          if (err.data.code === "6667") {
+          this.$vux.toast.text(err.data.description)
+          // if (err.data.code === "6667") {
             this.$router.replace("login");
-          }
+          // }
         });
     }
   },
