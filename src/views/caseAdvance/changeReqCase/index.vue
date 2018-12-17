@@ -181,6 +181,7 @@
           notes : '',
           // 图片
           pngUrl : [],
+          id : this.$route.query.id,
         },
         // 页面整体状态  1  已结案 法催还款 2 自主还款   3终止本次执行  4撤回立案  5以立案   6 未立案
         mark : '',
@@ -210,7 +211,7 @@
         method : 'post',
         url : '/mobile/queryCaseProgress.htm',
         data : {
-          caseId : this.$route.query.caseId,
+          id : this.$route.query.id,
         },
       }).then((res) => {
         res = res.data;
