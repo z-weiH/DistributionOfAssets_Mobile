@@ -12,17 +12,25 @@ module.exports = {
     proxyTable: {
       '*': {
         changeOrigin: true,
-        // target: 'http://localhost', // 本机
+        // target: 'http://118.31.39.65:8888', // 118 环境
         // target: 'http://192.168.30.120:8080/mockjs/36', // rap
-        // target: 'http://swq.tunnel.qydev.com', //史文强
-        target: 'http://192.168.30.80:7065', //费余波
+        // target: 'http://192.168.30.80:7132',   //费余波
+        // target: 'http://192.168.30.14:7030',   //向昌学
+        // target: 'http://192.168.30.79:7030', // 徐炜
+        // target: 'http://192.168.30.15:7777',   //陈博
+        // target: 'http://192.168.30.18:7030',   //刘全全
+        // target: 'http://118.31.39.65:7030',   // 测试环境
+        // target: 'http://47.98.237.36:7030',   // 测试环境 新
+        // target: 'http://192.168.30.64:3000',   // 本地node
+        // target: 'http://192.168.30.17:7030', // 毛世桥``````
         // target : 'http://hzapi.arbexpress.cn' , // 正式环境
+        target: 'http://arbmobiletest.arbexpress.cn', // 分发系统 测试环境
       },
     },
 
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST
-    port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 3000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -63,7 +71,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/', ///h5/
+    assetsPublicPath: '/',
 
     /**
      * Source Maps

@@ -55,40 +55,40 @@ Vue.use(SlimPopup)
 // let store = new Vuex.Store({})
 // Vue.use(uploader, store)
 
-var fundebug = require("fundebug-javascript");
-fundebug.apikey = "120bf008cd37cc0e1333d94f18b0ae085404edef37f5be01b85e47086ba566dd";
+// var fundebug = require("fundebug-javascript");
+// fundebug.apikey = "120bf008cd37cc0e1333d94f18b0ae085404edef37f5be01b85e47086ba566dd";
 
-// 微信第三方js错误监控 插件fundebug
-function formatComponentName(vm) {
-  if (vm.$root === vm) return "root";
+// // 微信第三方js错误监控 插件fundebug
+// function formatComponentName(vm) {
+//   if (vm.$root === vm) return "root";
 
-  var name = vm._isVue ?
-    (vm.$options && vm.$options.name) ||
-    (vm.$options && vm.$options._componentTag) :
-    vm.name;
-  return (
-    (name ? "component <" + name + ">" : "anonymous component") +
-    (vm._isVue && vm.$options && vm.$options.__file ?
-      " at " + (vm.$options && vm.$options.__file) :
-      "")
-  );
-}
+//   var name = vm._isVue ?
+//     (vm.$options && vm.$options.name) ||
+//     (vm.$options && vm.$options._componentTag) :
+//     vm.name;
+//   return (
+//     (name ? "component <" + name + ">" : "anonymous component") +
+//     (vm._isVue && vm.$options && vm.$options.__file ?
+//       " at " + (vm.$options && vm.$options.__file) :
+//       "")
+//   );
+// }
 
-Vue.config.errorHandler = function (err, vm, info) {
-  if (vm) {
-    var componentName = formatComponentName(vm);
-    var propsData = vm.$options && vm.$options.propsData;
-    fundebug.notifyError(err, {
-      metaData: {
-        componentName: componentName,
-        propsData: propsData,
-        info: info
-      }
-    });
-  } else {
-    fundebug.notifyError(err);
-  }
-};
+// Vue.config.errorHandler = function (err, vm, info) {
+//   if (vm) {
+//     var componentName = formatComponentName(vm);
+//     var propsData = vm.$options && vm.$options.propsData;
+//     fundebug.notifyError(err, {
+//       metaData: {
+//         componentName: componentName,
+//         propsData: propsData,
+//         info: info
+//       }
+//     });
+//   } else {
+//     fundebug.notifyError(err);
+//   }
+// };
 
 require('animate.css/animate.min.css')
 

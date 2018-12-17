@@ -4,7 +4,6 @@
       <router-view v-if="$route.meta.keepAlive" style="min-height:100%"></router-view>
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive" style="min-height:100%"></router-view>
-    <!-- <lg-preview></lg-preview> -->
   </div>
 </template>
 
