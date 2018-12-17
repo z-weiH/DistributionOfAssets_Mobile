@@ -70,13 +70,15 @@ export default {
           if (res.data.code === "6667") {
             this.$router.replace("login");
           } else if (res.data.code === "0000") {
-            this.$router.replace("home");
+            // 个人中心显示用
+            localStorage.setItem("$userInfo", qs.stringify(res.data.result));
+            this.$router.replace("/home/assetPackageList");
           }
         })
         .catch(err => {
-          this.$vux.toast.text(err.data.description)
+          this.$vux.toast.text(err.data.description);
           // if (err.data.code === "6667") {
-            this.$router.replace("login");
+          this.$router.replace("login");
           // }
         });
     }
