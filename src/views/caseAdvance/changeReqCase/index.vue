@@ -355,7 +355,7 @@
           form.arbCaseNo = this.dataList[0].arbCaseNo;
           form.mark = this.mark;
           form.newStatus = this.getCaseStatusEn(form.newStatus[0]);
-          form.oldStatus = this.getCaseStatusEn(form.oldStatus[0]) || '';
+          form.oldStatus = this.getCaseStatusEn(form.oldStatus[0]);
           form.progressReason = form.progressReason[0];
           form.repaymentMethod = form.repaymentMethod[0];
           form.pngUrl = form.pngUrl.join(',');
