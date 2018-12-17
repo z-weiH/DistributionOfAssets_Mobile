@@ -158,7 +158,7 @@
       <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
     </template>
 
-    <template v-if="parentRtParams.packageStatus === 1">
+    <template v-if="parentRtParams.packageStatus === 1 || parentRtParams.packageStatus === 3 ">
       <div class="bottom_opts">
         <div>
           <v-touch tag="a" class="optionBtn greyBtn" v-on:tap="showPopop('show_sbackPanel')">退回</v-touch>
