@@ -332,15 +332,17 @@
             return this.verifyMessageFn('还款金额必须大于0');
           }
         }else if(this.mark === 3) {
-          return true;
+
         }else if(this.mark === 4) {
-          return true;
+
         }else if(this.mark === 5) {
           if(!this.ruleForm.courtCaseNo) {
             return this.verifyMessageFn('请输入执行案号');
           }
         }else if(this.mark === 6) {
-          return true;
+          if(!this.ruleForm.notes) {
+            return this.verifyMessageFn('请输入案件进展说明');
+          }
         }
         return true;
       },
