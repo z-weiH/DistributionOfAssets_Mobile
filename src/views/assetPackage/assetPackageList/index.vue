@@ -2,7 +2,7 @@
   <div class="page">
     <div class="tab_card">
       <Flexbox class="t_wrap" :gutter="0">
-        <!-- <template v-for="(it,index) in tabList">
+        <template v-for="(it,index) in tabList">
           <FlexboxItem>
             <v-touch
               tag="a"
@@ -10,14 +10,7 @@
               :class="{active: index === selected}"
             >{{it.name}}</v-touch>
           </FlexboxItem>
-        </template>-->
-        <flexbox-item v-for="(item,index) in searchList" :key="index">
-          <div
-            @click="handleActive(item,index)"
-            :class="{'search-active' : item.active}"
-            class="flex-demo"
-          >{{item.text}}</div>
-        </flexbox-item>
+        </template>
       </Flexbox>
     </div>
 
@@ -128,28 +121,6 @@ export default {
       selected: 3,
       packageStatus: null,
       loadOver: false,
-      searchList: [
-        {
-          text: "全部",
-          active: true,
-          value: ""
-        },
-        {
-          text: "已确认",
-          active: false,
-          value: 2
-        },
-        {
-          text: "已退回",
-          active: false,
-          value: 3
-        },
-        {
-          text: "待签收",
-          active: false,
-          value: 1
-        }
-      ],
       tabList: [
         {
           name: "待签收",
@@ -195,32 +166,13 @@ export default {
       this.$vux.loading.show({
         text: "加载中"
       });
+      this.loadOver = false;
       this.selected = index;
       this.packageStatus = item.packageStatus ? item.packageStatus : "";
       this.pager.currentNum = 1; //重置
       this.ListItem = []; //先清空-之前搜索结果
+      this.doQuery();
 
-      this.$http
-        .post("/mobile/queryAssetsList.htm", {
-          packageStatus: this.packageStatus,
-          pageSize: this.pager.pageSize,
-          currentNum: this.pager.currentNum
-        })
-        .then(res => {
-          if (res.data.code === "0000") {
-            this.$vux.loading.hide();
-            this.pager.count = res.data.result.count;
-            if (!this.$isEmptyArr(res.data.result.list)) {
-              // this.show_nfdata = false;
-              this.ListItem = res.data.result.list;
-            } else {
-              // this.show_nfdata = true;
-            }
-          }
-        })
-        .catch(err => {
-          this.$vux.toast.text(err.data.description);
-        });
     },
     loadMore() {
       if (this.loadOver === true) {
@@ -259,7 +211,7 @@ export default {
         .post("/mobile/queryAssetsList.htm", {
           // mock: 1,
           // token: this.openId,
-          packageStatus: this.searchList.filter(v => v.active)[0].value, //this.packageStatus
+          packageStatus: this.packageStatus, //this.searchList.filter(v => v.active)[0].value
           pageSize: this.pager.pageSize,
           currentNum: this.pager.currentNum
         })
@@ -349,7 +301,4 @@ export default {
   }
 }
 
-.search-active {
-  color: rgb(0, 56, 136) !important;
-}
 </style>
