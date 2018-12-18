@@ -114,9 +114,10 @@ export default {
               }
 
 						}
-					}).catch(err=>{
-              this.$vux.toast.text(err.data.description)
-          })
+					})
+          // .catch(err=>{
+          //     this.$vux.toast.text(err.data.description)
+          // })
 			} else {
 				this.$vux.toast.text('手机号不能为空哦！')
 			}
