@@ -62,7 +62,7 @@
           <flexbox :gutter="0">
             <flexbox-item>
               <div class="mcontent">
-                立案日期：{{item.recordDate}}
+                立案日期：{{item.recordDate.split(' ')[0]}}
               </div>
             </flexbox-item>
           </flexbox>
