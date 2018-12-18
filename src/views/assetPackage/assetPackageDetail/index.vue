@@ -1,17 +1,17 @@
 <template>
   <div class="page inside" ref="inside">
     <div class="header_buttons">
-      <template v-if="parentRtParams.packageStatus == 1">
+      <template v-if="ListItem.packageStatus == 1">
         <v-touch tag="a" v-on:tap class="h_btn yellow">状态：待签收</v-touch>
         <span
           v-if="parentRtParams.timeout && parentRtParams.timeout == 'file'"
           class="f_red"
         >已过48小时，请及时关注处理</span>
       </template>
-      <template v-if="parentRtParams.packageStatus == 2">
+      <template v-if="ListItem.packageStatus == 2">
         <v-touch tag="a" v-on:tap class="h_btn green">状态：已确认</v-touch>
       </template>
-      <template v-if="parentRtParams.packageStatus == 3">
+      <template v-if="ListItem.packageStatus == 3">
         <v-touch tag="a" v-on:tap class="h_btn grey">状态：已退回</v-touch>
       </template>
     </div>
@@ -158,7 +158,7 @@
       <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
     </template>
 
-    <template v-if="parentRtParams.packageStatus === 1 || parentRtParams.packageStatus === 3 ">
+    <template v-if="ListItem.packageStatus === 1 || ListItem.packageStatus === 3 ">
       <div class="bottom_opts">
         <div>
           <v-touch tag="a" class="optionBtn greyBtn" v-on:tap="showPopop('show_sbackPanel')">退回</v-touch>
