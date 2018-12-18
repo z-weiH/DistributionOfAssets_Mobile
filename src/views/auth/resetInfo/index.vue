@@ -10,7 +10,7 @@
           type="password"
           v-validator="validator.oldPassword"
           v-model="oldPassword"
-          placeholder="输入原密码" :min='6' :max='20'
+          placeholder="输入原密码" :min='6' :max='20'  @on-blur="onBlur"
         ></x-input>
       </flexbox-item>
     </flexbox>
@@ -24,7 +24,7 @@
           type="password"
           v-validator="validator.newPassword"
           v-model="newPassword"
-          placeholder="请输入新密码(6位或20位以内的数字或字母)" :min='6' :max='20'
+          placeholder="请输入新密码(6位或20位以内的数字或字母)" :min='6' :max='20' @on-blur="onBlur"
         ></x-input>
       </flexbox-item>
     </flexbox>
@@ -38,12 +38,13 @@
           type="password"
           v-validator="validator.confirmPassword"
           v-model="confirmPassword"
-          placeholder="请再次输入密码" :min='6' :max='20'
+          placeholder="请再次输入密码" :min='6' :max='20' @on-blur="onBlur"
         ></x-input>
       </flexbox-item>
     </flexbox>
     <div class="buttonwrap">
-      <x-button :gradients="['#F0B300', '#F0B300']" @click.native="postNewInfoFoo">确认</x-button>
+      <x-button v-if="passType" :gradients="['#F0B300', '#F0B300']" @click.native="postNewInfoFoo">确认</x-button>
+      <x-button v-else :gradients="['#C2C2C2', '#C2C2C2']">确认</x-button>
     </div>
   </div>
 </template>
@@ -70,10 +71,19 @@ export default {
         confirmPassword: [
           { rule: "required", message: "必填", trigger: "blur" }
         ]
-      }
+      },
+      passType:true,//可点击确认按钮状态
     };
   },
   methods: {
+    onBlur(val){
+      if(val.length > 5 && val.length < 21){
+        this.passType = true
+        console.log('on blur', val)
+      }else{
+        this.passType = false
+      }
+    },
     getParams() {
       let _users = qs.parse(localStorage.getItem("$userInfo"));
       this.userId = _users.userId;
