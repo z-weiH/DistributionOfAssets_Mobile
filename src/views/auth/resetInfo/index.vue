@@ -24,7 +24,7 @@
           type="password"
           v-validator="validator.newPassword"
           v-model="newPassword"
-          placeholder="请输入新密码(6位或以上的数字或字母)" :min='6' :max='20'
+          placeholder="请输入新密码(6位或20位以内的数字或字母)" :min='6' :max='20'
         ></x-input>
       </flexbox-item>
     </flexbox>
@@ -80,11 +80,11 @@ export default {
     },
     postNewInfoFoo() {
       if (this.oldPassword == "") {
-        this.$vux.toast.text("不能为空");
+        this.$vux.toast.text("原密码不能为空");
       } else if (this.newPassword == "") {
-        this.$vux.toast.text("不能为空");
+        this.$vux.toast.text("新密码不能为空");
       } else if (this.confirmPassword == "") {
-        this.$vux.toast.text("不能为空");
+        this.$vux.toast.text("重复新密码不能为空");
       } else if (
         this.oldPassword != "" &&
         this.newPassword != "" &&
@@ -108,6 +108,8 @@ export default {
                 localStorage.removeItem("$userInfo");
                 this.$router.push("/login");
               }
+            }).catch(err=>{
+              this.$vux.toast.text(err.data.description)
             });
         }
       }
