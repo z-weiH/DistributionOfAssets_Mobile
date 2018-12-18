@@ -1,8 +1,8 @@
 <template>
   <div class="page">
     <div class="tab_card">
-      <Flexbox class="t_wrap">
-        <template v-for="(it,index) in tabList">
+      <Flexbox class="t_wrap" :gutter="0">
+        <!-- <template v-for="(it,index) in tabList">
           <FlexboxItem>
             <v-touch
               tag="a"
@@ -10,7 +10,14 @@
               :class="{active: index === selected}"
             >{{it.name}}</v-touch>
           </FlexboxItem>
-        </template>
+        </template>-->
+        <flexbox-item v-for="(item,index) in searchList" :key="index">
+          <div
+            @click="handleActive(item,index)"
+            :class="{'search-active' : item.active}"
+            class="flex-demo"
+          >{{item.text}}</div>
+        </flexbox-item>
       </Flexbox>
     </div>
 
@@ -121,6 +128,28 @@ export default {
       selected: 3,
       packageStatus: null,
       loadOver: false,
+      searchList: [
+        {
+          text: "全部",
+          active: true,
+          value: ""
+        },
+        {
+          text: "已确认",
+          active: false,
+          value: 2
+        },
+        {
+          text: "已退回",
+          active: false,
+          value: 3
+        },
+        {
+          text: "待签收",
+          active: false,
+          value: 1
+        }
+      ],
       tabList: [
         {
           name: "待签收",
@@ -152,6 +181,16 @@ export default {
     };
   },
   methods: {
+    // 点击筛选条件
+    handleActive(item, index) {
+      this.searchList = this.searchList.map((v, k) => {
+        v.active = index === k;
+        return v;
+      });
+      this.currentPage = 1;
+      this.loadOver = false;
+      this.doQuery();
+    },
     tabSearch(item, index) {
       this.$vux.loading.show({
         text: "加载中"
@@ -178,16 +217,17 @@ export default {
               // this.show_nfdata = true;
             }
           }
-        }).catch(err=>{
-          this.$vux.toast.text(err.data.description)
+        })
+        .catch(err => {
+          this.$vux.toast.text(err.data.description);
         });
     },
     loadMore() {
       if (this.loadOver === true) {
         return;
       }
-      this.pager.currentNum ++;
-      this.doQuery('push');
+      this.pager.currentNum++;
+      this.doQuery("push");
     },
     refreshList() {
       // 重置pager对象
@@ -206,7 +246,7 @@ export default {
         query: item
       });
     },
-    doQuery(plus,callback) {
+    doQuery(plus, callback) {
       console.log("**************doQuery");
 
       this.$vux.loading.show({
@@ -219,7 +259,7 @@ export default {
         .post("/mobile/queryAssetsList.htm", {
           // mock: 1,
           // token: this.openId,
-          packageStatus: this.packageStatus,
+          packageStatus: this.searchList.filter(v => v.active)[0].value, //this.packageStatus
           pageSize: this.pager.pageSize,
           currentNum: this.pager.currentNum
         })
@@ -232,25 +272,31 @@ export default {
             res = res.data;
             this.pager.count = res.result.count;
 
-            if (plus === 'push') {
-              this.ListItem = this.ListItem.concat(res.result.list)
-              console.log('res.data.result.list.length:',res.result.list.length)
-              console.log('pager.pageSize:',this.pager.pageSize)
+            if (plus === "push") {
+              this.ListItem = this.ListItem.concat(res.result.list);
+              console.log(
+                "res.data.result.list.length:",
+                res.result.list.length
+              );
+              console.log("pager.pageSize:", this.pager.pageSize);
             } else {
-              console.log('res.result.list---',res.result.list)
+              console.log("res.result.list---", res.result.list);
               this.ListItem = res.result.list;
             }
             callback && callback();
-            this.$nextTick(()=>{
-              if( this.pager.pageSize * this.pager.currentNum >= this.pager.count ){
+            this.$nextTick(() => {
+              if (
+                this.pager.pageSize * this.pager.currentNum >=
+                this.pager.count
+              ) {
                 this.loadOver = true;
               }
             });
-
           }
-        }).catch(()=>{
+        })
+        .catch(() => {
           this.$vux.loading.hide();
-          this.$vux.toast.text(err.data.description)
+          this.$vux.toast.text(err.data.description);
         });
     },
     resetHeight() {
@@ -268,7 +314,6 @@ export default {
       this.openId = "";
     }
     document.title = "资产包";
-
   },
   beforeMount() {
     // 重置子页面设置的容器样式fixed-bug
@@ -302,5 +347,9 @@ export default {
   * {
     box-sizing: border-box;
   }
+}
+
+.search-active {
+  color: rgb(0, 56, 136) !important;
 }
 </style>
