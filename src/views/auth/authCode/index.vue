@@ -101,7 +101,7 @@ export default {
 					})
 					.then(res => {
 						if (res.data.code === '0000') {
-              if(res.result){
+              if(res.data.result){
                 this.$router.push({
                 name: 'resetPwd',
                 params: {
@@ -115,9 +115,9 @@ export default {
 
 						}
 					})
-          // .catch(err=>{
-          //     this.$vux.toast.text(err.data.description)
-          // })
+          .catch(err=>{
+              this.$vux.toast.text(err.data.description)
+          })
 			} else {
 				this.$vux.toast.text('手机号不能为空哦！')
 			}
