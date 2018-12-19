@@ -19,7 +19,7 @@
       <van-steps direction="vertical" :active="dataList.length + 1" active-color="rgb(102, 102, 102)">
         <van-step v-if="dataList.length > 0" v-for="(item,index) in dataList" :key="index">
           <ul>
-            <li>{{item.createTime}}</li>
+            <li v-if="item.editState !== 8 && item.editState !== 10">{{item.createTime}}</li>
             <!--请求已立案-->
             <template v-if="item.editState === 1">
               <li>原有案件状态: {{getCaseStatusCN(item.previousStatus)}}</li>
@@ -119,7 +119,7 @@
             </template>
 
             <!--运营初步确认 回款-->
-            <template v-if="item.editState === 8">
+            <!-- <template v-if="item.editState === 8">
               <li>操作者: {{item.operatorName}}（初步确认）</li>
               <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
@@ -134,7 +134,7 @@
                 <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
                 <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
               </li>
-            </template>
+            </template> -->
 
             <!--财务复核确认 回款-->
             <template v-if="item.editState === 9">
@@ -161,7 +161,7 @@
             </template>
 
             <!--案件回款已确认但未还清  运营初步确认-->
-            <template v-if="item.editState === 10">
+            <!-- <template v-if="item.editState === 10">
               <li>操作者: {{item.operatorName}}（初步确认）</li>
               <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
@@ -176,7 +176,7 @@
                 <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
                 <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
               </li>
-            </template>
+            </template> -->
 
             <!--案件回款已确认但未还清  财务复核确认-->
             <template v-if="item.editState === 11">
