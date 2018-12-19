@@ -132,7 +132,7 @@
             value : 1,
           },
           {
-            text : '已立案',
+            text : '已结案',
             active : false,
             value : 2,
           },

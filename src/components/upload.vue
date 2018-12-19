@@ -3,12 +3,12 @@
     
     <input @change="handleUpload" ref="file" type="file" class="file" accept="image/*" />
     <flexbox :gutter="0">
-      <flexbox-item :span="1/max" v-for="(item,index) in imgList" :key="index">
+      <flexbox-item :span="1/5" v-for="(item,index) in imgList" :key="index">
         <div @click="handleShowImg(index)" :style="{'background-image' : `url(${item})`}" class="m-img">
           <span @click.stop="handleDeleteImg(index)" class="icon-close">x</span>
         </div>
       </flexbox-item>
-      <flexbox-item :span="1/max" v-if="imgList.length <= max - 1">
+      <flexbox-item :span="1/5" v-if="imgList.length <= max - 1">
         <v-touch
           v-on:tap="handleClick"
           class="upload-img"
@@ -34,7 +34,7 @@
       // 上传最大数量
       max : {
         type : Number,
-        default : 5,
+        default : 3,
       },
       // 校验的文件 后缀
       accept : {
