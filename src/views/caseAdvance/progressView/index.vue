@@ -19,7 +19,7 @@
       <van-steps direction="vertical" :active="dataList.length + 1" active-color="rgb(102, 102, 102)">
         <van-step v-if="dataList.length > 0" v-for="(item,index) in dataList" :key="index">
           <ul>
-            <li v-if="item.editState !== 8 && item.editState !== 10">{{item.createTime}}</li>
+            <li>{{item.createTime}}</li>
             <!--请求已立案-->
             <template v-if="item.editState === 1">
               <li>原有案件状态: {{getCaseStatusCN(item.previousStatus)}}</li>
@@ -302,7 +302,7 @@
             this.setEditState(v);
           });
         }
-        this.dataList = res.result;
+        this.dataList = res.result.filter(v => v.editState !== 8 && v.editState !== 10);
       });
     },
     methods : {
