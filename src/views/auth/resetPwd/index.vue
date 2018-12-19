@@ -9,7 +9,7 @@
           name="newPwd"
           type="password"
           v-model="newPassword"
-          placeholder="请输入新密码(6位或以上的数字或字母)"
+          placeholder="请输入新密码(6位或以上的数字或字母)" :min='6' :max='20'
         ></x-input>
       </flexbox-item>
     </flexbox>
@@ -18,7 +18,7 @@
         <div class="icon i_pwd"></div>
       </flexbox-item>
       <flexbox-item>
-        <x-input name="confirmPwd" type="password" v-model="confirmPassword" placeholder="请再次输入密码"></x-input>
+        <x-input name="confirmPwd" type="password" v-model="confirmPassword" placeholder="请再次输入密码" :min='6' :max='20'></x-input>
       </flexbox-item>
     </flexbox>
     <div class="buttonwrap">
@@ -50,11 +50,11 @@ export default {
       this.loginName = this.$route.params.phone;
     },
     postNewInfoFoo() {
-      if (this.confirmPassword.length < 6) {
-        this.$vux.toast.text("密码长度不能小于6位");
-      } else if (this.newPassword.length != this.newPassword.length) {
+      if (this.newPassword == "") {
+        this.$vux.toast.text("新密码不能为空");
+      } else if (this.newPassword != this.confirmPassword) {
         this.$vux.toast.text("两次输入的密码不一致");
-      } else {
+      } else if ((this.newPassword > 5 && this.confirmPassword > 5) && (this.newPassword == this.confirmPassword)){
         this.$http
           .post(`/mobile/updatePassword.htm`, {
             confirmPassword: this.confirmPassword,

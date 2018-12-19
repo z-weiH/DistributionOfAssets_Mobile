@@ -248,10 +248,12 @@ html {
     width: rem(145);
     height: rem(145);
     border-radius: 50%;
-    background-color: #003888;
-    // background-image: url(~@/assets/img/con@2x014.png);
+    // background-color: #003888;
+    background-color: #fff;
+    background-image: url(~@/assets/img/mlogo.svg);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
+    background-position: rem(1) rem(1);
   }
   ul {
   }
