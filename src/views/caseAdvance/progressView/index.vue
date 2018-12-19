@@ -25,7 +25,7 @@
               <li>原有案件状态: {{getCaseStatusCN(item.previousStatus)}}</li>
               <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
-              <li>提交者: {{item.operatorName}}</li>
+              <li>提交者: {{item.operatorAgency}}-{{item.operatorName}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
                 <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
@@ -37,7 +37,7 @@
             <template v-if="item.editState === 2">
               <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
-              <li>提交者: {{item.operatorName}}</li>
+              <li>提交者: {{item.operatorAgency}}-{{item.operatorName}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
                 <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
@@ -49,7 +49,7 @@
             <template v-if="item.editState === 3">
               <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
-              <li>提交者: {{item.operatorName}}</li>
+              <li>提交者: {{item.operatorAgency}}-{{item.operatorName}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
               <li>原因选择:{{item.progressReason}}</li>
               <li>借款人姓名: {{item.repaymentName}}</li>
@@ -66,7 +66,7 @@
             <template v-if="item.editState === 4">
               <li>原有案件状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
-              <li>提交者: {{item.operatorName}}</li>
+              <li>提交者: {{item.operatorAgency}}-{{item.operatorName}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
               <li>原因选择:{{item.progressReason}}</li>
               <li>借款人姓名: {{item.repaymentName}}</li>
@@ -84,7 +84,7 @@
               <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
               <li>原因选择:{{item.progressReason}}</li>
-              <li>提交者: {{item.operatorName}}</li>
+              <li>提交者: {{item.operatorAgency}}-{{item.operatorName}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
                 <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
@@ -98,7 +98,7 @@
               <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
               <li>原因选择:{{item.progressReason}}</li>
-              <li>提交者: {{item.operatorName}}</li>
+              <li>提交者: {{item.operatorAgency}}-{{item.operatorName}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
               <li v-if="item.attachFileList.length > 0">
                 <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
@@ -120,7 +120,7 @@
 
             <!--运营初步确认 回款-->
             <!-- <template v-if="item.editState === 8">
-              <li>操作者: {{item.operatorName}}（初步确认）</li>
+              <li>操作者: {{item.operatorAgency}}-{{item.operatorName}}（初步确认）</li>
               <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
@@ -162,7 +162,7 @@
 
             <!--案件回款已确认但未还清  运营初步确认-->
             <!-- <template v-if="item.editState === 10">
-              <li>操作者: {{item.operatorName}}（初步确认）</li>
+              <li>操作者: {{item.operatorAgency}}-{{item.operatorName}}（初步确认）</li>
               <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
