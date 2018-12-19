@@ -39,6 +39,10 @@
               <li>请求案件变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>提交者: {{item.operatorName}}</li>
               <li>补充说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--请求已结案已回款-代理商法催回款-->
@@ -108,10 +112,15 @@
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
               <li>备注说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--运营初步确认 回款-->
             <template v-if="item.editState === 8">
+              <li>操作者: {{item.operatorName}}（初步确认）</li>
               <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
@@ -121,6 +130,10 @@
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>还款方式: {{item.repaymentMethod}}</li>
               <li>结清状况: {{item.progressReason}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--财务复核确认 回款-->
@@ -133,12 +146,23 @@
               <li>被申请人: {{item.repaymentName}}</li>
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>还款方式: {{item.repaymentMethod}}</li>
-              <li>结清状况: {{item.progressReason}}</li>
-              <li>补充说明: 请联系对应对接人领取《结清证明》。</li>
+              <li>结清状况: <span class="red">{{item.progressReason}}</span></li>
+              <li>补充说明: 
+                  <span class="red">
+                    {{item.progressReason === '款项未结清' ?
+                    '请继续跟进。' : ' 请联系对应对接人领取《结清证明》。'
+                    }}
+                  </span>
+              </li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--案件回款已确认但未还清  运营初步确认-->
             <template v-if="item.editState === 10">
+              <li>操作者: {{item.operatorName}}（初步确认）</li>
               <li>案件原状态:{{getCaseStatusCN(item.previousStatus)}}</li>
               <li>案件状态已变更: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>执行案号:{{item.courtCaseNo}}</li>
@@ -148,6 +172,10 @@
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>还款方式: {{item.repaymentMethod}}</li>
               <li>结清状况: {{item.progressReason}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--案件回款已确认但未还清  财务复核确认-->
@@ -161,7 +189,11 @@
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>还款方式: {{item.repaymentMethod}}</li>
               <li>结清状况: {{item.progressReason}}</li>
-              <li>提醒说明: 请继续跟进。</li>
+              <li>提醒说明: <span class="red">请继续跟进。</span></li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--/运营驳回 非还款请求-->
@@ -171,6 +203,10 @@
               <li>渠道请求案态变更为: {{getCaseStatusCN(item.targetStatus)}}</li>
               <li>该请求: 已拒绝</li>
               <li>拒绝说明: {{item.operationDetail}}</li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--/运营驳回 还款请求-->
@@ -185,7 +221,11 @@
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>还款方式: {{item.repaymentMethod}}</li>
               <li>结清状况: {{item.progressReason}}</li>
-              <li>拒绝原因: {{item.operationDetail}}</li>
+              <li>拒绝原因: <span class="red">未核实到到款信息，请查证。</span></li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             <!--财务驳回 还款请求-->
@@ -200,7 +240,11 @@
               <li>还款金额: {{item.repaymentAmt}}</li>
               <li>还款方式: {{item.repaymentMethod}}</li>
               <li>结清状况: {{item.progressReason}}</li>
-              <li>驳回原因: {{item.operationDetail}}</li>
+              <li>驳回原因: <span class="red">未核实到到款信息，请查证。</span></li>
+              <li v-if="item.attachFileList.length > 0">
+                <img @click="handleShowImg(index,index2)" :src="item2.pngUrl" v-for="(item2,index2) in item.attachFileList" :key="index2" />
+                <previewer :ref="'previewer' + index" :list="imageFormat(item.attachFileList)"></previewer>
+              </li>
             </template>
 
             
@@ -264,61 +308,65 @@
     methods : {
       //设置记录的类型
       setEditState(obj){
-        // operationType   操作类型   number 1 客户操作 2 运营操作
-        if(obj.operationType === 1){
-            if(obj.targetStatus === 0){ //请求已立案
-                obj.editState = 1;
-            }
-            else if(obj.targetStatus === 1){ //请求未立案
-                obj.editState = 2;
-            }else if(obj.targetStatus === 2){ //已结案
-                if(obj.progressReason === '代理商法催回款'){
-                    obj.editState =3;
-                }else if(obj.progressReason === '自主回款'){
-                    obj.editState = 4;
-                }else if(obj.progressReason === '终止本次执行（临）'){
-                    obj.editState = 5;
-                }else if(obj.progressReason === '撤回立案（临）'){
-                    obj.editState = 6;
-                }
-            }
-        }else if(obj.operationType === 2){
-            // caseOperationStatus    number 1 还款请求 2 未还款请求
-            // confirmedStatus    number 案件状态是否确认 1 运营驳回 2 运营确认 3财务驳回 4财务确认
+          // operationType	操作类型	number	1 客户操作 2 运营操作
+          if(obj.operationType === 1){
+              if(obj.targetStatus === 0){ //请求已立案
+                  obj.editState = 1;
+              }
+              else if(obj.targetStatus === 1){ //请求未立案
+                  obj.editState = 2;
+              }else if(obj.targetStatus === 2){ //已结案
+                  if(obj.progressReason === '代理商法催回款'){
+                      obj.editState =3;
+                  }else if(obj.progressReason === '自主回款'){
+                      obj.editState = 4;
+                  }else if(obj.progressReason === '终止本次执行（临）'){
+                      obj.editState = 5;
+                  }else if(obj.progressReason === '撤回立案（临）'){
+                      obj.editState = 6;
+                  }
+              }
+          }else if(obj.operationType === 2){
+              // caseOperationStatus		number	1 还款请求 2 未还款请求
+              // confirmedStatus		number	案件状态是否确认 1 运营驳回 2 运营确认 3财务驳回 4财务确认
 
-              if(obj.repaymentAmt){
-                if(obj.confirmedStatus === 1){
-                    obj.editState = 13; //运营驳回 还款请求
-                }
-                else if(obj.confirmedStatus === 3){
-                    obj.editState = 14; //财务驳回 还款请求
-                }
-                else if(obj.progressReason === '款项已结清'){
-                    if(obj.confirmedStatus === 2){
-                        obj.editState = 8;
-                    }else if(obj.confirmedStatus === 4){
-                        obj.editState = 9;
+                if(obj.repaymentAmt){
+                    if(obj.confirmedStatus === 1){
+                        obj.editState = 13; //运营驳回 还款请求
                     }
-                }else if(obj.progressReason === '款项未结清'){
-                    if(obj.confirmedStatus === 2){
-                        obj.editState = 10;
-                    }else if(obj.confirmedStatus === 4){
-                        obj.editState = 11;
-                    }
-                }
-            }
-              else if(!obj.repaymentAmt){
-                if(obj.confirmedStatus === 2){
-                    obj.editState = 7;
-                }
-                else if(obj.confirmedStatus === 1){
-                    obj.editState = 12; //运营驳回 非还款请求
-                }
-                else if(obj.confirmedStatus === 0){
 
-                }
-            }
-        }
+                    else if(obj.progressReason === '款项已结清'){
+                      if(obj.confirmedStatus === 2){
+                          obj.editState = 8;
+                      }
+                  }else if(obj.progressReason === '款项未结清'){
+                      if(obj.confirmedStatus === 2){
+                          obj.editState = 10;
+                      }else if(obj.confirmedStatus === 4){
+                          obj.editState = 11;
+                      }
+                  }
+              }
+                else if(!obj.repaymentAmt){
+                  if(obj.confirmedStatus === 2){
+                      obj.editState = 7;
+                  }
+                  else if(obj.confirmedStatus === 1){
+                      obj.editState = 12; //运营驳回 非还款请求
+                  }
+                  else if(obj.confirmedStatus === 0){
+
+                  }
+              }
+          }
+          else if(obj.operationType === 3){
+              if(obj.confirmedStatus === 3){
+                  obj.editState = 14; //财务驳回 还款请求
+              }
+                if(obj.confirmedStatus === 4){
+                  obj.editState = 9;
+              }
+          }
       },
       getCaseStatusCN(status){
         // <!--0 已立案 1 未立案 2 已结案 3待签收 4已签收-->
@@ -354,6 +402,9 @@
     color: rgb(240, 179, 0);
   }
   .color-red{
+    color: rgb(204, 0, 0);
+  }
+  .red{
     color: rgb(204, 0, 0);
   }
   .color-green{
