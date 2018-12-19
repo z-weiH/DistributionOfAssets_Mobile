@@ -132,7 +132,7 @@
             value : 1,
           },
           {
-            text : '已结束',
+            text : '已立案',
             active : false,
             value : 2,
           },
@@ -192,6 +192,7 @@
       // 上拉刷新
       refreshList() {
         this.currentPage = 1;
+        this.loadOver = false;
         this.initTableList('reload');
       },
       // 点击查看
