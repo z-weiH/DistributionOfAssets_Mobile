@@ -182,6 +182,7 @@ export default {
       this.doQuery("push");
     },
     refreshList() {
+      this.loadOver = false
       // 重置pager对象
       this.pager.currentNum = 1;
       this.pager.pageNum = 10;
