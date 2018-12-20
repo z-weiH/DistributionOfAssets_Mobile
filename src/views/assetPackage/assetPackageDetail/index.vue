@@ -819,7 +819,7 @@ $line_color: #ebebeb;
   padding-bottom: rem(25);
   .tit_content{
     img{
-      width: 80%;
+      width: 60px;
     }
   }
 }
