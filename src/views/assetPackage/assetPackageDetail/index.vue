@@ -137,7 +137,7 @@
             </template>
           </tbody>
         </x-table>
-        <div class="list_todo">
+        <div class="list_todo" v-if="ListItem.packageStatus == 1">
           <div>说明：</div>
           <div>请在确认收到邮寄材料后点击右下角“确认签收”；</div>
           <div>若发现资产包信息有误点击左下角“退回”。</div>
@@ -145,20 +145,24 @@
         </div>
       </div>
     </div>
-    <template v-if="parentRtParams.packageStatus == 2">
-      <div class="table_remark">
-        <div class="tit">确认说明：</div>
-        <div class="tit_text">已确认收到邮寄的材料</div>
-        <div class="tit_content"></div>
-        <div class="tit_time">
-          <span>确认时间：</span>
-          <span>{{ListItem.agencyConfirmTime}}</span>
+    <template v-if="ListItem.packageStatus == 2">
+      <template v-for="(it,index) in ListItem.urlList">
+        <div class="table_remark">
+          <div class="tit">{{index+1}}、确认说明：</div>
+          <div class="tit_text">{{it.reason}}</div>
+          <div class="tit_content" v-if="it.attachFile">
+            <img :src="it.attachFile.replace(/http:|https:/g,'')">
+          </div>
+          <div class="tit_time">
+            <span>确认时间：</span>
+            <span>{{it.createTime}}</span>
+          </div>
         </div>
-      </div>
+      </template>
       <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
     </template>
 
-    <template v-if="ListItem.packageStatus === 1 || ListItem.packageStatus === 3 ">
+    <template v-if="ListItem.packageStatus === 1">
       <div class="bottom_opts">
         <div>
           <v-touch tag="a" class="optionBtn greyBtn" v-on:tap="showPopop('show_sbackPanel')">退回</v-touch>
@@ -365,7 +369,7 @@ export default {
       // 主键
       this.parentRtParams.packageId = this.$route.query.packageId;
       // 状态
-      this.parentRtParams.packageStatus = this.$route.query.packageStatus;
+      this.ListItem.packageStatus = this.$route.query.packageStatus;
       // 已过48小时状态
       this.parentRtParams.timeout = this.$route.query.timeout;
       // 用户登录信息
@@ -375,8 +379,8 @@ export default {
 
       console.log("用户称谓权限", this.com_rate);
       console.log(
-        "parentRtParams.packageStatus--",
-        this.parentRtParams.packageStatus
+        "ListItem.packageStatus--",
+        this.ListItem.packageStatus
       );
     },
     getJsSDK() {
@@ -465,8 +469,9 @@ export default {
                 break;
             }
           }
-        }).catch(err=>{
-          this.$vux.toast.text(err.data.description)
+        })
+        .catch(err => {
+          this.$vux.toast.text(err.data.description);
         });
     },
     confirmReceipt() {
@@ -524,8 +529,9 @@ export default {
             this.caseItem = Object.assign(res.data.result, item);
             console.log("this.caseItem", this.caseItem);
           }
-        }).catch(err=>{
-          this.$vux.toast.text(err.data.description)
+        })
+        .catch(err => {
+          this.$vux.toast.text(err.data.description);
         });
     },
     cancelFoo() {
@@ -585,8 +591,9 @@ export default {
             this.ListItem = res.data.result;
             console.log(this.ListItem);
           }
-        }).catch(err=>{
-          this.$vux.toast.text(err.data.description)
+        })
+        .catch(err => {
+          this.$vux.toast.text(err.data.description);
         });
     }
   },
@@ -697,6 +704,7 @@ $line_color: #ebebeb;
   width: 100%;
   padding-top: rem(20);
   margin: 0 auto;
+  padding-bottom: rem(70);
 }
 
 .list_content {
@@ -799,6 +807,11 @@ $line_color: #ebebeb;
   // border-top:1px solid $line_color;
   padding-top: rem(25);
   padding-bottom: rem(25);
+  .tit_content{
+    img{
+      width: 100%;
+    }
+  }
 }
 
 .remark_bottom {
