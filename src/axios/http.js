@@ -17,7 +17,7 @@ const Axios = axios.create({
 // 本地
 // let _openId = 'oIXMh1WTDzb_n4DB5Lt7Vm-gy0MY' || 'oIXMh1VEa5aVgPbCEHCshFT7t19I'
 // 线上 测试
-let _openId = 'oIXMh1WTDzb_n4DB5Lt7Vm-gy0MY'  //oIXMh1SNx49YZZfjVNLdzVejcrXE
+// let _openId = 'oIXMh1WTDzb_n4DB5Lt7Vm-gy0MY'  //oIXMh1SNx49YZZfjVNLdzVejcrXE
 
 //POST传参序列化(添加请求拦截器)
 Axios.interceptors.request.use(
@@ -29,7 +29,7 @@ Axios.interceptors.request.use(
       // config.data = JSON.stringify(config.data);
       // 温馨提示,若是贵公司的提交能直接接受json 格式,可以不用 qs 来序列化的
       // 序列化
-      // let _openId = localStorage.getItem('currentOpenId')
+      let _openId = localStorage.getItem('currentOpenId')
       console.log('config.data', config.data)
       config.data = config.data || {}
       if (_openId) {
