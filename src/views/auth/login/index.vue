@@ -132,7 +132,9 @@ export default {
                     qs.stringify(res.data.result)
                   );
                   // this.$router.push('/wxBind')
-                  this.$router.replace("/home/assetPackageList");
+                  setTimeout(() => {
+                    this.$router.replace("/home/assetPackageList");
+                  },500);
                 }
               })
               .catch(err => {
