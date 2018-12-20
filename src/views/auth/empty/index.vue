@@ -71,19 +71,22 @@ export default {
             // 个人中心显示用
             localStorage.setItem("$userInfo", qs.stringify(res.data.result));
             this.$router.replace("/home/assetPackageList");
-          }else if(res.data.code === "6667"){
-            console.log('res.data.code-',res.data.code);
-            this.$router.replace("login");
           }
+          // else if(res.data.code === "6667"){
+
+          //   this.$router.replace("login");
+          // }
         })
         .catch(err => {
-          // if (res.data.code === "6667") {
-          //   this.$router.replace("login");
-          // } else {
+
+          if (err.data.code === "6667") {
+              console.log('err.data.code-',err.data.code);
+            this.$router.replace("login");
+          }
+          // else {
           //   this.$vux.toast.text(err.data.description);
           //   this.$router.replace("login");
           // }
-          return false;
         });
     }
   },
