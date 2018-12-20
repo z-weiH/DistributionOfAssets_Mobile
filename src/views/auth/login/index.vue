@@ -256,7 +256,7 @@ html {
     background-image: url(~@/assets/img/mlogo.svg);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: rem(1) rem(1);
+    // background-position: rem(1) rem(1);
   }
   ul {
   }
