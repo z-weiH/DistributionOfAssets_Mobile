@@ -170,7 +170,7 @@
           // 变更案件状态 旧 0 已立案 1 未立案 2 已结案
           oldStatus : [],
           // 执行案号
-          courtCaseNo : '',
+          courtCaseNo : undefined,
           // 原因选择
           progressReason : [],
           // 还款金额
