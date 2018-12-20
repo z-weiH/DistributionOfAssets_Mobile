@@ -217,6 +217,7 @@
           query : {
             caseStatus : row.caseStatus,
             id : row.id,
+            repaymentAll : row.repaymentAll,
           },
         });
       },
