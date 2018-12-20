@@ -145,13 +145,14 @@
         </div>
       </div>
     </div>
-    <template v-if="ListItem.packageStatus == 2">
+    <template v-if="ListItem.packageStatus == 2 || ListItem.packageStatus == 3">
       <template v-for="(it,index) in ListItem.urlList">
         <div class="table_remark">
           <div class="tit">{{index+1}}、确认说明：</div>
           <div class="tit_text">{{it.reason}}</div>
           <div class="tit_content" v-if="it.attachFile">
-            <img :src="it.attachFile.replace(/http:|https:/g,'')">
+            <img @click="handleShowImg(index)" :src="it.attachFile.replace(/http:|https:/g,'')">
+            <previewer :ref="'previewer' + index" :list="imageFormat(ListItem.urlList)"></previewer>
           </div>
           <div class="tit_time">
             <span>确认时间：</span>
@@ -575,6 +576,15 @@ export default {
       //   });
       // });
     },
+    imageFormat(item){
+      return item.map(v=>{
+        return {src: v.attachFile}
+      })
+
+    },
+    handleShowImg(index){
+      this.$refs['previewer' + index][0].show(index);
+    },
     doQuery() {
       this.$vux.loading.show({
         text: "加载中"
@@ -809,7 +819,7 @@ $line_color: #ebebeb;
   padding-bottom: rem(25);
   .tit_content{
     img{
-      width: 100%;
+      width: 80%;
     }
   }
 }
