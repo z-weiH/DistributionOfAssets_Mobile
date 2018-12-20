@@ -67,19 +67,19 @@ export default {
         .post("/mobile/auto/login.htm")
         .then(res => {
           console.log("http自动登录传递-", res);
-          if (res.data.code === "6667") {
-            this.$router.replace("login");
-          } else if (res.data.code === "0000") {
+          if (res.data.code === "0000") {
             // 个人中心显示用
             localStorage.setItem("$userInfo", qs.stringify(res.data.result));
             this.$router.replace("/home/assetPackageList");
           }
         })
         .catch(err => {
-          this.$vux.toast.text(err.data.description);
-          // if (err.data.code === "6667") {
-          this.$router.replace("login");
-          // }
+          if (res.data.code === "6667") {
+            this.$router.replace("login");
+          } else {
+            this.$vux.toast.text(err.data.description);
+            this.$router.replace("login");
+          }
         });
     }
   },

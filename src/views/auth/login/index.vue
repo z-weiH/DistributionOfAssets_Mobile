@@ -249,7 +249,8 @@ html {
     height: rem(145);
     border-radius: 50%;
     // background-color: #003888;
-    background-color: #fff;
+    // background-color: #fff;
+    background-color: #eeeeee;
     background-image: url(~@/assets/img/mlogo.svg);
     background-repeat: no-repeat;
     background-size: cover;
