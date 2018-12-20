@@ -24,8 +24,8 @@ module.exports = {
         // target: 'http://192.168.30.64:3000',   // 本地node
         // target: 'http://192.168.30.17:7030', // 毛世桥``````
         // target : 'http://hzapi.arbexpress.cn' , // 正式环境
-        target: 'http://arbmobiletest.arbexpress.cn', // 分发系统 测试环境
-        // target: 'http://asset.arbexpress.cn', // 分发系统 正式环境
+        // target: 'http://arbmobiletest.arbexpress.cn', // 分发系统 测试环境
+        target: 'http://asset.arbexpress.cn', // 分发系统 正式环境
       },
     },
 
