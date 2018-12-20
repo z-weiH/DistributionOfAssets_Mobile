@@ -142,6 +142,7 @@
     },
     data() {
       return {
+        submitDisabled : false,
         dataList : [
           {
             // 案号
@@ -348,12 +349,16 @@
       },
       // 点击 提交
       handleSubmit() {
+        if(this.submitDisabled === true) {
+          return;
+        }
         if(this.$route.query.repaymentAll === '1') {
           return this.verifyMessageFn('款项已结清 无需继续操作');
         }
         let success = this.verifyFn();
         if(success) {
           console.log(this.ruleForm);
+          this.submitDisabled = true;
           this.$vux.loading.show();
           let form = {...this.ruleForm};
           // 处理提交数据格式
@@ -376,6 +381,7 @@
             },1500);
           }).catch(() => {
             this.$vux.loading.hide();
+            this.submitDisabled = false;
           });
         }
       },
