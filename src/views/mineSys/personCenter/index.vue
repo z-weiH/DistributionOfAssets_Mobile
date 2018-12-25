@@ -2,7 +2,7 @@
   <div class="page">
     <div class="head_portrait">
       <div class="head_logo"></div>
-      <div class="more_link"></div>
+      <!-- <div class="more_link"></div> -->
     </div>
 
     <Group :gutter="0">
