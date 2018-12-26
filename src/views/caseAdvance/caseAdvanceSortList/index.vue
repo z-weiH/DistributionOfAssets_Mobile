@@ -59,13 +59,13 @@
             </flexbox-item>
           </flexbox>
 
-          <flexbox :gutter="0">
+          <!-- <flexbox :gutter="0">
             <flexbox-item>
               <div class="mcontent">
                 立案日期：{{item.recordDate.split(' ')[0]}}
               </div>
             </flexbox-item>
-          </flexbox>
+          </flexbox> -->
         </div>
         <div class="item-handle">
           <flexbox :gutter="0">
