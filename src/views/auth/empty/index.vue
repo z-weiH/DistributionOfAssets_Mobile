@@ -34,7 +34,7 @@ export default {
       manageUrl = `${mdomain_src}/mobile/openid/query.htm`; //后端逻辑接口
 
     const loginConfig = {
-      appid: "wx9f95c4206c9c49fc",//互仲公众号后台appid
+      appid: "wxd99c4b7a9221f0f3",//互仲公众号后台appid
       redirect_uri: manageUrl, // + '?param=' + _caseId + '?caseId=1535621810722'
       response_type: "code",
       scope: "snsapi_base"
