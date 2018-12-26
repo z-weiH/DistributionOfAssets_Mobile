@@ -28,13 +28,13 @@ export default {
       localStorage.setItem("currentOpenId", $openid);
     }
 
-    let mdomain_src = "http://courttest.arbexpress.cn", //测试代理域名test： http://swq.tunnel.qydev.com
+    let mdomain_src = "http://asset.arbexpress.cn", //测试代理域名test： http://swq.tunnel.qydev.com
       Tencent_WxCode_api =
         "https://open.weixin.qq.com/connect/oauth2/authorize?", //微信oauth-网页授权api地址
       manageUrl = `${mdomain_src}/mobile/openid/query.htm`; //后端逻辑接口
 
     const loginConfig = {
-      appid: "wxd99c4b7a9221f0f3",//互仲公众号后台appid
+      appid: "wx9f95c4206c9c49fc",//互仲公众号后台appid
       redirect_uri: manageUrl, // + '?param=' + _caseId + '?caseId=1535621810722'
       response_type: "code",
       scope: "snsapi_base"
