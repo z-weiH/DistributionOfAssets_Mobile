@@ -193,7 +193,7 @@
           </div>
         </template>
       </div>
-      <div class="remark_bottom">如有疑问，请联系工作人员：15669007971</div>
+      <!-- <div class="remark_bottom">如有疑问，请联系工作人员：15669007971</div> -->
     </template>
     <!-- end -->
     <template v-if="ListItem.packageStatus === 1">
