@@ -141,7 +141,7 @@
           <div>说明：</div>
           <div>请在确认收到邮寄材料后点击右下角“确认签收”；</div>
           <div>若发现资产包信息有误点击左下角“退回”。</div>
-          <div>如有疑问，请联系工作人员：费女士 13157055002</div>
+          <div>如有疑问，请联系工作人员：15669007971</div>
         </div>
       </div>
     </div>
@@ -193,7 +193,7 @@
           </div>
         </template>
       </div>
-      <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
+      <div class="remark_bottom">如有疑问，请联系工作人员：15669007971</div>
     </template>
     <!-- end -->
     <template v-if="ListItem.packageStatus === 1">
