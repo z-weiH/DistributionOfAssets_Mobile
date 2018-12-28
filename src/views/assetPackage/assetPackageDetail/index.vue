@@ -145,24 +145,57 @@
         </div>
       </div>
     </div>
-    <template v-if="ListItem.packageStatus == 2 || ListItem.packageStatus == 3">
-      <template v-for="(it,index) in ListItem.urlList">
-        <div class="table_remark">
-          <div class="tit">{{index+1}}、确认说明：</div>
-          <div class="tit_text">{{it.reason}}</div>
-          <div class="tit_content" v-if="it.attachFile">
-            <img @click="handleShowImg(index)" :src="it.attachFile.replace(/http:|https:/g,'')">
-            <previewer :ref="'previewer' + index" :list="imageFormat(ListItem.urlList)"></previewer>
+
+    <!-- 资产包操作记录 -->
+    <template v-if="ListItem.packageOperationLog">
+      <div class="table_remark">
+        <template v-for="(it,index) in ListItem.packageOperationLog">
+          <div v-if="it.status === 2">
+            <div class="tit">{{index+1}}、确认说明</div>
+            <div class="tit_text">
+              <span>操作详情：</span>
+              <span>{{it.notes}}</span>
+            </div>
+            <div class="tit_content">
+              <div class="tit">附件列表：</div>
+              <div v-for="(pic,idx) in it.pngUrl.split(',')" :key="idx">
+                <!-- <img @click="handleShowImg(idx)" :src="pic.replace(/http:|https:/g,'')">
+                <previewer
+                  :ref="'previewer' + idx"
+                  :list="imageFormat(it.pngUrl.split(','))"
+                ></previewer>-->
+                <img @click="showImagePreview(it.pngUrl.split(','))" :src="pic.replace(/http:|https:/g,'')">
+              </div>
+            </div>
+            <div class="tit_time">
+              <span>操作时间：</span>
+              <span>{{it.submitDate}}</span>
+            </div>
           </div>
-          <div class="tit_time">
-            <span>确认时间：</span>
-            <span>{{it.createTime}}</span>
+          <div v-if="it.status === 3">
+            <div class="tit">{{index+1}}、退回说明</div>
+            <div class="tit_text">
+              <span>操作详情：</span>
+              <span>{{it.notes}}</span>
+            </div>
+            <div class="tit_content">
+              <div class="tit">附件列表：</div>
+              <template v-for="(pic,idx) in it.pngUrl.split(',')">
+                <!-- <img @click="handleShowImg(idx)" :src="pic.replace(/http:|https:/g,'')">
+                <previewer :ref="'previewer' + idx" :list="imageFormat(it.pngUrl.split(','))"></previewer> -->
+                <img @click="showImagePreview(it.pngUrl.split(','))" :src="pic.replace(/http:|https:/g,'')">
+              </template>
+            </div>
+            <div class="tit_time">
+              <span>操作时间：</span>
+              <span>{{it.submitDate}}</span>
+            </div>
           </div>
-        </div>
-      </template>
+        </template>
+      </div>
       <div class="remark_bottom">如有疑问，请联系工作人员：费女士 13157055002</div>
     </template>
-
+    <!-- end -->
     <template v-if="ListItem.packageStatus === 1">
       <div class="bottom_opts">
         <div>
@@ -312,6 +345,8 @@
 <script type="text/ecmascript-6">
 import wx from "weixin-js-sdk";
 import BScroll from "better-scroll";
+import ImagePreview from 'vant/lib/image-preview';
+import 'vant/lib/image-preview/style';
 
 /****
  * @param parentRtParams 父路由传递参数对象
@@ -370,7 +405,7 @@ export default {
       // 主键
       this.parentRtParams.packageId = this.$route.query.packageId;
       // 状态
-      this.ListItem.packageStatus = this.$route.query.packageStatus;
+      // this.ListItem.packageStatus = this.$route.query.packageStatus;
       // 已过48小时状态
       this.parentRtParams.timeout = this.$route.query.timeout;
       // 用户登录信息
@@ -379,10 +414,10 @@ export default {
       this.com_rate = _users.type;
 
       console.log("用户称谓权限", this.com_rate);
-      console.log(
-        "ListItem.packageStatus--",
-        this.ListItem.packageStatus
-      );
+      // console.log(
+      //   "ListItem.packageStatus--",
+      //   this.ListItem.packageStatus
+      // );
     },
     getJsSDK() {
       console.log("getJsSDK");
@@ -576,14 +611,20 @@ export default {
       //   });
       // });
     },
-    imageFormat(item){
-      return item.map(v=>{
-        return {src: v.attachFile}
-      })
-
+    imageFormat(item) {
+      console.log("imageFormat-item", item);
+      return item.map(v => {
+        console.log("imageFormat:", v);
+        return { src: v.replace(/http:|https:/g, "") };
+      });
     },
-    handleShowImg(index){
-      this.$refs['previewer' + index][0].show(index);
+    showImagePreview(img) {
+      // console.log(img)
+      ImagePreview(img);
+    },
+    handleShowImg(index) {
+      console.log("index-showimg:", index);
+      this.$refs["previewer" + index][0].show(index);
     },
     doQuery() {
       this.$vux.loading.show({
@@ -817,9 +858,10 @@ $line_color: #ebebeb;
   // border-top:1px solid $line_color;
   padding-top: rem(25);
   padding-bottom: rem(25);
-  .tit_content{
-    img{
+  .tit_content {
+    img {
       width: 60px;
+      margin-right: rem(20);
     }
   }
 }
