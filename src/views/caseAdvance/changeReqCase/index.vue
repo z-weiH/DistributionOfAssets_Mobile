@@ -345,6 +345,9 @@
             return this.verifyMessageFn('请输入案件进展说明');
           }
         }
+        if(this.ruleForm.pngUrl.length === 0) {
+          return this.verifyMessageFn('请上传图片');
+        }
         return true;
       },
       // 点击 提交
