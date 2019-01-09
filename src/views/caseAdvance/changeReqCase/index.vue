@@ -70,8 +70,8 @@
             <popup-picker @on-change="handleReasonsForChoice" title="原因选择：" placeholder="请选择" :data="progressReasonSelects" v-model="ruleForm.progressReason" value-text-align="left" class="required"></popup-picker>
             <x-input disabled title="执行案号：" v-model="ruleForm.courtCaseNo"></x-input>
 
-            <!-- 请求变更为已结案-代理商法催回款 -->
-            <template v-if="markChange() === 1">
+            <!-- 请求变更为已结案-代理商法催回款 & 法院执行-->
+            <template v-if="markChange() === 1 || markChange() === 0">
               <x-input type="tel" title="还款金额：" v-model="ruleForm.repaymentAmt" class="required"></x-input>
               <popup-picker title="还款方式：" placeholder="请选择" :data="repaymentMethodSelects" v-model="ruleForm.repaymentMethod" value-text-align="left" class="required"></popup-picker>
             </template>
@@ -275,6 +275,8 @@
           mark = 3;
         }else if(newStatus === '已结案' && progressReason === '撤回立案（临）') {
           mark = 4;
+        }else if(newStatus === '已结案' && progressReason === '法院执行回款'){
+          mark = 0;
         }
         this.mark = mark;
         return mark;
