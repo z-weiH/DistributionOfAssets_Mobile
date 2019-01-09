@@ -1,113 +1,123 @@
 <template>
   <div class="case-advance-sort-list">
-    <!-- 筛选条件 -->
-    <div class="search-item">
-      <flexbox :gutter="0">
-        <flexbox-item v-for="(item,index) in searchList" :key="index">
-          <div
-            @click="handleActive(item,index)"
-            :class="{'search-active' : item.active}"
-            class="flex-demo"
-          >{{item.text}}</div>
-        </flexbox-item>
-      </flexbox>
-    </div>
+    <view-box ref="viewBox">
+      <!-- 筛选条件 -->
+      <div slot="header" class="search-item">
+        <flexbox :gutter="0">
+          <flexbox-item v-for="(item,index) in searchList" :key="index">
+            <div
+              @click="handleActive(item,index)"
+              :class="{'search-active' : item.active}"
+              class="flex-demo"
+            >{{item.text}}</div>
+          </flexbox-item>
+        </flexbox>
+      </div>
+      <scroller
+        :probeType="1"
+        :data="dataList"
+        :pulldown="true"
+        :pullup="true"
+        @scrollToEnd="loadMore"
+        @pulldown="refreshList"
+        :loadOver="loadOver"
+        :class="{'nodata' : dataList.length === 0}"
+      >
+        <!-- 列表 -->
+        <div class="item-list-box">
+          <div class="item-list" v-for="(item,index) in dataList" :key="index">
+            <div class="item-title">
+              <group :gutter="0" class="card_item">
+                <cell :border-intent="false" class="sub-item">
+                  <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
+                  <div v-if="item.caseStatus === 4" class="flag_btn green">已签收</div>
+                  <div v-if="item.caseStatus === 2" class="flag_btn gray">已结案</div>
+                  <div v-if="item.caseStatus === 1" class="flag_btn jdred">未立案</div>
+                  <div v-if="item.caseStatus === 0" class="flag_btn yellow">已立案</div>
+                </cell>
+              </group>
+            </div>
+            <div class="item-content">
+              <flexbox :gutter="0">
+                <flexbox-item>
+                  <div class="mcontent">申请人：{{item.arbApplicant}}</div>
+                </flexbox-item>
+                <flexbox-item>
+                  <div class="mcontent">被申请人：{{item.arbRespondent}}</div>
+                </flexbox-item>
+              </flexbox>
 
-    <scroller
-      class="weui-tab__panel vux-fix-safari-overflow-scrolling"
-      :probeType="1"
-      :data="dataList"
-      :pulldown="true"
-      :pullup="true"
-      @scrollToEnd="loadMore"
-      @pulldown="refreshList"
-      :loadOver="loadOver"
-      :class="{'nodata' : dataList.length === 0}"
-    >
-      <!-- 列表 -->
-      <div class="item-list-box">
-        <div class="item-list" v-for="(item,index) in dataList" :key="index">
-          <div class="item-title">
-            <group :gutter="0" class="card_item">
-              <cell :border-intent="false" class="sub-item">
-                <div slot="title" class="card_tit">案件：{{item.arbCaseNo}}</div>
-                <div v-if="item.caseStatus === 4" class="flag_btn green">已签收</div>
-                <div v-if="item.caseStatus === 2" class="flag_btn gray">已结案</div>
-                <div v-if="item.caseStatus === 1" class="flag_btn jdred">未立案</div>
-                <div v-if="item.caseStatus === 0" class="flag_btn yellow">已立案</div>
-              </cell>
-            </group>
-          </div>
-          <div class="item-content">
-            <flexbox :gutter="0">
-              <flexbox-item>
-                <div class="mcontent">申请人：{{item.arbApplicant}}</div>
-              </flexbox-item>
-              <flexbox-item>
-                <div class="mcontent">被申请人：{{item.arbRespondent}}</div>
-              </flexbox-item>
-            </flexbox>
+              <flexbox :gutter="0">
+                <flexbox-item>
+                  <div class="mcontent">案由：{{item.caseCause}}</div>
+                </flexbox-item>
+                <flexbox-item>
+                  <div class="mcontent">裁决金额：{{item.adjudicationAmt}}</div>
+                </flexbox-item>
+              </flexbox>
 
-            <flexbox :gutter="0">
-              <flexbox-item>
-                <div class="mcontent">案由：{{item.caseCause}}</div>
-              </flexbox-item>
-              <flexbox-item>
-                <div class="mcontent">裁决金额：{{item.adjudicationAmt}}</div>
-              </flexbox-item>
-            </flexbox>
-
-            <!-- <flexbox :gutter="0">
+              <!-- <flexbox :gutter="0">
             <flexbox-item>
               <div class="mcontent">
                 立案日期：{{item.recordDate.split(' ')[0]}}
               </div>
             </flexbox-item>
-            </flexbox>-->
+              </flexbox>-->
+            </div>
+            <div class="item-handle">
+              <flexbox :gutter="0">
+                <flexbox-item class="handle-btn">
+                  <a @click="handleSee(item,index)">进展查看</a>
+                </flexbox-item>
+                <flexbox-item class="handle-btn">
+                  <template
+                    v-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 0"
+                  >
+                    <span class="color-red">(款项未结清)</span>
+                    <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
+                  </template>
+                  <template
+                    v-else-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 1"
+                  >
+                    <span>(款项已结清)</span>
+                  </template>
+                  <template v-else-if="item.confirmedStatus === 0 || item.confirmedStatus === 2">
+                    <span class="color-yellow">(平台处理中)</span>
+                  </template>
+                  <template v-else>
+                    <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
+                  </template>
+                </flexbox-item>
+              </flexbox>
+            </div>
           </div>
-          <div class="item-handle">
-            <flexbox :gutter="0">
-              <flexbox-item class="handle-btn">
-                <a @click="handleSee(item,index)">进展查看</a>
-              </flexbox-item>
-              <flexbox-item class="handle-btn">
-                <template
-                  v-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 0"
-                >
-                  <span class="color-red">(款项未结清)</span>
-                  <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
-                </template>
-                <template
-                  v-else-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 1"
-                >
-                  <span>(款项已结清)</span>
-                </template>
-                <template v-else-if="item.confirmedStatus === 0 || item.confirmedStatus === 2">
-                  <span class="color-yellow">(平台处理中)</span>
-                </template>
-                <template v-else>
-                  <a @click="handleCaseAlteration(item,index)">请求案件变更</a>
-                </template>
-              </flexbox-item>
-            </flexbox>
-          </div>
-        </div>
 
-        <div v-if="dataList.length === 0" class="nfcase_panel">当前阶段暂无数据</div>
-      </div>
-    </scroller>
+          <div v-if="dataList.length === 0" class="nfcase_panel">当前阶段暂无数据</div>
+        </div>
+      </scroller>
+    </view-box>
   </div>
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, XButton, Group, Cell } from "vux";
+import {
+  Flexbox,
+  FlexboxItem,
+  XButton,
+  Group,
+  Cell,
+  XHeader,
+  ViewBox
+} from "vux";
 export default {
   components: {
     Flexbox,
     FlexboxItem,
     XButton,
     Group,
-    Cell
+    Cell,
+    XHeader,
+    ViewBox
   },
   data() {
     return {
