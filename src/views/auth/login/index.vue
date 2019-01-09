@@ -41,7 +41,7 @@
             placeholder="请输入密码"
             style="font-size:15px"
             ref="ipt1"
-            @blur="onBlur"
+            @blur.native="onBlur"
           ></x-input>
         </flexbox-item>
         <flexbox-item :span="4" class="error_holder">
