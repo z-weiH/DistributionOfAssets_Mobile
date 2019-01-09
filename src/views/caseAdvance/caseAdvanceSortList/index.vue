@@ -5,11 +5,13 @@
       <div slot="header" class="search-item">
         <flexbox :gutter="0">
           <flexbox-item v-for="(item,index) in searchList" :key="index">
-            <div
-              @click="handleActive(item,index)"
+            <v-touch
+              tag="a"
+              v-on:tap="handleActive(item,index)"
               :class="{'search-active' : item.active}"
-              class="flex-demo"
-            >{{item.text}}</div>
+            >
+              <div class="flex-demo">{{item.text}}</div>
+            </v-touch>
           </flexbox-item>
         </flexbox>
       </div>
@@ -272,6 +274,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
+body {
+  .search-item {
+    a {
+      color: #000;
+    }
+  }
+}
 .case-advance-sort-list {
   color: #333333;
   font-size: rem(23);
