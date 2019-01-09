@@ -96,6 +96,7 @@ export default {
   methods: {
     onBlur(){
       console.log("onBlur");
+      document.body.scrollTop = 0;
     },
     focusclick() {
       this.$refs.ipt0.focus();
