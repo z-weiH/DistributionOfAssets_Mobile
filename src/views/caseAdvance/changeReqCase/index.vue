@@ -63,7 +63,7 @@
           </template>
           <!-- 请求变更为未立案 -->
           <template v-if="markChange() === 6">
-            
+
           </template>
           <!-- 已结案4种状态 -->
           <template v-if="ruleForm.newStatus[0] && markChange() !== 5 && markChange() !== 6">
@@ -193,7 +193,7 @@
         ],
         // 原因选择 select
         progressReasonSelects : [
-          ['代理商法催回款','自主回款','终止本次执行（临）','撤回立案（临）']
+          ['法院执行回款','代理商法催回款','自主回款','终止本次执行（临）','撤回立案（临）']
         ],
         // 还款方式 select
         repaymentMethodSelects : [

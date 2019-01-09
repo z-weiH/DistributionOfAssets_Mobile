@@ -15,6 +15,7 @@
     </div>
 
     <scroller
+      class="weui-tab__panel vux-fix-safari-overflow-scrolling"
       :probeType="1"
       :data="ListItem"
       :pulldown="true"
@@ -172,7 +173,6 @@ export default {
       this.pager.currentNum = 1; //重置
       this.ListItem = []; //先清空-之前搜索结果
       this.doQuery();
-
     },
     loadMore() {
       if (this.loadOver === true) {
@@ -182,7 +182,7 @@ export default {
       this.doQuery("push");
     },
     refreshList() {
-      this.loadOver = false
+      this.loadOver = false;
       // 重置pager对象
       this.pager.currentNum = 1;
       this.pager.pageNum = 10;
@@ -301,5 +301,4 @@ export default {
     box-sizing: border-box;
   }
 }
-
 </style>
