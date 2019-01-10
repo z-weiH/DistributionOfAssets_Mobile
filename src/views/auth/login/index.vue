@@ -41,6 +41,7 @@
             placeholder="请输入密码"
             style="font-size:15px"
             ref="ipt1"
+            @on-blur="onBlur"
           ></x-input>
         </flexbox-item>
         <flexbox-item :span="4" class="error_holder">
@@ -93,6 +94,10 @@ export default {
     };
   },
   methods: {
+    onBlur(){
+      console.log("onBlur");
+      document.body.scrollTop = 0;
+    },
     focusclick() {
       this.$refs.ipt0.focus();
     },

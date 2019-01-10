@@ -1,106 +1,107 @@
 <template>
   <div class="page">
-    <div class="tab_card">
-      <Flexbox class="t_wrap" :gutter="0">
-        <template v-for="(it,index) in tabList">
-          <FlexboxItem>
-            <v-touch
-              tag="a"
-              v-on:tap="tabSearch(it,index)"
-              :class="{active: index === selected}"
-            >{{it.name}}</v-touch>
-          </FlexboxItem>
-        </template>
-      </Flexbox>
-    </div>
-
-    <scroller
-      :probeType="1"
-      :data="ListItem"
-      :pulldown="true"
-      :pullup="true"
-      @scrollToEnd="loadMore"
-      @pulldown="refreshList"
-      :loadOver="loadOver"
-    >
-      <!--BEGIN 暂无案件 -->
-      <div class="nfcase_panel" v-if="ListItem.length === 0">当前阶段暂无数据</div>
-      <div class="scroll_item_wrapper">
-        <template v-for="(it,index) in ListItem">
-          <Group :gutter="0" :class="['card_item',bgClass(it)]">
-            <Cell class="card_tit" :border-intent="false">
-              <span slot="title">{{it.clientName}}</span>
-              <template v-if="it.packageStatus == 1">
-                <slot>
-                  <template v-if="it.timeout == 'file'">
-                    <span class="f_red">已过48小时</span>
-                    <span class="flag_btn orange">待签收</span>
-                  </template>
-                  <template v-else>
-                    <span class="flag_btn yellow">待签收</span>
-                  </template>
-                </slot>
-              </template>
-              <template v-if="it.packageStatus == 2">
-                <slot>
-                  <span v-if="it.timeout == 'file'" class="f_red">已过48小时</span>
-                  <span class="flag_btn green">已确认</span>
-                </slot>
-              </template>
-              <template v-if="it.packageStatus == 3">
-                <slot>
-                  <span v-if="it.timeout == 'file'" class="f_red">已过48小时</span>
-                  <span class="flag_btn gray">已退回</span>
-                </slot>
-              </template>
-            </Cell>
-            <v-touch v-on:tap="gotoDetail(it)">
-              <Flexbox class="card_conts" :gutter="0" wrap="wrap">
-                <flexbox-item :span="1/3">
-                  <div class="flex_cont">
-                    <span>
-                      <em class="dollor">{{it.estimateAmt}}</em>
-                    </span>
-                    <span class="dollor">元</span>
-                  </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                  <div class="flex_cont">
-                    <span>{{it.caseQuantity}}</span>
-                  </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                  <div class="flex_cont">
-                    <span>{{it.entrustPeriod}}</span>
-                    <span>个月</span>
-                  </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                  <div class="flex_cont">
-                    <span>预计总标的金额</span>
-                  </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                  <div class="flex_cont">
-                    <span>案件量</span>
-                  </div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                  <div class="flex_cont">
-                    <span>委托期</span>
-                  </div>
-                </flexbox-item>
-              </Flexbox>
-            </v-touch>
-          </Group>
-        </template>
+    <view-box ref="viewBox" >
+      <div slot="header" class="tab_card">
+        <Flexbox class="t_wrap" :gutter="0">
+          <template v-for="(it,index) in tabList">
+            <FlexboxItem>
+              <v-touch
+                tag="a"
+                v-on:tap="tabSearch(it,index)"
+                :class="{active: index === selected}"
+              >{{it.name}}</v-touch>
+            </FlexboxItem>
+          </template>
+        </Flexbox>
       </div>
-    </scroller>
+      <scroller
+        :probeType="1"
+        :data="ListItem"
+        :pulldown="true"
+        :pullup="true"
+        @scrollToEnd="loadMore"
+        @pulldown="refreshList"
+        :loadOver="loadOver"
+      >
+        <!--BEGIN 暂无案件 -->
+        <div class="nfcase_panel" v-if="ListItem.length === 0">当前阶段暂无数据</div>
+        <div class="scroll_item_wrapper">
+          <template v-for="(it,index) in ListItem">
+            <Group :gutter="0" :class="['card_item',bgClass(it)]">
+              <Cell class="card_tit" :border-intent="false">
+                <span slot="title">{{it.clientName}}</span>
+                <template v-if="it.packageStatus == 1">
+                  <slot>
+                    <template v-if="it.timeout == 'file'">
+                      <span class="f_red">已过48小时</span>
+                      <span class="flag_btn orange">待签收</span>
+                    </template>
+                    <template v-else>
+                      <span class="flag_btn yellow">待签收</span>
+                    </template>
+                  </slot>
+                </template>
+                <template v-if="it.packageStatus == 2">
+                  <slot>
+                    <span v-if="it.timeout == 'file'" class="f_red">已过48小时</span>
+                    <span class="flag_btn green">已确认</span>
+                  </slot>
+                </template>
+                <template v-if="it.packageStatus == 3">
+                  <slot>
+                    <span v-if="it.timeout == 'file'" class="f_red">已过48小时</span>
+                    <span class="flag_btn gray">已退回</span>
+                  </slot>
+                </template>
+              </Cell>
+              <v-touch v-on:tap="gotoDetail(it)">
+                <Flexbox class="card_conts" :gutter="0" wrap="wrap">
+                  <flexbox-item :span="1/3">
+                    <div class="flex_cont">
+                      <span>
+                        <em class="dollor">{{it.estimateAmt}}</em>
+                      </span>
+                      <span class="dollor">元</span>
+                    </div>
+                  </flexbox-item>
+                  <flexbox-item :span="1/3">
+                    <div class="flex_cont">
+                      <span>{{it.caseQuantity}}</span>
+                    </div>
+                  </flexbox-item>
+                  <flexbox-item :span="1/3">
+                    <div class="flex_cont">
+                      <span>{{it.entrustPeriod}}</span>
+                      <span>个月</span>
+                    </div>
+                  </flexbox-item>
+                  <flexbox-item :span="1/3">
+                    <div class="flex_cont">
+                      <span>预计总标的金额</span>
+                    </div>
+                  </flexbox-item>
+                  <flexbox-item :span="1/3">
+                    <div class="flex_cont">
+                      <span>案件量</span>
+                    </div>
+                  </flexbox-item>
+                  <flexbox-item :span="1/3">
+                    <div class="flex_cont">
+                      <span>委托期</span>
+                    </div>
+                  </flexbox-item>
+                </Flexbox>
+              </v-touch>
+            </Group>
+          </template>
+        </div>
+      </scroller>
+    </view-box>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { Flexbox, FlexboxItem, Group, Cell } from "vux";
+import { Flexbox, FlexboxItem, Group, Cell, XHeader, ViewBox } from "vux";
 /****
  *@param ListItem 案件列表数据
  *@param selected 默认0 代表未选中
@@ -111,7 +112,9 @@ export default {
     Flexbox,
     FlexboxItem,
     Group,
-    Cell
+    Cell,
+    XHeader,
+    ViewBox
   },
   data() {
     return {
@@ -172,7 +175,6 @@ export default {
       this.pager.currentNum = 1; //重置
       this.ListItem = []; //先清空-之前搜索结果
       this.doQuery();
-
     },
     loadMore() {
       if (this.loadOver === true) {
@@ -182,7 +184,7 @@ export default {
       this.doQuery("push");
     },
     refreshList() {
-      this.loadOver = false
+      this.loadOver = false;
       // 重置pager对象
       this.pager.currentNum = 1;
       this.pager.pageNum = 10;
@@ -301,5 +303,4 @@ export default {
     box-sizing: border-box;
   }
 }
-
 </style>
