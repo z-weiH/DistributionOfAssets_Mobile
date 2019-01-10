@@ -316,7 +316,7 @@
               else if(obj.targetStatus === 1){ //请求未立案
                   obj.editState = 2;
               }else if(obj.targetStatus === 2){ //已结案
-                  if(obj.progressReason === '代理商法催回款'){
+                  if(obj.progressReason === '代理商法催回款' || obj.progressReason === '法院执行回款'){
                       obj.editState =3;
                   }else if(obj.progressReason === '自主回款'){
                       obj.editState = 4;
