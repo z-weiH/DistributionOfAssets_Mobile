@@ -164,7 +164,10 @@
                   :ref="'previewer' + idx"
                   :list="imageFormat(it.pngUrl.split(','))"
                 ></previewer>-->
-                <img @click="showImagePreview(it.pngUrl.split(','))" :src="pic.replace(/http:|https:/g,'')">
+                <img
+                  @click="showImagePreview(it.pngUrl.split(','))"
+                  :src="pic.replace(/http:|https:/g,'')"
+                >
               </div>
             </div>
             <div class="tit_time">
@@ -182,8 +185,11 @@
               <div class="tit">附件列表：</div>
               <template v-for="(pic,idx) in it.pngUrl.split(',')">
                 <!-- <img @click="handleShowImg(idx)" :src="pic.replace(/http:|https:/g,'')">
-                <previewer :ref="'previewer' + idx" :list="imageFormat(it.pngUrl.split(','))"></previewer> -->
-                <img @click="showImagePreview(it.pngUrl.split(','))" :src="pic.replace(/http:|https:/g,'')">
+                <previewer :ref="'previewer' + idx" :list="imageFormat(it.pngUrl.split(','))"></previewer>-->
+                <img
+                  @click="showImagePreview(it.pngUrl.split(','))"
+                  :src="pic.replace(/http:|https:/g,'')"
+                >
               </template>
             </div>
             <div class="tit_time">
@@ -345,8 +351,8 @@
 <script type="text/ecmascript-6">
 import wx from "weixin-js-sdk";
 import BScroll from "better-scroll";
-import ImagePreview from 'vant/lib/image-preview';
-import 'vant/lib/image-preview/style';
+import ImagePreview from "vant/lib/image-preview";
+import "vant/lib/image-preview/style";
 
 /****
  * @param parentRtParams 父路由传递参数对象
@@ -510,23 +516,36 @@ export default {
           this.$vux.toast.text(err.data.description);
         });
     },
+    PopupVerifyFn() {
+      //弹层 提交 校验逻辑
+      if (this.pngUrl.length === 0) {
+        return this.$vux.toast.show("请上传图片");
+      }
+      return true;
+    },
     confirmReceipt() {
       // 提交 - 签收
-      this.updateAssetPackStatus({
-        notes: this.sign_notes,
-        packageId: this.parentRtParams.packageId,
-        packageStatus: 2, //已确认
-        pngUrl: ""
-      });
+      let success = this.PopupVerifyFn();
+      if (success) {
+        this.updateAssetPackStatus({
+          notes: this.sign_notes,
+          packageId: this.parentRtParams.packageId,
+          packageStatus: 2, //已确认
+          pngUrl: ""
+        });
+      }
     },
     confirmSback() {
       // 提交 - 退回
-      this.updateAssetPackStatus({
-        notes: this.sendback_notes,
-        packageId: this.parentRtParams.packageId,
-        packageStatus: 3, //已退回
-        pngUrl: ""
-      });
+      let success = this.PopupVerifyFn();
+      if (success) {
+        this.updateAssetPackStatus({
+          notes: this.sendback_notes,
+          packageId: this.parentRtParams.packageId,
+          packageStatus: 3, //已退回
+          pngUrl: ""
+        });
+      }
     },
     showPopop(type) {
       // 显示popup层
