@@ -15,6 +15,40 @@
         <v-touch tag="a" v-on:tap class="h_btn grey">状态：已退回</v-touch>
       </template>
     </div>
+    <!-- 物流信息 -->
+    <div class="list_content">
+      <div class="list_title">物流信息</div>
+      <div class="list_wrap">
+        <Flexbox>
+          <flexbox-item :span="2/7">
+            <div class="flex_cont">物流公司：</div>
+          </flexbox-item>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.logisticsCompany}}</div>
+          </flexbox-item>
+        </Flexbox>
+        <Flexbox>
+          <flexbox-item :span="2/7">
+            <div class="flex_cont">物流单号：</div>
+          </flexbox-item>
+          <flexbox-item :span="7">
+            <div class="flex_cont">{{ListItem.logisticsNo}}</div>
+          </flexbox-item>
+        </Flexbox>
+        <Flexbox>
+          <flexbox-item :span="2/7">
+            <div class="flex_cont">附件截图：</div>
+          </flexbox-item>
+          <flexbox-item :span="7">
+            <div class="flex_cont">
+              <img class="zoompic" v-for="(it,index) in logisticsPng"
+              @click="showImagePreview(logisticsPng)" :src="it.replace(/http:|https:/g,'')">
+            </div>
+          </flexbox-item>
+        </Flexbox>
+      </div>
+    </div>
+    <!-- end -->
     <div class="list_content">
       <div class="list_title">基本信息</div>
       <div class="list_wrap">
@@ -74,12 +108,14 @@
           </flexbox-item>
           <flexbox-item :span="7">
             <div class="flex_cont">
-              <template v-if="ListItem.entrustPeriod.length != 39">{{ListItem.entrustPeriod}}</template>
+              <template
+                v-if="ListItem.entrustPeriod && ListItem.entrustPeriod.length != 39"
+              >{{ListItem.entrustPeriod}}</template>
               <template v-else>
-                {{this.$strStartToEnd(ListItem.entrustPeriod,'至')}}
+                {{ ListItem.entrustPeriod && this.$strStartToEnd(ListItem.entrustPeriod,'至')}}
                 <br>
                 <div>至</div>
-                {{this.$strSpecifyToEnd(ListItem.entrustPeriod,'至')}}
+                {{ ListItem.entrustPeriod && this.$strSpecifyToEnd(ListItem.entrustPeriod,'至')}}
               </template>
             </div>
           </flexbox-item>
@@ -302,7 +338,7 @@
         popupPosition="bottom"
         @open="open"
         @close="close"
-        class="b_popup"
+        class="b_popup caseListPanel"
       >
         <div class="popup_title">
           <div>案件查看</div>
@@ -367,7 +403,6 @@ import {
   Flexbox,
   FlexboxItem,
   XTable,
-  ViewBox,
   XInput,
   XTextarea,
   Group,
@@ -380,7 +415,6 @@ export default {
     Flexbox,
     FlexboxItem,
     XTable,
-    ViewBox,
     XTextarea,
     XInput,
     Group,
@@ -394,7 +428,11 @@ export default {
       show_casePanel: false,
       bscroll: null,
       parentRtParams: {},
-      ListItem: {},
+      logisticsPng:[],
+      ListItem: {
+        // 物流附件图片
+        // logisticsPng:[]
+      },
       pngUrl: [],
       caseItem: {},
       com_rate: null,
@@ -659,6 +697,7 @@ export default {
           if (res.data.code === "0000") {
             this.$vux.loading.hide();
             this.ListItem = res.data.result;
+            this.ListItem.logisticsPng ?this.logisticsPng = this.ListItem.logisticsPng.split(',') : '';
             console.log(this.ListItem);
           }
         })
@@ -686,24 +725,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
-.popup_uploader {
-  padding-top: rem(30);
-  padding-bottom: rem(68);
-  padding-left: rem(30);
-  padding-right: rem(30);
-  margin-bottom: rem(40);
-  @include clearfix;
-  .cameraImg {
-    width: rem(65);
-    height: rem(65);
-    background-image: url("~@/assets/img/uploadimg.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 0 0;
-    float: left;
-    margin-right: rem(20);
-  }
-}
+
 // 标题内容公共的padding样式
 %common_pdlf {
   padding-left: rem(30);
@@ -985,5 +1007,38 @@ body {
 .vtdom_casewrap {
   position: fixed;
   z-index: 1000;
+}
+// 可缩放图样式
+.zoompic{
+  width: 60px;
+  margin:0 rem(10);
+}
+</style>
+<style lang="scss">
+@import "@/assets/style/scss/helper/_mixin.scss";
+.caseListPanel {
+  .hahah123213123 {
+    height: 50vh;
+    overflow: auto;
+    .popup_title {
+      position: fixed !important;
+      width: 100%;
+      z-index: 1;
+    }
+    .popup_content {
+      height: 100%;
+    }
+    .popup_smalltit {
+      padding: rem(10) 0;
+      position: fixed;
+      width: 100%;
+      z-index: 1;
+      /* top: 35px; */
+      bottom: 40vh;
+    }
+    .popup_content {
+      padding-top: rem(150);
+    }
+  }
 }
 </style>

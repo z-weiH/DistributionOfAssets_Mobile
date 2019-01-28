@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <view-box ref="viewBox" >
+    <view-box ref="viewBox">
       <div slot="header" class="tab_card">
         <Flexbox class="t_wrap" :gutter="0">
           <template v-for="(it,index) in tabList">
@@ -92,16 +92,65 @@
                   </flexbox-item>
                 </Flexbox>
               </v-touch>
+              <flexbox :gutter="0">
+                <flexbox-item class="fs_btn">
+                  <v-touch tag="div" v-on:tap="showPopop('show_leaveMsg'),getCurrentItem(it)" class="linkA">发送留言</v-touch>
+                </flexbox-item>
+              </flexbox>
             </Group>
           </template>
         </div>
       </scroller>
     </view-box>
+    <!-- 留言 panel -->
+    <SlimPopup
+      :show.sync="show_leaveMsg"
+      :popupClass="['popup']"
+      popupTransition="slim-slide-in-bottom"
+      popupPosition="bottom"
+      @open="open"
+      @close="close"
+      class="b_popup"
+    >
+      <div class="popup_title">留言
+        <v-touch class="close-btn" tag="span" v-on:tap="cancelFoo"></v-touch>
+      </div>
+      <div class="popup_content">
+        <group :gutter="0">
+          <div slot="title" :border-intent="false">
+            <div class="popup_text">
+              <div>(遇到问题，可以在此发送留言至平台，工作人员知晓后会联系你们)</div>
+              <div>请上传截图</div>
+            </div>
+          </div>
+          <x-textarea :max="100" name="description" placeholder="备注说明100字以内" v-model="leave_msg"></x-textarea>
+          <div class="popup_uploader">
+            <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
+            <upload v-model="pngUrl" class="m-upload"></upload>
+          </div>
+        </group>
+      </div>
+      <div class="popop_ctrl">
+        <div>
+          <v-touch tag="a" class="optionBtn blueBtn" v-on:tap="confirmReceipt">确认提交</v-touch>
+        </div>
+      </div>
+    </SlimPopup>
+    <!-- end -->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { Flexbox, FlexboxItem, Group, Cell, XHeader, ViewBox } from "vux";
+import {
+  Flexbox,
+  FlexboxItem,
+  Group,
+  Cell,
+  XHeader,
+  ViewBox,
+  XTextarea
+} from "vux";
+import upload from "@/components/upload.vue";
 /****
  *@param ListItem 案件列表数据
  *@param selected 默认0 代表未选中
@@ -114,7 +163,9 @@ export default {
     Group,
     Cell,
     XHeader,
-    ViewBox
+    ViewBox,
+    upload,
+    XTextarea
   },
   data() {
     return {
@@ -124,6 +175,9 @@ export default {
       selected: 3,
       packageStatus: null,
       loadOver: false,
+      pngUrl: [],
+      show_leaveMsg: false,
+      leave_msg: "",
       tabList: [
         {
           name: "待签收",
@@ -151,10 +205,90 @@ export default {
         pageSize: 10,
         keyWord: ""
       },
+      // 主键
+      packageId:"",
       ListItem: []
     };
   },
   methods: {
+    scrollBottom(isBottom) {
+      /****
+       * 关闭滚动条-自动定位popup到页面底部
+       * @param isBottom {boolean}
+       * */
+      if (isBottom) {
+        // var ele = document.getElementsByTagName("html")[0];
+        // ele.scrollTop = ele.scrollHeight;
+        document.documentElement.style.overflowY = "hidden";
+      } else {
+        document.documentElement.style.overflowY = "auto";
+      }
+    },
+    open(val) {
+      console.log("open", val);
+      this.scrollBottom(true);
+    },
+    close(val) {
+      console.log("close", val);
+      this.scrollBottom(false);
+      // let _page = this.$refs.inside;
+      // console.log("_page", _page);
+      // _page.addEventListener("touchmove", function(e) {
+      //   _page.removeEventListener("touchmove", function(e) {
+      //     console.log("解绑-touchmove");
+      //   });
+      // });
+    },
+    getCurrentItem(it){
+      // 获取遍历列表的主键id 和其它键
+      this.packageId = it.packageId
+
+    },
+    showPopop(type) {
+      // 显示留言popup层
+      if (type == "show_leaveMsg") {
+        this.show_leaveMsg = true;
+      }
+    },
+    cancelFoo() {
+      // 隐藏popup层
+      if (this.show_leaveMsg) {
+        // 留言
+        this.show_leaveMsg = false;
+      }
+    },
+    PopupVerifyFn() {
+      //弹层 提交 校验逻辑
+      if (this.pngUrl.length === 0) {
+        return this.$vux.toast.show("请上传图片");
+      }else if(this.leave_msg === ''){
+        return this.$vux.toast.show("请填写留言");
+      }
+      return true;
+    },
+    confirmReceipt() {
+      // 提交 - 留言
+      // targetType->1=case，2=package
+      let success = this.PopupVerifyFn();
+      if (success) {
+        this.$http.post('/mobile/message/leave.htm',{
+          content:this.leave_msg,
+          imgUrls:this.pngUrl.join(','),
+          targetId:this.packageId,
+          targetType:2
+        }).then(res=>{
+          console.log(res);
+          if(res.data.code === '0000'){
+            this.cancelFoo();
+            this.$vux.toast.text('发送留言成功!')
+            // 清空当前留言的输入文本
+            this.pngUrl = [];
+            this.packageId = "";
+            this.leave_msg = "";
+          }
+        })
+      }
+    },
     // 点击筛选条件
     handleActive(item, index) {
       this.searchList = this.searchList.map((v, k) => {
@@ -282,6 +416,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
+$def_fontColor: rgb(0, 56, 136);
 .page {
   color: #333333;
   background-color: #eeeeee;
@@ -301,6 +436,24 @@ export default {
   height: calc(100% - 1.09333rem);
   * {
     box-sizing: border-box;
+  }
+}
+
+.fs_btn {
+  text-align: center;
+  .linkA {
+    background-color: #fff;
+    font-size: rem(16);
+    padding: rem(15) 0;
+    color: $def_fontColor;
+    border-top: 1px solid #efefef;
+  }
+}
+.b_popup{
+  .popop_ctrl{
+    a{
+      color:#fff;
+    }
   }
 }
 </style>

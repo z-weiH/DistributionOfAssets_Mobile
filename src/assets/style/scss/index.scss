@@ -1,15 +1,15 @@
-@import "./helper/mixin"; //scss方法混合宏
-@import "./base/cssAnimate"; //css3动画
-@import "./base/body";
-@import "./base/font";
-@import "./component/searchbar"; //全局搜索组件
+@import './helper/mixin'; //scss方法混合宏
+@import './base/cssAnimate'; //css3动画
+@import './base/body';
+@import './base/font';
+@import './component/searchbar'; //全局搜索组件
 /* 资产分发系统定制部件样式 */
 
-@import "./component/table"; //表格
-@import "./component/button"; //按钮
-@import "./component/tabHeader"; //顶部tab选项卡
-@import "./component/cardItem"; //卡片
-@import "./component/slimPopup"; //bottom-popup
+@import './component/table'; //表格
+@import './component/button'; //按钮
+@import './component/tabHeader'; //顶部tab选项卡
+@import './component/cardItem'; //卡片
+@import './component/slimPopup'; //bottom-popup
 /* end */
 
 %wys_ib {
@@ -27,7 +27,7 @@
 
 body {
   background-color: #eeeeee;
-  >div {
+  > div {
     &#app {
       min-height: auto;
       height: 100%;
@@ -182,13 +182,13 @@ body {
   /* a标签 样式 _不带下划线 */
   .fn-a {
     cursor: pointer;
-    color: #0F357F;
+    color: #0f357f;
   }
   a {
-    color: #0F357F;
+    color: #0f357f;
   }
   a:visited {
-    color: #0F357F;
+    color: #0f357f;
   }
 }
 
@@ -251,15 +251,15 @@ body {
       color: #003888 !important;
     }
   }
-  $yel:#F0B300;
+  $yel: #f0b300;
   .f_yel {
     color: $yel;
   }
-  $gry:#999999;
+  $gry: #999999;
   .f_grey {
     color: $gry;
   }
-  $red: #D63333;
+  $red: #d63333;
   .f_red {
     color: $red;
   }
@@ -274,21 +274,22 @@ body {
   width: 100%;
   height: rem(80);
   line-height: rem(80);
-  border: 1px solid #EEEEEE;
+  border: 1px solid #eeeeee;
 }
 
 .blueBtn {
   background-color: #274185;
 }
 
-.redBtn {}
+.redBtn {
+}
 
 .greyBtn {
   background-color: #666666;
 }
 
 .greenBtn {
-  background-color: #379E23;
+  background-color: #379e23;
 }
 
 .whiteBtn {
@@ -438,7 +439,8 @@ body {
     }
   }
   tbody {
-    tr {}
+    tr {
+    }
     td {
       line-height: 1.5;
       padding: rem(8) rem(10);
@@ -457,7 +459,7 @@ body {
 
 .linkB {
   text-decoration: none;
-  color: #0F357F;
+  color: #0f357f;
 }
 
 /* end */
@@ -468,7 +470,7 @@ body {
 
 .weui-tab__panel {
   // padding-bottom: rem(100) !important;
-  padding-bottom: 0!important;
+  padding-bottom: 0 !important;
 }
 
 body {
@@ -482,3 +484,60 @@ body {
     height: auto !important;
   }
 }
+
+/* popup中包含（textarea、upload、button-group）的公共样式 */
+
+.popup_uploader {
+  padding-top: rem(30);
+  padding-bottom: rem(68);
+  padding-left: rem(30);
+  padding-right: rem(30);
+  margin-bottom: rem(40);
+  @include clearfix;
+  .cameraImg {
+    width: rem(65);
+    height: rem(65);
+    background-image: url('~@/assets/img/uploadimg.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 0 0;
+    float: left;
+    margin-right: rem(20);
+  }
+}
+
+/* end */
+
+/* form表单-必填心号样式 */
+
+.must_fill {
+  &:before {
+    content: '*';
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 2px;
+    font-size: 12px;
+    color: #e4393c;
+  }
+}
+
+/* end */
+
+/* fix: picker 组件ui的层级始终在最顶层 */
+
+body {
+  .vux-popup-mask {
+    &.vux-popup-show {
+      z-index: 2000 !important;
+    }
+  }
+  .v-transfer-dom {
+    .vux-popup-dialog {
+      &.vux-popup-picker {
+        z-index: 2001 !important;
+      }
+    }
+  }
+}
+
+/* end */
