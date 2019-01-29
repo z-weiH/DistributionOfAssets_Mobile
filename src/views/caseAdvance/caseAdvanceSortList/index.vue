@@ -8,11 +8,10 @@
             <div class="div1">
               <x-input
                 type="text"
-                @keyup.13="searchFoo"
+                @keyup.native.13="searchFoo"
                 v-model="searchWords"
                 placeholder="搜索:仲裁案号/执行案号/被申请人姓名"
               ></x-input>
-              <!-- <input type="text" @keyup.13="searchFoo" v-model="searchWords" placeholder="搜索:仲裁案号/执行案号/被申请人姓名"> -->
             </div>
             <div class="div2" @click="searchFoo">
               <span class="ico_search"></span>
