@@ -6,7 +6,13 @@
         <div class="search_bar">
           <div class="search_panel">
             <div class="div1">
-              <input type="text" placeholder="搜索:仲裁案号/执行案号/被申请人姓名">
+              <x-input
+                type="text"
+                @keyup.13="searchFoo"
+                v-model="searchWords"
+                placeholder="搜索:仲裁案号/执行案号/被申请人姓名"
+              ></x-input>
+              <!-- <input type="text" @keyup.13="searchFoo" v-model="searchWords" placeholder="搜索:仲裁案号/执行案号/被申请人姓名"> -->
             </div>
             <div class="div2" @click="searchFoo">
               <span class="ico_search"></span>
@@ -160,12 +166,32 @@
                   </Flexbox>
                 </FlexboxItem>
                 <FlexboxItem :span="6" class="flex_def_btn">
-                  <x-button
-                    mini
-                    plain
-                    style="border-radius:99px;"
-                    @click.native="getCurrentItem(item),showPopop('show_mandates')"
-                  >申请延长委托期</x-button>
+                  <template v-if="item.delayStatus == 0">
+                    <x-button mini style="border-radius:99px;" :gradients="['#666','#666']">延期申请审核中</x-button>
+                  </template>
+                  <template v-else-if="item.delayStatus == 1">
+                    <x-button
+                      mini
+                      style="border-radius:99px;"
+                      :gradients="['#1D975E','#1D975E']"
+                    >延期申请通过</x-button>
+                  </template>
+                  <template v-else-if="item.delayStatus == 2">
+                    <x-button
+                      mini
+                      plain
+                      style="border-radius:99px;"
+                      @click.native="getCurrentItem(item),showCustomModal('rejectModal')"
+                    >查看驳回原因</x-button>
+                  </template>
+                  <template v-else>
+                    <x-button
+                      mini
+                      plain
+                      style="border-radius:99px;"
+                      @click.native="getCurrentItem(item),showPopop('show_mandates')"
+                    >申请延长委托期</x-button>
+                  </template>
                 </FlexboxItem>
               </Flexbox>
             </div>
@@ -270,6 +296,32 @@
       </div>
     </SlimPopup>
     <!-- end -->
+    <!-- 查看驳回原因modal -->
+    <div v-transfer-dom>
+      <x-dialog
+        v-model="rejectModal"
+        hide-on-blur
+        :dialog-style="{'max-width': '100%', width: '100%', height: '50%', 'background-color': 'transparent'}"
+      >
+        <div class="modal_customer">
+          <div class="modal_title">查看驳回原因
+            <x-icon @click.native="rejectModal = false" type="ios-close-outline" style="fill:#fff;"></x-icon>
+          </div>
+          <div class="modal_content">{{modalContent}}</div>
+          <div class="modal_ctrl">
+            <Flexbox :gutter="0">
+              <FlexboxItem :span="6">
+                <v-touch tag="a" class="sure" v-on:tap="modal_sure">重新申请</v-touch>
+              </FlexboxItem>
+              <FlexboxItem :span="6">
+                <v-touch tag="a" class="cancel" v-on:tap="modal_cancel">暂时不申请</v-touch>
+              </FlexboxItem>
+            </Flexbox>
+          </div>
+        </div>
+      </x-dialog>
+    </div>
+    <!-- end -->
   </div>
 </template>
 
@@ -285,7 +337,9 @@ import {
   ViewBox,
   XTextarea,
   Confirm,
-  PopupPicker
+  PopupPicker,
+  XInput,
+  XDialog
 } from "vux";
 import upload from "@/components/upload.vue";
 
@@ -305,10 +359,13 @@ export default {
     upload,
     XTextarea,
     Confirm,
-    PopupPicker
+    PopupPicker,
+    XInput,
+    XDialog
   },
   data() {
     return {
+      searchWords: "",
       loadOver: false,
       pngUrl: [],
       show_leaveMsg: false,
@@ -326,8 +383,12 @@ export default {
         // 延长理由
         mandates_msg: "",
         // 延长期时间
-        targetEntrustPeriod: "",
+        targetEntrustPeriod: ""
       },
+      // 驳回原因modal
+      rejectModal: false,
+      // 自定义弹出层文本内容
+      modalContent: "",
       searchList: [
         {
           text: "全部",
@@ -391,6 +452,12 @@ export default {
   methods: {
     searchFoo() {
       // 搜索条搜索方法
+      console.log("searchFoo");
+      if (this.searchWords === "") {
+        this.$vux.toast.show("请输入搜索关键字");
+      } else {
+        this.initTableList();
+      }
     },
     scrollBottom(isBottom) {
       /****
@@ -420,6 +487,13 @@ export default {
       //   });
       // });
     },
+    modal_sure() {
+      this.rejectModal = false;
+      this.showPopop("show_mandates");
+    },
+    modal_cancel() {
+      this.rejectModal = false;
+    },
     getCurrentItem(it) {
       console.log("it--------------", it);
       // 获取遍历列表的主键id 和其它键
@@ -427,6 +501,15 @@ export default {
       // 委托期赋值
       this.mandatesForm.targetEntrustPeriod = it.entrustPeriod;
       console.log("委托期赋值", this.mandatesForm.targetEntrustPeriod);
+      // 驳回原因内容
+      this.modalContent = it.content;
+    },
+    showCustomModal(type) {
+      // 显示自定义模态框
+      if (type == "rejectModal") {
+        // 查看驳回内容
+        this.rejectModal = true;
+      }
     },
     showPopop(type) {
       // 显示留言popup层
@@ -436,9 +519,9 @@ export default {
         this.show_mandates = true;
         // 渲染委托期select数据
         let def_wtq = this.mandatesForm.targetEntrustPeriod;
-        let arr = [`${def_wtq}个月`,`${def_wtq+1}个月`];
+        let arr = [`${def_wtq}个月`, `${def_wtq + 1}个月`];
         this.mandates_picker.push(arr);
-        console.log('this.mandates_picker',this.mandates_picker);
+        console.log("this.mandates_picker", this.mandates_picker);
       }
     },
     cancelFoo() {
@@ -448,25 +531,31 @@ export default {
         this.show_leaveMsg = false;
       } else if (this.show_mandates) {
         this.show_mandates = false;
+        // 清除上一次缓存的延长期表单数据
+        this.mandates_picker = [];
+        this.mandatesForm.mandates = [];
+        this.mandatesForm.imgUrls = [];
+        this.mandatesForm.mandates_msg = "";
+        this.mandatesForm.targetEntrustPeriod = "";
       }
     },
     leaveMsgPopupVsFn() {
       //弹层 提交 校验逻辑
-      if (this.pngUrl.length === 0 ) {
+      if (this.pngUrl.length === 0) {
         return this.$vux.toast.show("请上传图片");
       } else if (this.leave_msg === "") {
         return this.$vux.toast.show("请填写留言");
       }
       return true;
     },
-    mandatesPopupVsFn(){
+    mandatesPopupVsFn() {
       // 申请延期委托表单验证
-      console.log('this.mandatesForm.mandates,',this.mandatesForm.mandates);
-      if(this.mandatesForm.mandates_msg === ""){
+      console.log("this.mandatesForm.mandates,", this.mandatesForm.mandates);
+      if (this.mandatesForm.mandates_msg === "") {
         return this.$vux.toast.show("请填写延长理由");
-      }else if(this.mandatesForm.imgUrls.length === 0){
+      } else if (this.mandatesForm.imgUrls.length === 0) {
         return this.$vux.toast.show("请上传图片");
-      }else if(this.mandatesForm.mandates.length === 0){
+      } else if (this.mandatesForm.mandates.length === 0) {
         return this.$vux.toast.show("请填写延期时间");
       }
       return true;
@@ -496,28 +585,35 @@ export default {
       }
     },
     http_mandates() {
-      console.log('-----http_mandates');
+      console.log("-----http_mandates");
       let success = this.mandatesPopupVsFn();
-      console.log('blloo-',success);
+      console.log("blloo-", success);
       if (success) {
-        console.log('success----');
-        this.$http.post('/mobile/case/delay.htm',{
-          content: this.mandatesForm.mandates_msg,
-          imgUrls: this.mandatesForm.imgUrls.join(','),
-          targetEntrustPeriod: this.mandatesForm.mandates[0].replace(/个月/g,''),
-          targetId:this.caseProgressId
-        }).then(res=>{
-          console.log(res);
-          if (res.data.code === "0000") {
-            this.cancelFoo();
-             this.$vux.toast.text("成功!");
-             // 清空延长期popup数据
-            this.mandatesForm.mandates = [];
-            this.mandatesForm.imgUrls = [];
-            this.mandatesForm.mandates_msg = "";
-            this.mandatesForm.targetEntrustPeriod = "";
-          }
-        })
+        console.log("success----");
+        this.$http
+          .post("/mobile/case/delay.htm", {
+            content: this.mandatesForm.mandates_msg,
+            imgUrls: this.mandatesForm.imgUrls.join(","),
+            targetEntrustPeriod: this.mandatesForm.mandates[0].replace(
+              /个月/g,
+              ""
+            ),
+            targetId: this.caseProgressId
+          })
+          .then(res => {
+            console.log(res);
+            if (res.data.code === "0000") {
+              this.cancelFoo();
+              this.$vux.toast.text("成功!");
+              // 清空延长期popup数据
+              this.mandatesForm.mandates = [];
+              this.mandatesForm.imgUrls = [];
+              this.mandatesForm.mandates_msg = "";
+              this.mandatesForm.targetEntrustPeriod = "";
+              // 重新请求列表数据
+              this.initTableList();
+            }
+          });
       }
     },
     confirmPopup(type) {
@@ -528,7 +624,7 @@ export default {
           break;
         case "show_mandates":
           // 提交 - 延长委托
-          console.log('--------------show_manda');
+          console.log("--------------show_manda");
           this.http_mandates();
         default:
           break;
@@ -600,6 +696,7 @@ export default {
         url: "/mobile/queryCaseProgressInfo.htm",
         method: "post",
         data: {
+          keyWord: this.searchWords, //搜索条件
           pageSize: this.pageSize,
           currentNum: this.currentPage,
           caseStatus: this.searchList.filter(v => v.active)[0].value
@@ -732,6 +829,9 @@ body {
     }
     .div1 {
       padding: 0 10px;
+      > div {
+        background-color: #fff;
+      }
     }
     .div2 {
       width: rem(55);
@@ -806,6 +906,43 @@ body {
   padding: rem(12) rem(6);
   button {
     font-size: rem(12);
+  }
+}
+.modal_customer {
+  margin: 0 rem(100);
+  font-size: 14px;
+  background-color: #fff;
+  .modal_title {
+    background-color: #cfcfcf;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    [type="ios-close-outline"] {
+      margin: auto;
+      position: absolute;
+      right: 5px;
+      top: 0;
+      bottom: 0;
+    }
+  }
+  .modal_content {
+    padding: 30px 10px;
+    min-height: 13vh;
+  }
+  .modal_ctrl {
+    a {
+      display: block;
+      text-align: center;
+      color: #fff;
+      height: 35px;
+      line-height: 35px;
+      &.sure {
+        background-color: #0f357f;
+      }
+      &.cancel {
+        background-color: #1d975e;
+      }
+    }
   }
 }
 </style>
