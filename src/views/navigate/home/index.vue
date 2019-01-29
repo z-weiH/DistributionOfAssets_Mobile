@@ -5,23 +5,23 @@
       <router-view></router-view>
       <!-- 底部选项卡 -->
       <div v-if="handleMenu !==false">
-      <m-tabbar v-model="select" slot="bottom" v-transfer-dom>
-        <m-tabbar-item id="tab1" class="tab_zcb" link="/home/assetPackageList">
-          <img src="~@/assets/img/hui01.png" alt slot="icon-normal">
-          <img src="~@/assets/img/lan01.png" alt slot="icon-active">
-          资产包
-        </m-tabbar-item>
-        <m-tabbar-item id="tab2" class="tab_jz" link="/home/caseAdvanceSortList">
-          <img src="~@/assets/img/hui02.png" alt slot="icon-normal">
-          <img src="~@/assets/img/lan02.png" alt slot="icon-active">
-          案件进展
-        </m-tabbar-item>
-        <m-tabbar-item id="tab3" class="tab_mine" link="/home/personCenter">
-          <img src="~@/assets/img/hui03.png" alt slot="icon-normal">
-          <img src="~@/assets/img/lan03.png" alt slot="icon-active">
-          我的
-        </m-tabbar-item>
-      </m-tabbar>
+        <m-tabbar v-model="select" slot="bottom" v-transfer-dom>
+          <m-tabbar-item id="tab1" class="tab_zcb" link="/home/assetPackageList">
+            <img src="~@/assets/img/hui01.png" alt slot="icon-normal">
+            <img src="~@/assets/img/lan01.png" alt slot="icon-active">
+            资产包
+          </m-tabbar-item>
+          <m-tabbar-item id="tab2" class="tab_jz" link="/home/caseAdvanceSortList">
+            <img src="~@/assets/img/hui02.png" alt slot="icon-normal">
+            <img src="~@/assets/img/lan02.png" alt slot="icon-active">
+            案件进展
+          </m-tabbar-item>
+          <m-tabbar-item id="tab3" class="tab_mine" link="/home/personCenter">
+            <img src="~@/assets/img/hui03.png" alt slot="icon-normal">
+            <img src="~@/assets/img/lan03.png" alt slot="icon-active">
+            我的
+          </m-tabbar-item>
+        </m-tabbar>
       </div>
     </view-box>
   </div>
@@ -44,44 +44,55 @@ export default {
       openId: "",
       defaultSrc: "/home/assetPackageList",
       select: "tab1", //默认选择tab,
-      linkArr:['/home/assetPackageList','/home/caseAdvanceSortList','/home/personCenter'],
-      handleMenu : '',
+      linkArr: [
+        "/home/assetPackageList",
+        "/home/caseAdvanceSortList",
+        "/home/personCenter"
+      ],
+      handleMenu: ""
     };
   },
-  methods: {
-
-
-  },
+  methods: {},
   watch: {
     $route(to, from) {
       console.log("$route------", to.path);
-      this.handleMenu = to.meta.handleMenu;
-      if(to.path === this.linkArr[0]){
-        this.select = 'tab1'
-      }else if(to.path === this.linkArr[1]){
-        this.select = 'tab2'
-      }else if(to.path === this.linkArr[2]){
-        this.select = 'tab3'
-      }
+      this.selectOnTab(to, from);
     }
-  },
-  beforeCreate() {
-    console.log("beforeCreate");
   },
   beforeRouteEnter(to, from, next) {
     console.log("beforeRouteEnter", to.path);
     // ...
     next();
   },
+  beforeCreate() {
+    console.log("beforeCreate");
+  },
   beforeMount() {
     // this.$router.replace(`${this.defaultSrc}`);
+    console.log("self.hash", location);
+    let _hash = location.hash;
+    let hashUrl = _hash.substr(1, _hash.length);
+    let _index = this.$contains(this.linkArr, hashUrl);
+    console.log("_index:", _index);
+    let _tab = "tab";
+    this.select = _tab + (_index + 1);
   },
-  created() {
-
-  },
+  created() {},
   mounted() {
     this.handleMenu = this.$route.meta.handleMenu;
   },
+  methods: {
+    selectOnTab(to, from) {
+      this.handleMenu = to.meta.handleMenu;
+      if (to.path === this.linkArr[0]) {
+        this.select = "tab1";
+      } else if (to.path === this.linkArr[1]) {
+        this.select = "tab2";
+      } else if (to.path === this.linkArr[2]) {
+        this.select = "tab3";
+      }
+    }
+  }
 };
 </script>
 

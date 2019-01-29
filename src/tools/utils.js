@@ -56,13 +56,13 @@ const isAndroid = () => {
 }
 
 // 从指定字符位置开始截取到末尾
-const strSpecifyToEnd = (obj,font) => {
+const strSpecifyToEnd = (obj, font) => {
   var index = obj.lastIndexOf(font)
   var obj = obj.substring(index + 1, obj.length)
   return obj
 }
 // 从0位置到指定位置
-const strStartToEnd = (obj,font) => {
+const strStartToEnd = (obj, font) => {
   var index = obj.lastIndexOf(font)
   var obj = obj.substring(0, index)
   return obj
@@ -106,6 +106,22 @@ const setSession = (key, value) => {
     sessionStorage.setItem(key, value)
   }
 }
+
+/**********************
+ * 获取某个元素下标
+ * arrays  : 传入的数组
+ * obj     : 需要获取下标的元素
+ **************/
+const contains = (arrays, obj) => {
+  var i = arrays.length
+  while (i--) {
+    if (arrays[i] === obj) {
+      return i
+    }
+  }
+  return false
+}
+
 // hack fixed vConsole error
 const toJSON = () => {
   return false
@@ -125,3 +141,4 @@ Vue.prototype.$setSession = setSession
 Vue.prototype.toJSON = toJSON
 Vue.prototype.$strSpecifyToEnd = strSpecifyToEnd
 Vue.prototype.$strStartToEnd = strStartToEnd
+Vue.prototype.$contains = contains

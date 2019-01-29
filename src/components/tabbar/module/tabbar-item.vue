@@ -32,9 +32,14 @@ export default {
     },
     link: [String, Object]
   },
+  watch: {
+    '$route.path'(newVal, oldVal) {
+      console.log('watch:',newVal);
+    }
+  },
   computed: {
     isActive() {
-      console.log('this.$parent.value',this.$parent.value)
+      console.log("this.$parent.value", this.$parent.value);
       if (this.$parent.value === this.id) {
         return true;
       }
@@ -51,7 +56,7 @@ export default {
       // let oo = getUrl(this.link, this.$router);
       // console.log("oo", oo);
       // console.log("切换", this.$router);
-    },
+    }
   },
   components: {}
 };
