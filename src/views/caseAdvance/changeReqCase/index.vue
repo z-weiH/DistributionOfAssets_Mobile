@@ -227,6 +227,8 @@ export default {
       // 原因选择 select
       progressReasonSelects: [
         [
+          "恢复执行",
+          "不予执行",
           "法院执行回款",
           "代理商法催回款",
           "自主回款",
