@@ -518,7 +518,14 @@ export default {
         this.show_mandates = true;
         // 渲染委托期select数据
         let def_wtq = this.mandatesForm.targetEntrustPeriod;
-        let arr = [`${def_wtq}个月`, `${def_wtq + 1}个月`];
+        let _num = def_wtq;
+        let arr = [];
+        for (var i = 0; _num < 12; i++) {
+          _num += 1;
+          arr.push(_num);
+        }
+        arr.splice(0, 0, def_wtq);
+        // let arr = [`${def_wtq}个月`, `${def_wtq + 1}个月`];
         this.mandates_picker.push(arr);
         console.log("this.mandates_picker", this.mandates_picker);
       }
