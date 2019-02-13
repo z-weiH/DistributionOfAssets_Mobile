@@ -524,7 +524,7 @@ export default {
           _num += 1;
           arr.push(`${_num}个月`);
         }
-        arr.splice(0, 0, `${def_wtq}个月`);
+        // arr.splice(0, 0, `${def_wtq}个月`);
         // let arr = [`${def_wtq}个月`, `${def_wtq + 1}个月`];
         this.mandates_picker.push(arr);
         console.log("this.mandates_picker", this.mandates_picker);
@@ -547,10 +547,8 @@ export default {
     },
     leaveMsgPopupVsFn() {
       //弹层 提交 校验逻辑
-      if (this.pngUrl.length === 0) {
-        return this.$vux.toast.show("请上传图片");
-      } else if (this.leave_msg === "") {
-        return this.$vux.toast.show("请填写留言");
+      if (this.pngUrl.length === 0 && this.leave_msg === '') {
+        return this.$vux.toast.show("请上传图片或留言");
       }
       return true;
     },

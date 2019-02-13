@@ -259,10 +259,8 @@ export default {
     },
     PopupVerifyFn() {
       //弹层 提交 校验逻辑
-      if (this.pngUrl.length === 0) {
-        return this.$vux.toast.show("请上传图片");
-      }else if(this.leave_msg === ''){
-        return this.$vux.toast.show("请填写留言");
+      if (this.pngUrl.length === 0 && this.leave_msg === '') {
+        return this.$vux.toast.show("请上传图片或留言");
       }
       return true;
     },
