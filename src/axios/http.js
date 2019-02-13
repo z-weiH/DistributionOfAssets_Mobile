@@ -135,18 +135,22 @@ Axios.interceptors.response.use(
 Axios.interceptors.response.use(
   res => {
     // 返回结果中不同code情况的处理
-    if (res.data && res.data.code === '1001 ') {
-      Vue.prototype.instance.$vux.toast.show('参数异常')
-    } else if (res.data && res.data.code === '6667') {
-      console.log('token失效或错误')
-      // Vue.prototype.instance.$vux.toast.show('token失效或错误')
-    } else if (res.data && res.data.code === '2001') {
-      Vue.prototype.instance.$vux.toast.show('业务异常')
-    } else if (res.data && res.data.code === '2001') {
-      Vue.prototype.instance.$vux.toast.show('系统异常')
-    }
+    // if (res.data && res.data.code === '1001 ') {
+    //   Vue.prototype.instance.$vux.toast.show('参数异常')
+    // } else if (res.data && res.data.code === '6667') {
+    //   console.log('token失效或错误')
+    //   // Vue.prototype.instance.$vux.toast.show('token失效或错误')
+    // } else if (res.data && res.data.code === '2001') {
+    //   Vue.prototype.instance.$vux.toast.show('业务异常')
+    // } else if (res.data && res.data.code === '2001') {
+    //   Vue.prototype.instance.$vux.toast.show('系统异常')
+    // }
+    // if(res.data.code !== '0000') {
+    //   return Promise.reject(res);
+    // }
     if(res.data.code !== '0000') {
-      return Promise.reject(res);
+      console.log('--------',res.data.code)
+      return Promise.reject(res) && Vue.prototype.instance.$vux.toast.show(res.data.description)
     }
     return res
   },

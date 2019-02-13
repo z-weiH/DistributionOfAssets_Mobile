@@ -459,10 +459,9 @@ export default {
           .catch(res => {
             this.$vux.loading.hide();
             this.submitDisabled = false;
-            if(res.data.code != '0000'){
-              this.verifyMessageFn(res.data.description)
-            }
-
+            // if(res.data.code != '0000'){
+            //   this.verifyMessageFn(res.data.description)
+            // }
           });
       }
     }
