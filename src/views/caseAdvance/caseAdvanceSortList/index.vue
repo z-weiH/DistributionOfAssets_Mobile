@@ -522,9 +522,9 @@ export default {
         let arr = [];
         for (var i = 0; _num < 12; i++) {
           _num += 1;
-          arr.push(_num);
+          arr.push(`${_num}个月`);
         }
-        arr.splice(0, 0, def_wtq);
+        arr.splice(0, 0, `${def_wtq}个月`);
         // let arr = [`${def_wtq}个月`, `${def_wtq + 1}个月`];
         this.mandates_picker.push(arr);
         console.log("this.mandates_picker", this.mandates_picker);

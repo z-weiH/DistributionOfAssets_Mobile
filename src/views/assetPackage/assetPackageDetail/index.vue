@@ -16,7 +16,7 @@
       </template>
     </div>
     <!-- 物流信息 -->
-    <div class="list_content">
+    <div class="list_content" v-if="ListItem.packageStatus == 0">
       <div class="list_title">物流信息</div>
       <div class="list_wrap">
         <Flexbox>
