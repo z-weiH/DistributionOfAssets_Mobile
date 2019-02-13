@@ -185,6 +185,7 @@
                   </template>
                   <template v-else>
                     <x-button
+                      v-if="item.repaymentAll == 0"
                       mini
                       plain
                       style="border-radius:99px;"
@@ -254,8 +255,8 @@
         <group :gutter="0">
           <div slot="title" :border-intent="false">
             <div class="popup_text">
-              <div>(如果发送需要延长委托期的案件，可以尝试在这里提出申请，经平台审核后将作出处理)</div>
-              <div>请上传截图</div>
+              <div>( 如果需要延长案件的委托期，可以尝试在这里提出申请，经平台审核后将作出处理 )</div>
+              <!-- <div>请上传截图</div> -->
             </div>
           </div>
           <group :gutter="0" label-width="4em" class="mandates_textarea">
