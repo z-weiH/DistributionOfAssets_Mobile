@@ -345,7 +345,11 @@ export default {
     },
     // 变更案件状态 change
     handleCaseStatusChange(val) {
-      console.log(val);
+      // 初始化变更案件状态
+      if (val[0] == null) {
+        this.ruleForm.newStatus = [];
+      }
+      console.log(" 变更案件状态 change ", val);
       if (val[0] === "已结案") {
         this.ruleForm.progressReason = ["代理商法催回款"];
         this.ruleForm.courtCaseNo = this.ruleForm.courtCaseNoDefault;
@@ -454,7 +458,6 @@ export default {
             setTimeout(() => {
               this.closePageFn();
             }, 1500);
-
           })
           .catch(res => {
             this.$vux.loading.hide();
