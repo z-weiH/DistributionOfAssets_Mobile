@@ -558,8 +558,6 @@ export default {
       console.log("this.mandatesForm.mandates,", this.mandatesForm.mandates);
       if (this.mandatesForm.mandates_msg === "") {
         return this.$vux.toast.show("请填写延长理由");
-      } else if (this.mandatesForm.imgUrls.length === 0) {
-        return this.$vux.toast.show("请上传图片");
       } else if (this.mandatesForm.mandates.length === 0) {
         return this.$vux.toast.show("请填写延期时间");
       }

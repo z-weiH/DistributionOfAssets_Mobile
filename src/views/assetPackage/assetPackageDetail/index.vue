@@ -16,7 +16,7 @@
       </template>
     </div>
     <!-- 物流信息 -->
-    <div class="list_content" v-if="ListItem.packageStatus == 0">
+    <div class="list_content" v-if="ListItem.packageStatus == 1">
       <div class="list_title">物流信息</div>
       <div class="list_wrap">
         <Flexbox>
@@ -41,8 +41,12 @@
           </flexbox-item>
           <flexbox-item :span="7">
             <div class="flex_cont">
-              <img class="zoompic" v-for="(it,index) in logisticsPng"
-              @click="showImagePreview(logisticsPng)" :src="it.replace(/http:|https:/g,'')">
+              <img
+                class="zoompic"
+                v-for="(it,index) in logisticsPng"
+                @click="showImagePreview(logisticsPng)"
+                :src="it.replace(/http:|https:/g,'')"
+              >
             </div>
           </flexbox-item>
         </Flexbox>
@@ -428,7 +432,7 @@ export default {
       show_casePanel: false,
       bscroll: null,
       parentRtParams: {},
-      logisticsPng:[],
+      logisticsPng: [],
       ListItem: {
         // 物流附件图片
         // logisticsPng:[]
@@ -697,7 +701,9 @@ export default {
           if (res.data.code === "0000") {
             this.$vux.loading.hide();
             this.ListItem = res.data.result;
-            this.ListItem.logisticsPng ?this.logisticsPng = this.ListItem.logisticsPng.split(',') : '';
+            this.ListItem.logisticsPng
+              ? (this.logisticsPng = this.ListItem.logisticsPng.split(","))
+              : "";
             console.log(this.ListItem);
           }
         })
@@ -1009,9 +1015,9 @@ body {
   z-index: 1000;
 }
 // 可缩放图样式
-.zoompic{
+.zoompic {
   width: 60px;
-  margin:0 rem(10);
+  margin: 0 rem(10);
 }
 </style>
 <style lang="scss">
