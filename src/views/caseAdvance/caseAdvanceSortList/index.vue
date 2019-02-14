@@ -113,9 +113,7 @@
             <div class="update_case_status">
               <Flexbox>
                 <FlexboxItem>
-                  <template
-                    v-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 0"
-                  >
+                  <template v-if="item.caseStatus === 2  && item.repaymentAll === 0">
                     <x-button
                       @click.native="handleCaseAlteration(item,index)"
                       type="primary"
@@ -124,11 +122,9 @@
                       <span class="color-red">(款项未结清)</span>更新案件状态
                     </x-button>
                   </template>
-                  <template
-                    v-else-if="item.caseStatus === 2 && (item.progressReason === '代理商法催回款' || item.progressReason === '自主回款') && item.repaymentAll === 1"
-                  >
+                  <template v-else-if="item.caseStatus === 2 && item.repaymentAll === 1">
                     <x-button disabled type="primary" :gradients="['#fff', '#fff']">
-                      <span>(款项已结清)</span>
+                      <span class="color-green">(款项已结清)</span>
                     </x-button>
                   </template>
                   <template v-else-if="item.confirmedStatus === 0 || item.confirmedStatus === 2">
@@ -185,7 +181,7 @@
                   </template>
                   <template v-else>
                     <x-button
-                      v-if="(!item.repaymentAll || item.repaymentAll != undefined && item.repaymentAll != 0) && item.caseStatus != 2 "
+                      v-if="item.repaymentAll != 1"
                       mini
                       plain
                       style="border-radius:99px;"
@@ -757,6 +753,9 @@ body {
   }
   .color-yellow {
     color: rgb(240, 179, 0);
+  }
+  .color-green {
+    color: green;
   }
   .color-red {
     color: rgb(204, 0, 0);
