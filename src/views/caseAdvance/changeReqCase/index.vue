@@ -74,7 +74,7 @@
                   <label class='weui-label' style='display: block; width: auto;'>立案时间：</label>
                 </div>"
             ></datetime>
-            <x-input title="执行案号：" v-model="ruleForm.courtCaseNo" class="required"></x-input>
+            <x-input title="执行案号：" v-model="ruleForm.courtCaseNo" type="text" class="required"></x-input>
           </template>
           <!-- 请求变更为未立案 -->
           <template v-if="markChange() === 6"></template>
@@ -89,7 +89,7 @@
               value-text-align="left"
               class="required"
             ></popup-picker>
-            <x-input disabled title="执行案号：" v-model="ruleForm.courtCaseNo"></x-input>
+            <x-input disabled title="执行案号：" v-model="ruleForm.courtCaseNo" type="text"></x-input>
 
             <!-- 请求变更为已结案-代理商法催回款 & 法院执行-->
             <template v-if="markChange() === 1 || markChange() === 0">
@@ -322,10 +322,7 @@ export default {
         mark = 5;
       } else if (newStatus === "未立案") {
         mark = 6;
-      } else if (
-        newStatus === "已结案" &&
-        progressReason === "渠道法催回款"
-      ) {
+      } else if (newStatus === "已结案" && progressReason === "渠道法催回款") {
         mark = 1;
       } else if (newStatus === "已结案" && progressReason === "自主回款") {
         mark = 2;
@@ -341,9 +338,9 @@ export default {
         mark = 4;
       } else if (newStatus === "已结案" && progressReason === "法院执行回款") {
         mark = 0;
-      } else if (newStatus === "已结案" && progressReason === "恢复执行"){
+      } else if (newStatus === "已结案" && progressReason === "恢复执行") {
         mark = 7;
-      } else if (newStatus === "已结案" && progressReason === "不予执行"){
+      } else if (newStatus === "已结案" && progressReason === "不予执行") {
         mark = 8;
       }
       this.mark = mark;
