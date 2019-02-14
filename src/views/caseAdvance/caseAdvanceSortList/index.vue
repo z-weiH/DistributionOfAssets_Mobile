@@ -185,7 +185,7 @@
                   </template>
                   <template v-else>
                     <x-button
-                      v-if="item.caseStatus != 2 && item.repaymentAll != 0"
+                      v-if="(!item.repaymentAll || item.repaymentAll != undefined && item.repaymentAll != 0) && item.caseStatus != 2 "
                       mini
                       plain
                       style="border-radius:99px;"
@@ -548,7 +548,7 @@ export default {
     },
     leaveMsgPopupVsFn() {
       //弹层 提交 校验逻辑
-      if (this.pngUrl.length === 0 && this.leave_msg === '') {
+      if (this.pngUrl.length === 0 && this.leave_msg === "") {
         return this.$vux.toast.show("请上传图片或留言");
       }
       return true;
