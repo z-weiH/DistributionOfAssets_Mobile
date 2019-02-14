@@ -219,7 +219,7 @@ export default {
         pngUrl: [],
         id: this.$route.query.id
       },
-      // 页面整体状态  1  已结案 法催还款 2 自主还款   3终止本次执行  4撤回立案  5以立案   6 未立案
+      // 页面整体状态  1  已结案 法催还款 2 自主还款   3终止本次执行  4撤回立案  5以立案   6 未立案  7恢复执行   8不予执行
       mark: "",
 
       // 状态变更 select
@@ -324,23 +324,27 @@ export default {
         mark = 6;
       } else if (
         newStatus === "已结案" &&
-        progressReason === "代理商法催回款"
+        progressReason === "渠道法催回款"
       ) {
         mark = 1;
       } else if (newStatus === "已结案" && progressReason === "自主回款") {
         mark = 2;
       } else if (
         newStatus === "已结案" &&
-        progressReason === "终止本次执行（临）"
+        progressReason === "终结本次执行（临）"
       ) {
         mark = 3;
       } else if (
         newStatus === "已结案" &&
-        progressReason === "撤回立案（临）"
+        progressReason === "撤回申请（临）"
       ) {
         mark = 4;
       } else if (newStatus === "已结案" && progressReason === "法院执行回款") {
         mark = 0;
+      } else if (newStatus === "已结案" && progressReason === "恢复执行"){
+        mark = 7;
+      } else if (newStatus === "已结案" && progressReason === "不予执行"){
+        mark = 8;
       }
       this.mark = mark;
       return mark;
@@ -353,7 +357,7 @@ export default {
       }
       console.log(" 变更案件状态 change ", val);
       if (val[0] === "已结案") {
-        this.ruleForm.progressReason = ["代理商法催回款"];
+        this.ruleForm.progressReason = ["渠道法催回款"];
         this.ruleForm.courtCaseNo = this.ruleForm.courtCaseNoDefault;
       } else {
         this.ruleForm.courtCaseNo = "";

@@ -185,7 +185,7 @@
                   </template>
                   <template v-else>
                     <x-button
-                      v-if="item.repaymentAll == 0"
+                      v-if="item.caseStatus != 2 && item.repaymentAll != 0"
                       mini
                       plain
                       style="border-radius:99px;"
