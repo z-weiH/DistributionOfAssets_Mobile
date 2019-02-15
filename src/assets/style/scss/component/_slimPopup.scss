@@ -5,6 +5,7 @@ body {
 
     .vue-slim-popup__mask {
       touch-action: none;
+      -webkit-transform: translate3d(0,0,0);
     }
     .vue-slim-popup__popup {
       // position: relative;
