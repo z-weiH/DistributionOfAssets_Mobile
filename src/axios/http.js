@@ -151,8 +151,6 @@ Axios.interceptors.response.use(
     if (res.data.code !== '0000') {
       console.log('--------', res.data.code)
       return Promise.reject(res) && Vue.prototype.instance.$vux.toast.show(res.data.description)
-    }else if (res.data.code === '6667') {
-      this.$router.replace('login')
     }
     return res
   },

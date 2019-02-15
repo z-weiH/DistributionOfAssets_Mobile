@@ -67,6 +67,9 @@ export default {
         .post("/mobile/auto/login.htm")
         .then(res => {
           console.log("http自动登录传递-", res);
+          if(!res){
+            this.$router.replace("login");
+          }
           if (res.data.code === "0000") {
             // 个人中心显示用
             localStorage.setItem("$userInfo", qs.stringify(res.data.result));
