@@ -71,9 +71,12 @@ export default {
             // 个人中心显示用
             localStorage.setItem("$userInfo", qs.stringify(res.data.result));
             this.$router.replace("/home/assetPackageList");
+          }else{
+            console.log('resresres',res)
           }
         })
         .catch(err => {
+          console.log('err---------',err);
           console.log("err.data.code-", err.data.code);
           this.$router.replace("login");
         });
