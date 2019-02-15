@@ -7,7 +7,6 @@
         :class="[c('__mask'), ...maskClass]"
         :style="maskStyle"
         @click="maskClick"
-        @touchmove.prevent="preventDefault"
       />
     </transition>
 
@@ -17,7 +16,7 @@
         ref="popup"
         :class="[c('__popup'), c(`__popup--${popupPosition}`), ...popupClass]"
         :style="popupStyle"
-         class="hahah123213123"
+        class="hahah123213123"
       >
         <slot/>
       </div>
@@ -32,12 +31,30 @@ export default {
   name: "SlimPopup",
   components: {},
   mixins: [mixin],
+  data(){
+    return {
+      preHandler:function(e){
+        e.preventDefault();
+      },
+    }
+  },
   watch: {
     show(val) {
       if (val) {
         this.$emit("open", val);
+        document.body.addEventListener(
+        "touchmove",
+        this.preHandler,
+        { passive: false }
+      ); //passive 参数不能省略，用来兼容ios和android
       } else {
         this.$emit("close", val);
+         console.log('show:hide')
+         document.body.removeEventListener(
+        "touchmove",
+        this.preHandler,
+        { passive: true }
+      ); //passive 参数不能省略，用来兼容ios和android
       }
     }
   },
@@ -95,12 +112,18 @@ export default {
     this.init();
   },
   methods: {
+    touchfix() {},
     // 初始化
-    init() {},
+    init() {
+      console.log('init************');
+
+    },
 
     // 隐藏
     hide() {
       this.$emit("update:show", false);
+
+
     },
 
     // 遮罩点击 handle
@@ -109,12 +132,16 @@ export default {
     },
 
     // 阻止默认事件
-    preventDefault() {}
+    preventDefault(e) {
+      console.log(e);
+      //  e.preventDefault();
+    }
   }
 };
 </script>
 
 <style lang="stylus">
+
 @import './stylus/index.stylus'
 $ = vue-slim-popup
 .{$}

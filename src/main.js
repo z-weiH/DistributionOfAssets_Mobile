@@ -20,6 +20,7 @@ Vue.use(VueTouch, {
 })
 import { SearchBar, SearchContext, Scroller, SlimPopup } from '@/components'
 
+Vue.use(SlimPopup)
 
 /* end */
 
@@ -47,9 +48,8 @@ _win.vConsole = new Vconsole()
 
 import { ToastPlugin, XButton, XInput, Previewer, TransferDom, Box, Toast, Alert,AlertPlugin,ConfirmPlugin,Countdown,Loading } from 'vux'
 
-// import SlimPopup from 'vue-slim-popup'
 
-Vue.use(SlimPopup)
+
 // 图片上传
 // import uploader from 'vue-easy-uploader'
 // let store = new Vuex.Store({})
