@@ -76,6 +76,7 @@ export default {
             this.$router.replace("/home/assetPackageList");
           }else{
             console.log('resresres',res)
+            this.$router.replace("login");
           }
         })
         .catch(err => {
