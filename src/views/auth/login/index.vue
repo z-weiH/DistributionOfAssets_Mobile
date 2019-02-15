@@ -105,7 +105,7 @@ export default {
       this.$refs.ipt1.focus();
     },
     loginInfoFoo() {
-      if (this.openId === "" || eval(this.openId) === null) {
+      if (this.openId === "" || this.openId === null) {
         // 如果openid丢失，页面重定向到 仲裁委关联页面
         this.$router.replace("/");
       } else {

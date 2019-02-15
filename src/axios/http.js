@@ -148,7 +148,7 @@ Axios.interceptors.response.use(
     // if(res.data.code !== '0000') {
     //   return Promise.reject(res)
     // }
-    if (res.data.code !== '0000') {
+    if (res.data.code !== '0000' && res.data.code !== '6667') {
       console.log('--------', res.data.code)
       return Promise.reject(res) && Vue.prototype.instance.$vux.toast.show(res.data.description)
     }
