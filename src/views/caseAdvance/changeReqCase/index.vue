@@ -69,7 +69,7 @@
               @on-confirm="onConfirm"
               @on-clear="clearValue"
               @on-hide="log('hide', $event)"
-              class="required"
+              class="required datepopuper"
               title="<div class='weui-cell__hd'>
                   <label class='weui-label' style='display: block; width: auto;'>立案时间：</label>
                 </div>"
@@ -391,8 +391,14 @@ export default {
       if (!this.ruleForm.newStatus[0]) {
         return this.verifyMessageFn("请选择案件变更状态");
       }
-
-      if (this.mark === 1) {
+      if (this.mark === 0) {
+        if (!this.ruleForm.repaymentAmt) {
+          return this.verifyMessageFn("请输入还款金额");
+        }
+        if (!this.ruleForm.repaymentMethod[0]) {
+          return this.verifyMessageFn("请选择还款方式");
+        }
+      } else if (this.mark === 1) {
         if (!this.ruleForm.repaymentAmt) {
           return this.verifyMessageFn("请输入还款金额");
         }
@@ -582,6 +588,11 @@ export default {
   .weui-label,
   .vux-popup-picker-placeholder {
     font-size: rem(23);
+  }
+}
+.datepopuper {
+  .vux-datetime-value {
+    text-align: left;
   }
 }
 </style>
