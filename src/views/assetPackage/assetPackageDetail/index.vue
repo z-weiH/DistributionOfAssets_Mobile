@@ -996,7 +996,7 @@ body {
 .slide-box {
   display: -webkit-box;
   overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
+  // -webkit-overflow-scrolling: touch;
 }
 .slide-item {
   width: 200px;
