@@ -541,3 +541,26 @@ body {
 }
 
 /* end */
+
+/* 列表item中状态按钮的样式 */
+body{
+  .page{
+    .flag_btn{
+    border:1px solid transparent;
+    font-size:12px;
+    }
+    .flex_def_btn{
+      button{
+        font-size:13px;
+      }
+    }
+    .update_case_status{
+      button{
+        font-size:14px;
+      }
+    }
+  }
+}
+
+
+/* end */

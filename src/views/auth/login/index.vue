@@ -105,7 +105,7 @@ export default {
       this.$refs.ipt1.focus();
     },
     loginInfoFoo() {
-      if (this.openId === "" || this.openId === null) {
+      if (this.openId === "" || eval(this.openId) === null) {
         // 如果openid丢失，页面重定向到 仲裁委关联页面
         this.$router.replace("/");
       } else {
@@ -227,6 +227,7 @@ export default {
   created() {
     // this.getArbIcoClass();
     this.openId = localStorage.getItem("currentOpenId");
+    console.log('this.openId',eval(this.openId) === null)
     // this.bindUserQuery() //账号是否绑定-检测
     this.arbName = qs.parse(localStorage.getItem("$arbname"))["shortName"];
   },

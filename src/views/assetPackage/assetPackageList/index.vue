@@ -441,7 +441,7 @@ $def_fontColor: rgb(0, 56, 136);
   text-align: center;
   .linkA {
     background-color: #fff;
-    font-size: rem(16);
+    font-size: 14px;
     padding: rem(15) 0;
     color: $def_fontColor;
     border-top: 1px solid #efefef;
