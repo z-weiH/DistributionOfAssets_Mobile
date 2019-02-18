@@ -28,7 +28,7 @@ export default {
       localStorage.setItem("currentOpenId", $openid);
     }
 
-    let mdomain_src = "http://court.arbexpress.cn", //测试代理域名test： http://swq.tunnel.qydev.com
+    let mdomain_src = "http://asset.arbexpress.cn", //测试代理域名test： http://swq.tunnel.qydev.com
       Tencent_WxCode_api =
         "https://open.weixin.qq.com/connect/oauth2/authorize?", //微信oauth-网页授权api地址
       manageUrl = `${mdomain_src}/mobile/openid/query.htm`; //后端逻辑接口
