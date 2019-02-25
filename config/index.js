@@ -27,6 +27,8 @@ module.exports = {
         // target: 'http://arbmobiletest.arbexpress.cn', // 分发系统 测试环境
         // target: 'http://courttest.arbexpress.cn', // 分发系统 测试环境
         target: 'http://asset.arbexpress.cn', // 分发系统 正式环境
+        // target: 'http://assettest.arbexpress.cn', // 分发系统 测试环境
+        // target: 'http://asset.arbexpress.cn', // 分发系统 正式环境
       },
     },
 
