@@ -425,11 +425,17 @@ export default {
           return this.verifyMessageFn("请输入执行案号");
         }
       } else if (this.mark === 6) {
-        if (!this.ruleForm.notes) {
+        // 未立案/已结案/已签收-必填，图片非必填
+        if(this.dataList.caseStatus === 1 || this.dataList.caseStatus === 2 || this.dataList.caseStatus === 4){
           return this.verifyMessageFn("请输入案件进展说明");
         }
+        // if (!this.ruleForm.notes) {
+        //   return this.verifyMessageFn("请输入案件进展说明");
+        // }
       }
-      if (this.ruleForm.pngUrl.length === 0) {
+      // if (this.ruleForm.pngUrl.length === 0) {
+      //已结案 和 已签收 图片必填
+      if (this.dataList.caseStatus === 2 || this.dataList.caseStatus === 4 ) {
         return this.verifyMessageFn("请上传图片");
       }
       return true;
