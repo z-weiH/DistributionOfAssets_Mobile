@@ -3,27 +3,29 @@
     <div class="item_card">
       <h1>案件阶段</h1>
       <div class="item_box">
-        <div
+        <v-touch
+          tag="div"
           :class="['item',{'on' : it.active }]"
           v-for="(it,index) in caseStatusItems"
           :key="index"
-          @click="onItemStatus('stage',index)"
-        >{{it.name}}</div>
+          v-on:tap="onItemStatus('stage',index)"
+        >{{it.name}}</v-touch>
       </div>
     </div>
     <div class="item_card">
       <h1>案件状态</h1>
       <div class="item_box">
-        <div
+        <v-touch
+          tag="div"
           :class="['item',{'on' : it.active }]"
           v-for="(it,index) in caseStatusTwoItems"
           :key="index"
-          @click="onItemStatus('state',index)"
-        >{{it.name}}</div>
+          v-on:tap="onItemStatus('state',index)"
+        >{{it.name}}</v-touch>
       </div>
     </div>
     <div class="ctrl_btns">
-      <div class="btn_confirm" @click="handleConfirm">确定</div>
+      <v-touch tag="div" v-on:tap="handleConfirm" class="btn_confirm">确定</v-touch>
     </div>
   </div>
 </template>
@@ -76,7 +78,7 @@ export default {
           break;
       }
     },
-    handleConfirm(){
+    handleConfirm() {
       // 确定状态-且隐藏当前组件
       this.$emit("close");
     }
@@ -91,6 +93,7 @@ $themeColor: #0f357f;
   background-color: #fff;
   position: relative;
   z-index: 1;
+  border-bottom: 1px solid #bcbcbc;
   .item_card {
     .item_box {
       clear: both;

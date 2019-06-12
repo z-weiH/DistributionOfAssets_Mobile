@@ -11,7 +11,7 @@
             <img src="~@/assets/img/lan01.png" alt slot="icon-active">
             资产包
           </m-tabbar-item>
-          <m-tabbar-item id="tab2" class="tab_jz" link="/home/caseAdvanceSortList">
+          <m-tabbar-item id="tab2" class="tab_jz" link="/home/caseProgressList">
             <img src="~@/assets/img/hui02.png" alt slot="icon-normal">
             <img src="~@/assets/img/lan02.png" alt slot="icon-active">
             案件进展
@@ -46,7 +46,7 @@ export default {
       select: "tab1", //默认选择tab,
       linkArr: [
         "/home/assetPackageList",
-        "/home/caseAdvanceSortList",
+        "/home/caseProgressList",
         "/home/personCenter"
       ],
       handleMenu: ""

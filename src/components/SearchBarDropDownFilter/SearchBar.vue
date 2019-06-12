@@ -2,7 +2,7 @@
   <div class="searchbar_wrap">
     <div class="searchbar_dropdown fr_c">
       <div>
-        <span class="ico_search" @click="handleSearch"></span>
+        <v-touch tag="span" v-on:tap="handleSearch"  class="ico_search"></v-touch>
       </div>
       <div>
         <x-input
@@ -13,7 +13,7 @@
         ></x-input>
       </div>
       <div>
-        <span class="ico_paragraph" @click="handleOpenDropDownFilter"></span>
+        <v-touch tag="span" v-on:tap="handleOpenDropDownFilter"  class="ico_paragraph"></v-touch>
       </div>
     </div>
     <transition name="fade">
@@ -89,7 +89,7 @@ export default {
 <style lang='scss' scoped type='text/css'>
 @import "@/assets/style/scss/helper/_mixin.scss";
 .searchbar_wrap {
-  position: relative;
+  // position: relative;
 }
 
 .ico_search {

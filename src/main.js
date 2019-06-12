@@ -45,9 +45,9 @@ import {
 Vue.use(WechatPlugin)
 // console.log(Vue.wechat) // 可以直接访问 wx 对象。
 /* eslint-disable no-unused-vars */
-import Vconsole from 'vconsole';
+/* import Vconsole from 'vconsole';
 const _win = window
-_win.vConsole = new Vconsole()
+_win.vConsole = new Vconsole() */
 
 import {
   ToastPlugin,
