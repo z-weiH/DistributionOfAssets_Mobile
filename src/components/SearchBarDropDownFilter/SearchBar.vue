@@ -8,7 +8,7 @@
         <x-input
           type="text"
           @keyup.native.13="handleSearch"
-          v-model="searchWords"
+          v-model="searchWord"
           :placeholder="placeholder"
         ></x-input>
       </div>
@@ -34,11 +34,14 @@ export default {
   components: {
     dropDownFilter
   },
+  watch:{
+    searchWord(val){
+      // console.log(oldVal,newVal)
+      this.$emit("change",val);
+    }
+  },
   props: {
-    searchWords: {
-      type: String,
-      default: ""
-    },
+    searchWords: {},
     placeholder: {
       type: String,
       default: "搜索:仲裁案号/执行案号/被执行人姓名"
@@ -61,7 +64,8 @@ export default {
   data() {
     return {
       //条件过滤器组件显示状态
-      show:false
+      show: false,
+      searchWord:this.searchWords
     };
   },
   methods: {
@@ -76,7 +80,7 @@ export default {
     },
     handleOpenDropDownFilter() {
       // 打开下拉过滤器
-      this.show = !this.show
+      this.show = !this.show;
     }
   }
 };
@@ -134,6 +138,4 @@ export default {
     // width: rem(580);
   }
 }
-
-
 </style>

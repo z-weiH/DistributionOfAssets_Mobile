@@ -6,6 +6,8 @@
         <SearchBarDropDown
           :caseStatusItems="caseStatusItems"
           :caseStatusTwoItems="caseStatusTwoItems"
+          :searchWords="searchWords"
+          @change="handleChangeInput"
         ></SearchBarDropDown>
       </div>
       <!-- end -->
@@ -61,8 +63,9 @@ export default {
   },
   data() {
     return {
+      searchWords: "",
       caseStatusItems: [
-        { code: "0", name: "待执行", active: false },//false
+        { code: "0", name: "待执行", active: false }, //false
         { code: "1", name: "执行中", active: false },
         { code: "2", name: "款物登记", active: false },
         { code: "3", name: "结案", active: false }
@@ -92,7 +95,12 @@ export default {
   },
   methods: {
     loadMore() {},
-    refreshList() {}
+    refreshList() {},
+    handleChangeInput(text) {
+      // input搜索文本改变
+      this.searchWords = text;
+      console.log(this.searchWords);
+    }
   }
 };
 </script>
