@@ -18,9 +18,15 @@ let VueTouch = require('vue-touch')
 Vue.use(VueTouch, {
   name: 'v-touch'
 })
-import { SearchBar, SearchContext, Scroller, SlimPopup } from '@/components'
+import {
+  SearchBar,
+  SearchContext,
+  Scroller,
+  SlimPopup,
+  SearchBarDropDown
+} from '@/components'
 
-Vue.use(SlimPopup)
+Vue.use(SlimPopup).use(SearchBar).use(SearchContext).use(Scroller).use(SearchBarDropDown);
 
 /* end */
 
@@ -32,13 +38,10 @@ Vue.use(Vtip.directive)
 // 工具函数调用
 Vue.prototype.$tip = Vtip.tip
 
-Vue.use(SearchBar);
-Vue.use(SearchContext);
-Vue.use(Scroller);
 
-
-
-import { WechatPlugin } from 'vux'
+import {
+  WechatPlugin
+} from 'vux'
 Vue.use(WechatPlugin)
 // console.log(Vue.wechat) // 可以直接访问 wx 对象。
 /* eslint-disable no-unused-vars */
@@ -46,7 +49,20 @@ import Vconsole from 'vconsole';
 const _win = window
 _win.vConsole = new Vconsole()
 
-import { ToastPlugin, XButton, XInput, Previewer, TransferDom, Box, Toast, Alert,AlertPlugin,ConfirmPlugin,Countdown,Loading } from 'vux'
+import {
+  ToastPlugin,
+  XButton,
+  XInput,
+  Previewer,
+  TransferDom,
+  Box,
+  Toast,
+  Alert,
+  AlertPlugin,
+  ConfirmPlugin,
+  Countdown,
+  Loading
+} from 'vux'
 
 
 

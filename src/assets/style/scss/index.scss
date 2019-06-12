@@ -1,7 +1,9 @@
 @import './helper/mixin'; //scss方法混合宏
 @import './base/cssAnimate'; //css3动画
+@import './base/transition';//vue过渡
 @import './base/body';
 @import './base/font';
+@import './base/base';//flex
 @import './component/searchbar'; //全局搜索组件
 /* 资产分发系统定制部件样式 */
 

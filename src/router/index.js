@@ -44,6 +44,8 @@ const Home = () => import('@/views/navigate/home')
 const CaseAdvanceSortList = () => import('@/views/caseAdvance/caseAdvanceSortList')
 const ChangeReqCase = () => import('@/views/caseAdvance/changeReqCase')
 const progressView = () => import('@/views/caseAdvance/progressView')
+const caseProgressList = ()=> import('@/views/caseAdvance/caseProgressList') //新版案件进展列表20190611
+const LogPage = () => import('@/views/caseAdvance/LogPage') //20190611-日志查看
 
 /*---------------资产包模块 assetPackage --------------*/
 const AssetPackageList = () => import('@/views/assetPackage/assetPackageList')
@@ -137,14 +139,34 @@ const routes = [
         },
       },
       {
-        path: 'assetPackageDetail',
-        name: 'assetPackageDetail',
-        component: AssetPackageDetail,
+        path: 'caseAdvanceSortList',
+        name: 'caseAdvanceSortList',
+        component: CaseAdvanceSortList,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '案件进展old',
+        },
+      },
+      {
+        path: 'caseProgressList',
+        name: 'caseProgressList',
+        component: caseProgressList,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '案件进展',
+        },
+      },
+      {
+        path: 'LogPage',
+        name: 'LogPage',
+        component: LogPage,
         meta: {
           keepAlive: false,
           requireAuth: true,
           handleMenu: false,
-          title: '资产包-详情',
+          title: '日志详情',
         },
       },
       {
