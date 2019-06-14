@@ -1,6 +1,6 @@
 <template>
   <div class="upload-box">
-    
+
     <input @change="handleUpload" ref="file" type="file" class="file" accept="image/*" />
     <flexbox :gutter="0">
       <flexbox-item :span="1/5" v-for="(item,index) in imgList" :key="index">
@@ -34,7 +34,7 @@
       // 上传最大数量
       max : {
         type : Number,
-        default : 3,
+        default : 1,
       },
       // 校验的文件 后缀
       accept : {
@@ -53,10 +53,10 @@
       },
     },
     watch : {
-      value(val) {
+      value:function(val) {
         this.imgList = val;
       },
-      imgList(val) {
+      imgList:function(val) {
         this.$emit('input',val);
       },
     },
@@ -94,7 +94,7 @@
 
         let formData = new FormData();
         formData.append("file",file);
-        this.$vux.loading.show();
+        // this.$vux.loading.show();
         this.$http({
           method : 'post',
           url : '/file/upload.htm',
@@ -104,13 +104,14 @@
         }).then((res) => {
           res = res.data;
           this.imgList.push(res.result);
-          this.$vux.loading.hide();
+          // this.$vux.loading.hide();
         }).catch(() => {
-          this.$vux.loading.hide();
+          // this.$vux.loading.hide();
         });
       },
       // 删除图片
       handleDeleteImg(index) {
+        console.log(this.imgList,index);
         this.imgList.splice(index,1);
       },
       // 显示图片

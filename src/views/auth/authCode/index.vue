@@ -69,15 +69,15 @@ export default {
 		},
 		getycodeFoo() {
 			if (this.loginName && this.loginName != '') {
-				this.$vux.loading.show({
-					text: '加载中',
-				})
+				// this.$vux.loading.show({
+				// 	text: '加载中',
+				// })
 				this.$http
 					.post('/web/sendAuthCode.htm', {
 						phone: this.loginName,
 					})
 					.then(res => {
-						this.$vux.loading.hide()
+						// this.$vux.loading.hide()
 						if (res.data.code === '0000') {
 							console.log('获取短信验证码：', res.data)
 							this.$vux.toast.text('短信发送成功!')

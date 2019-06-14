@@ -94,7 +94,11 @@
               </v-touch>
               <flexbox :gutter="0">
                 <flexbox-item class="fs_btn">
-                  <v-touch tag="div" v-on:tap="showPopop('show_leaveMsg'),getCurrentItem(it)" class="linkA">发送留言</v-touch>
+                  <v-touch
+                    tag="div"
+                    v-on:tap="showPopop('show_leaveMsg'),getCurrentItem(it)"
+                    class="linkA"
+                  >发送留言</v-touch>
                 </flexbox-item>
               </flexbox>
             </Group>
@@ -112,7 +116,8 @@
       @close="close"
       class="b_popup"
     >
-      <div class="popup_title">留言
+      <div class="popup_title">
+        留言
         <v-touch class="close-btn" tag="span" v-on:tap="cancelFoo"></v-touch>
       </div>
       <div class="popup_content">
@@ -206,7 +211,7 @@ export default {
         keyWord: ""
       },
       // 主键
-      packageId:"",
+      packageId: "",
       ListItem: []
     };
   },
@@ -239,10 +244,9 @@ export default {
       //   });
       // });
     },
-    getCurrentItem(it){
+    getCurrentItem(it) {
       // 获取遍历列表的主键id 和其它键
-      this.packageId = it.packageId
-
+      this.packageId = it.packageId;
     },
     showPopop(type) {
       // 显示留言popup层
@@ -259,7 +263,7 @@ export default {
     },
     PopupVerifyFn() {
       //弹层 提交 校验逻辑
-      if (this.pngUrl.length === 0 && this.leave_msg === '') {
+      if (this.pngUrl.length === 0 && this.leave_msg === "") {
         return this.$vux.toast.show("请上传图片或留言");
       }
       return true;
@@ -269,22 +273,24 @@ export default {
       // targetType->1=case，2=package
       let success = this.PopupVerifyFn();
       if (success) {
-        this.$http.post('/mobile/message/leave.htm',{
-          content:this.leave_msg,
-          imgUrls:this.pngUrl.join(','),
-          targetId:this.packageId,
-          targetType:2
-        }).then(res=>{
-          console.log(res);
-          if(res.data.code === '0000'){
-            this.cancelFoo();
-            this.$vux.toast.text('发送留言成功!')
-            // 清空当前留言的输入文本
-            this.pngUrl = [];
-            this.packageId = "";
-            this.leave_msg = "";
-          }
-        })
+        this.$http
+          .post("/mobile/message/leave.htm", {
+            content: this.leave_msg,
+            imgUrls: this.pngUrl.join(","),
+            targetId: this.packageId,
+            targetType: 2
+          })
+          .then(res => {
+            console.log(res);
+            if (res.data.code === "0000") {
+              this.cancelFoo();
+              this.$vux.toast.text("发送留言成功!");
+              // 清空当前留言的输入文本
+              this.pngUrl = [];
+              this.packageId = "";
+              this.leave_msg = "";
+            }
+          });
       }
     },
     // 点击筛选条件
@@ -298,9 +304,9 @@ export default {
       this.doQuery();
     },
     tabSearch(item, index) {
-      this.$vux.loading.show({
-        text: "加载中"
-      });
+      // this.$vux.loading.show({
+      //   text: "加载中"
+      // });
       this.loadOver = false;
       this.selected = index;
       this.packageStatus = item.packageStatus ? item.packageStatus : "";
@@ -336,9 +342,9 @@ export default {
     doQuery(plus, callback) {
       console.log("**************doQuery");
 
-      this.$vux.loading.show({
-        text: "加载中"
-      });
+      // this.$vux.loading.show({
+      //   text: "加载中"
+      // });
       // 资产包列表
       // rap:/46/mobile/queryAssetsList.htm
       // online:/mobile/queryAssetsList.htm
@@ -355,7 +361,7 @@ export default {
           // console.log(_data);
           console.log("eeee", res.data);
           if (res.data.code === "0000") {
-            this.$vux.loading.hide();
+            // this.$vux.loading.hide();
             res = res.data;
             this.pager.count = res.result.count;
 
@@ -381,9 +387,10 @@ export default {
             });
           }
         })
-        .catch(() => {
-          this.$vux.loading.hide();
-          this.$vux.toast.text(err.data.description);
+        .catch(err => {
+          // this.$vux.loading.hide();
+          console.log('catch-',err)
+          // this.$vux.toast.text(err.data.description);
         });
     },
     resetHeight() {
@@ -447,10 +454,10 @@ $def_fontColor: rgb(0, 56, 136);
     border-top: 1px solid #efefef;
   }
 }
-.b_popup{
-  .popop_ctrl{
-    a{
-      color:#fff;
+.b_popup {
+  .popop_ctrl {
+    a {
+      color: #fff;
     }
   }
 }

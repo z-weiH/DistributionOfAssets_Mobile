@@ -8,11 +8,16 @@ import App from './App'
 import errorHandle from './tools/errorHandle'
 import filters from './tools/filters'
 import './tools/utils'
+import store from "./tools/loading";
 
 //封装好的有拦截器的axios：this.$http
-import packedAxios from './axios/http'
+// import packedAxios from './axios/http'
 //使用this.$http代替封装好的axios
-Vue.use(packedAxios)
+// Vue.use(packedAxios)
+import "./axios";
+import axios from "axios";
+Vue.prototype.$http = axios;
+Vue.prototype.$http.defaults.withCredentials = true;
 
 let VueTouch = require('vue-touch')
 Vue.use(VueTouch, {
@@ -147,6 +152,7 @@ Vue.component('previewer', Previewer)
 
 /* eslint-disable no-new */
 Vue.prototype.instance = new Vue({
+  store,
   router,
   render: h => h(App)
 }).$mount('#app-box')

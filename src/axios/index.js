@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Axios from 'axios'
 import qs from 'qs'
+import store from "@/tools/loading";
 
 Axios.create({
   baseURL: '/', // 因为我本地做了反向代理
@@ -25,7 +26,9 @@ Axios.interceptors.request.use(
       // 序列化
       let _openId = localStorage.getItem('currentOpenId')
       if (_openId) {
-        let newdata = Object.assign(config.data, { token: _openId })
+        let newdata = Object.assign(config.data, {
+          token: _openId
+        })
         config.data = qs.stringify(newdata)
       } else {
         config.data = qs.stringify(config.data)
@@ -134,10 +137,21 @@ Axios.interceptors.request.use(
 // 错误处理
 Axios.interceptors.response.use(
   response => {
-    console.log(response, 'response')
-    const result = response.data
+    console.log("(*********************", response)
+    console.log("(*********************", typeof response.data)
+    if (typeof response.data === "string") {
+      console.log("string*********")
+      console.info("string***out*********", eval("(" + response.data + ")"))
+      let newJson = eval("(" + response.data + ")");
+      response.data = newJson;
+    } else if (typeof response.data === "object") {
+      console.log("object*********")
+      console.log("object***out*********", response.data)
+    }
+
+    const result = qs.parse(response).data
     // result.message = ''
-    console.log(result)
+    console.log('lanbjie-rrrrrr', result)
     // console.log('错误处理result ', result);
     // stateCode为0表示正常返回数据，其他情况表示有错误，错误信息由message提供
     // switch (result.stateCode) {
@@ -152,56 +166,59 @@ Axios.interceptors.response.use(
     //   default:
     //     break
     // }
-    const err = Object.create({})
-    // const err = result
-    err.data = result
-    err.response = response
-    if(result.code !== '0000') {
+    // const err = Object.create({})
+    // // const err = result
+    // err.data = result
+    // err.response = response
+    if (result.code !== '0000') {
       Vue.prototype.instance.$vux.toast.show(result.description)
       return Promise.reject(result);
     }
     // throw err
-
+    console.log(response, result, 'response')
     return response
   },
   err => {
-    console.log(err,'err');
-    // if (err && err.response) {
-    //   switch (err.response.status) {
-    //     case 400:
-    //       err.message = '请求错误'
-    //       break
-    //     case 404:
-    //       err.message = '请求地址不存在'
-    //       break
-    //     case 408:
-    //       err.message = '网络异常，请稍后重试[408]'
-    //       break
-    //     case 500:
-    //       err.message = '网络异常，请稍后重试[500]'
-    //       break
-    //     case 501:
-    //       err.message = '网络异常，请稍后重试[501]'
-    //       break
-    //     case 502:
-    //       err.message = '网络异常，请稍后重试[502]'
-    //       break
-    //     case 503:
-    //       err.message = '网络异常，请稍后重试[503]'
-    //       break
-    //     case 504:
-    //       err.message = '网络异常，请稍后重试[504]'
-    //       break
-    //     case 505:
-    //       err.message = '网络异常，请稍后重试[505]'
-    //       break
-    //     default:
-    //   }
-    // } else {
-    //   err.message = '网络异常，请稍后重试'
-    // }
+    console.log(err, 'err');
+    if (err && err.response) {
+      switch (err.response.status) {
+        case 400:
+          err.message = '请求错误'
+          break
+        case 404:
+          err.message = '请求地址不存在'
+          break
+        case 408:
+          err.message = '网络异常，请稍后重试[408]'
+          break
+        case 500:
+          err.message = '网络异常，请稍后重试[500]'
+          break
+        case 501:
+          err.message = '网络异常，请稍后重试[501]'
+          break
+        case 502:
+          err.message = '网络异常，请稍后重试[502]'
+          break
+        case 503:
+          err.message = '网络异常，请稍后重试[503]'
+          break
+        case 504:
+          err.message = '网络异常，请稍后重试[504]'
+          break
+        case 505:
+          err.message = '网络异常，请稍后重试[505]'
+          break
+        default:
+      }
+      store.commit('updateLoadingStatus', {
+        isLoading: false
+      })
+    } else {
+      err.message = '网络异常，请稍后重试'
+    }
 
-    // Vue.prototype.instance.$vux.toast.show(err.message)
+    Vue.prototype.instance.$vux.toast.show(err.message)
     return Promise.reject(err)
   }
 )

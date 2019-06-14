@@ -10,7 +10,7 @@ const Axios = axios.create({
   responseType: 'json',
   withCredentials: true, // 是否允许带cookie这些
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+    // 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
   // 'Content-Type': 'application/json;charset=utf-8',
   }
 })
@@ -33,9 +33,14 @@ Axios.interceptors.request.use(
       console.log('config.data', config.data)
       config.data = config.data || {}
       if (_openId) {
-        config.data.token = _openId
+
+        let newdata = Object.assign(config.data, { token: _openId })
+        // config.data.token = _openId
+        config.data = qs.stringify(newdata)
+      }else{
+
+        config.data = qs.stringify(config.data)
       }
-      config.data = qs.stringify(config.data)
     }
     // 若是有做鉴权token , 就给头部带上token
     // 若是需要跨站点,存放到 cookie 会好一点,限制也没那么多,有些浏览环境限制了 localstorage 的使用
@@ -51,6 +56,7 @@ Axios.interceptors.request.use(
     return config
   },
   error => {
+    console.log('error------------',error)
     // error 的回调信息,看贵公司的定义
     Vue.prototype.instance.$vux.toast.show(error && error.data.description)
     return Promise.reject(error)
@@ -134,6 +140,8 @@ Axios.interceptors.response.use(
 // 错误处理
 Axios.interceptors.response.use(
   res => {
+
+    console.log('xxxxxxxxxxxxxxxxxxx-',res)
     // 返回结果中不同code情况的处理
     // if (res.data && res.data.code === '1001 ') {
     //   Vue.prototype.instance.$vux.toast.show('参数异常')

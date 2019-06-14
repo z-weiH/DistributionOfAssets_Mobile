@@ -117,9 +117,9 @@ export default {
           } else if (this.password.length < 6) {
             this.$vux.toast.text("密码位数不对，请输入6～20位");
           } else {
-            this.$vux.loading.show({
-              text: "加载中"
-            });
+            // this.$vux.loading.show({
+            //   text: "加载中"
+            // });
             this.$http
               .post("/mobile/login.htm", {
                 loginName: this.$trim(this.loginName),
@@ -127,7 +127,7 @@ export default {
               })
               .then(res => {
                 if (res.data.code === "0000") {
-                  this.$vux.loading.hide();
+                  // this.$vux.loading.hide();
                   console.log(qs.stringify(res.data.result));
                   // let _username = this.$trim(this.loginName)
                   // let _pwd = this.password
@@ -143,7 +143,7 @@ export default {
                 }
               })
               .catch(err => {
-                this.$vux.loading.hide();
+                // this.$vux.loading.hide();
                 if (err.data.code === "1002") {
                   this.$vux.toast.text(err.data.description);
                 } else if (err.data.code === "6666") {

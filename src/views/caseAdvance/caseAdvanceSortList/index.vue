@@ -910,43 +910,7 @@ body {
     font-size: rem(12);
   }
 }
-.modal_customer {
-  margin: 0 rem(100);
-  font-size: 14px;
-  background-color: #fff;
-  .modal_title {
-    background-color: #cfcfcf;
-    height: 30px;
-    line-height: 30px;
-    position: relative;
-    [type="ios-close-outline"] {
-      margin: auto;
-      position: absolute;
-      right: 5px;
-      top: 0;
-      bottom: 0;
-    }
-  }
-  .modal_content {
-    padding: 30px 10px;
-    min-height: 13vh;
-  }
-  .modal_ctrl {
-    a {
-      display: block;
-      text-align: center;
-      color: #fff;
-      height: 35px;
-      line-height: 35px;
-      &.sure {
-        background-color: #0f357f;
-      }
-      &.cancel {
-        background-color: #1d975e;
-      }
-    }
-  }
-}
+
 </style>
 
 <style lang="scss">
