@@ -690,7 +690,7 @@ export default {
 
     // 初始化 数据
     initTableList(type, callback) {
-      this.$vux.loading.show();
+      // this.$vux.loading.show();
       this.$http({
         url: "/mobile/queryCaseProgressInfo.htm",
         method: "post",
@@ -703,7 +703,7 @@ export default {
       })
         .then(res => {
           console.log("list-", res.data);
-          this.$vux.loading.hide();
+          // this.$vux.loading.hide();
           res = res.data;
 
           this.total = res.result.count;
@@ -720,7 +720,7 @@ export default {
           });
         })
         .catch(() => {
-          this.$vux.loading.hide();
+          // this.$vux.loading.hide();
         });
     }
   }
