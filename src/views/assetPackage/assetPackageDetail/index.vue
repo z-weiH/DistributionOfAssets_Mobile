@@ -613,7 +613,7 @@ export default {
       console.log("packageClientId - ", item);
       // 获取案件列表数据
       this.$http
-        .post("/mobile/queryPriceConfirmation.htm", {
+        .post("/mobile/package/price/confirmation.htm", {
           // token: this.openId,
           packageClientId: item.packageClientId,
           proCode: item.proCode,
@@ -693,7 +693,7 @@ export default {
       // });
       // 资产包详情
       this.$http
-        .post("/mobile/queryAssetsDetails.htm", {
+        .post("/mobile/package/detail.htm", {
           packageId: this.parentRtParams.packageId,
           token: this.openId
         })

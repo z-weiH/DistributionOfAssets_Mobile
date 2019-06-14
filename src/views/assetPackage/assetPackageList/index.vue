@@ -349,7 +349,7 @@ export default {
       // rap:/46/mobile/queryAssetsList.htm
       // online:/mobile/queryAssetsList.htm
       this.$http
-        .post("/mobile/queryAssetsList.htm", {
+        .post("/mobile/package/list.htm", {
           // mock: 1,
           // token: this.openId,
           packageStatus: this.packageStatus, //this.searchList.filter(v => v.active)[0].value

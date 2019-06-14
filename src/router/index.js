@@ -119,7 +119,8 @@ const routes = [{
       requireAuth: true,
       name: 'home',
     },
-    children: [{
+    children: [
+      {
         path: 'assetPackageList',
         name: 'assetPackageList',
         component: AssetPackageList,
@@ -127,6 +128,16 @@ const routes = [{
           keepAlive: false,
           requireAuth: true,
           title: '资产包',
+        },
+      },
+      {
+        path: 'assetPackageDetail',
+        name: 'assetPackageDetail',
+        component: AssetPackageDetail,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '资产包详情',
         },
       },
       {
