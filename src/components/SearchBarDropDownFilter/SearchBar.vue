@@ -22,6 +22,8 @@
         ref="ddFilter"
         :caseStatusItems="caseStatusItems"
         :caseStatusTwoItems="caseStatusTwoItems"
+        :caseStatusThreeItems="caseStatusThreeItems"
+        :pager="pager"
         @close="handleOpenDropDownFilter"
       ></drop-down-filter>
     </transition>
@@ -42,6 +44,13 @@ export default {
   },
   props: {
     searchWords: {},
+    // 入参--案件阶段
+    pager:{
+      type:Object,
+      default: ()=>{
+        return {};
+      }
+    },
     placeholder: {
       type: String,
       default: "搜索:仲裁案号/执行案号/被执行人姓名"
@@ -55,6 +64,13 @@ export default {
     },
     caseStatusTwoItems: {
       //案件二级状态
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
+    caseStatusThreeItems: {
+      //案件三级状态（还款子状态）
       type: Array,
       default: () => {
         return [];
@@ -75,13 +91,17 @@ export default {
       if (this.searchWords === "") {
         this.$vux.toast.show("请输入搜索关键字");
       } else {
-        this.initTableList();
+        this.$emit("EnterQuery");
       }
     },
     handleOpenDropDownFilter() {
       // 打开下拉过滤器
       this.show = !this.show;
+    },
+    closeDropDownFilter(){
+      this.show = false;
     }
+
   }
 };
 </script>

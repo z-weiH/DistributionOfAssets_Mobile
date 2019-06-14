@@ -4,10 +4,14 @@
       <!-- 筛选条件 -->
       <div slot="header" class="topfix">
         <SearchBarDropDown
+          ref="sBarDropDown"
           :caseStatusItems="caseStatusItems"
           :caseStatusTwoItems="caseStatusTwoItems"
+          :caseStatusThreeItems="caseStatusThreeItems"
           :searchWords="searchWords"
+          :pager="pager"
           @change="handleChangeInput"
+          @EnterQuery="queryList"
         ></SearchBarDropDown>
       </div>
       <!-- end -->
@@ -22,6 +26,8 @@
         :loadOver="loadOver"
         :class="{'nodata' : dataList.length === 0}"
       >
+        <!--BEGIN 暂无案件 -->
+        <div class="nfcase_panel" v-if="dataList.length === 0">当前阶段暂无数据</div>
         <div class="item-list-box">
           <div class="item-list" v-for="(it,index) in dataList" :key="index">
             <div class="item-title">
@@ -147,20 +153,17 @@
                     </div>
                     <!-- <x-button disabled type="primary" :gradients="['#0f357f', '#0f357f']">
                       <span class="color-yellow">(平台处理中)</span>
-                    </x-button> -->
+                    </x-button>-->
                   </template>
                   <template
                     v-else-if="(it.caseStatusTwo === 8 && it.repaymentAll === 1) || it.caseStatusTwo === 10"
                   >
-                    <div class="disable_btn" >
+                    <div class="disable_btn">
                       <span class="color-white">更新案件状态</span>
                     </div>
                   </template>
                   <template v-else>
-                    <div
-                      class="usable_btn"
-                      @click="handleCaseAlteration(it,index)"
-                    >更新案件状态</div>
+                    <div class="usable_btn" @click="handleCaseAlteration(it,index)">更新案件状态</div>
                   </template>
                 </FlexboxItem>
               </Flexbox>
@@ -333,6 +336,14 @@ export default {
     XInput,
     XDialog
   },
+  watch: {
+    pager: {
+      handler(newValue, oldValue) {
+        console.log("watch-paper:", newValue);
+      },
+      deep: true
+    }
+  },
   data() {
     return {
       pngUrl: [],
@@ -359,35 +370,40 @@ export default {
         targetEntrustPeriod: ""
       },
       caseStatusItems: [
-        { code: "0", name: "待执行", active: false }, //false
-        { code: "1", name: "执行中", active: false },
-        { code: "2", name: "款物登记", active: false },
-        { code: "3", name: "结案", active: false }
+        { code: "0", name: "待执行", active: false, level: 1 }, //false
+        { code: "1", name: "执行中", active: false, level: 1 },
+        { code: "2", name: "款物登记", active: false, level: 1 },
+        { code: "3", name: "结案", active: false, level: 1 }
       ],
       caseStatusTwoItems: [
-        { code: "0", name: "待分发", active: false },
-        { code: "1", name: "待签收", active: false },
-        { code: "2", name: "已签收", active: false },
-        { code: "3", name: "送达法院", active: false },
-        { code: "4", name: "材料补证", active: false },
-        { code: "5", name: "法院立案", active: false },
-        { code: "6", name: "恢复执行", active: false },
-        { code: "7", name: "执行回款", active: false },
-        { code: "8", name: "回款（非执行）", active: false },
-        { code: "9", name: "财产拍卖", active: false },
-        { code: "10", name: "执行完毕", active: false },
-        { code: "11", name: "终结本次执行程序", active: false },
-        { code: "12", name: "终结执行", active: false },
-        { code: "13", name: "销案", active: false },
-        { code: "14", name: "不予执行", active: false },
-        { code: "15", name: "驳回申请", active: false },
-        { code: "16", name: "撤回案件", active: false }
+        { code: "0", name: "待分发", active: false, level: 2 },
+        { code: "1", name: "待签收", active: false, level: 2 },
+        { code: "2", name: "已签收", active: false, level: 2 },
+        { code: "3", name: "送达法院", active: false, level: 2 },
+        { code: "4", name: "材料补证", active: false, level: 2 },
+        { code: "5", name: "法院立案", active: false, level: 2 },
+        { code: "6", name: "恢复执行", active: false, level: 2 },
+        { code: "7", name: "执行回款", active: false, level: 2 },
+        { code: "8", name: "回款（非执行）", active: false, level: 2 },
+        { code: "9", name: "财产拍卖", active: false, level: 2 },
+        { code: "10", name: "执行完毕", active: false, level: 2 },
+        { code: "11", name: "终结本次执行程序", active: false, level: 2 },
+        { code: "12", name: "终结执行", active: false, level: 2 },
+        { code: "13", name: "销案", active: false, level: 2 },
+        { code: "14", name: "不予执行", active: false, level: 2 },
+        { code: "15", name: "驳回申请", active: false, level: 2 },
+        { code: "16", name: "撤回案件", active: false, level: 2 }
+      ],
+      caseStatusThreeItems: [
+        { code: "0", name: "未结清", active: false, level: 3 },
+        { code: "1", name: "已结清", active: false, level: 3 }
       ],
       loadOver: false,
       dataList: [], //列表数据源
       pager: {
-        caseStatus: "", //阶段
-        caseStatusTwo: "", //状态
+        caseStatus: null, //阶段
+        caseStatusTwo: null, //状态
+        repaymentAll: null, //还款子状态
         currentNum: 1, //页号 	不传默认1
         keyWord: "", //关键字
         pageSize: 10 //每页展示数量
@@ -594,27 +610,68 @@ export default {
           break;
       }
     },
-    loadMore() {},
-    refreshList() {},
+    loadMore() {
+      if (this.loadOver === true) {
+        return;
+      }
+      this.pager.currentNum++;
+      this.queryList("push");
+    },
+    refreshList() {
+      this.loadOver = false;
+      // 重置pager对象
+      // this.pager.caseStatus = null; //阶段
+      // this.pager.caseStatusTwo = null; //状态
+      // this.pager.repaymentAll = null; //还款子状态
+      // this.pager.keyWord = ""; //关键字
+      this.pager.currentNum = 1; //页号 	不传默认1
+      this.pager.pageSize = 10; //每页展示数量
+      // 关闭暂无搜索结果样式
+      // this.show_nfdata = false;
+      this.queryList();
+    },
     handleChangeInput(text) {
       // input搜索文本改变
       this.searchWords = text;
-      console.log(this.searchWords);
+      console.log("this.searchWords", this.searchWords);
+      this.pager.keyWord = this.searchWords;
     },
-    queryList() {
+    queryList(plus, fn) {
+      console.log("**************doQuerylist******");
       // 列表查询
       this.$http
         .post("/mobile/case/list.htm", {
           ...this.pager
         })
         .then(res => {
-          console.log("qqqqqqqqqqqqqlist", res);
-          let count = res.data.result.count;
-          let list = res.data.result.list;
-          console.log(list);
-          this.dataList = list;
+          if (res.data.code === "0000") {
+            let count = res.data.result.count;
+            let list = res.data.result.list;
+            this.pager.count = count;
+            console.log(list);
+
+            if (plus === "push") {
+              (this.dataList = this.dataList), concat(list);
+            } else {
+              this.dataList = list;
+            }
+            // 回调
+            fn && fn();
+            // 查询成功-子组件则隐藏
+            this.$refs.sBarDropDown.closeDropDownFilter();
+            this.$nextTick(() => {
+              if (
+                this.pager.pageSize * this.pager.currentNum >=
+                this.pager.count
+              ) {
+                this.loadOver = true;
+              }
+            });
+          }
         })
-        .catch(err => {});
+        .catch(err => {
+          console.log("catch-", err);
+        });
     }
   },
   mounted() {
@@ -686,7 +743,7 @@ $themeColor: #0f357f;
   background-color: #c8c8c8;
   height: 100%;
 }
-.usable_btn{
+.usable_btn {
   background-color: #0f357f;
   height: 100%;
 }

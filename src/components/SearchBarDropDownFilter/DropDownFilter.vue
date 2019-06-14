@@ -24,6 +24,18 @@
         >{{it.name}}</v-touch>
       </div>
     </div>
+    <div class="item_card">
+      <h1>还款子状态</h1>
+      <div class="item_box">
+        <v-touch
+          tag="div"
+          :class="['item',{'on' : it.active }]"
+          v-for="(it,index) in caseStatusThreeItems"
+          :key="index"
+          v-on:tap="onItemStatus('stateReplay',index)"
+        >{{it.name}}</v-touch>
+      </div>
+    </div>
     <div class="ctrl_btns">
       <v-touch tag="div" v-on:tap="handleConfirm" class="btn_confirm">确定</v-touch>
     </div>
@@ -35,15 +47,34 @@ export default {
   name: "dropDownFilter",
   props: {
     caseStatusItems: {},
-    caseStatusTwoItems: {}
+    caseStatusTwoItems: {},
+    caseStatusThreeItems: {},
+    // 入参--案件阶段
+    pager:{},
   },
   data() {
     return {
       caseStatusOne: "",
-      caseStatusTwo: ""
+      caseStatusTwo: "",
+      caseStatusThree: ""
     };
   },
   methods: {
+    levelFoo(level,stateVal){
+      switch (level) {
+        case 1:
+          this.pager.caseStatus = stateVal;
+          break;
+        case 2:
+          this.pager.caseStatusTwo = stateVal;
+          break;
+        case 3:
+          this.pager.repaymentAll = stateVal;
+          break;
+        default:
+          break;
+      }
+    },
     /*****
      * @param arr 数组
      * @param fn 回调
@@ -54,6 +85,13 @@ export default {
         if (k === index) {
           console.log(v);
           v["active"] = !v["active"];
+          if(v["active"] == 0){
+            console.log('未选中',v,'--',this.pager)
+            this.levelFoo(v.level,null);
+          }else{
+            console.log('已选中',v,'--',this.pager)
+            this.levelFoo(v.level,Number(v.code));
+          }
           fn && fn();
         } else {
           v["active"] = false;
@@ -74,11 +112,15 @@ export default {
         case "state":
           this.handleActive(this.caseStatusTwoItems, index);
           break;
+        case "stateReplay":
+          this.handleActive(this.caseStatusThreeItems, index);
         default:
           break;
       }
     },
     handleConfirm() {
+      console.log('确定------------',this.$parent.$emit)
+      this.$parent.$emit("EnterQuery")
       // 确定状态-且隐藏当前组件
       this.$emit("close");
     }
