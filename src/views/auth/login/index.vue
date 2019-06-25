@@ -94,7 +94,7 @@ export default {
     };
   },
   methods: {
-    onBlur(){
+    onBlur() {
       console.log("onBlur");
       document.body.scrollTop = 0;
     },
@@ -139,7 +139,7 @@ export default {
                   // this.$router.push('/wxBind')
                   setTimeout(() => {
                     this.$router.replace("/home/assetPackageList");
-                  },500);
+                  }, 500);
                 }
               })
               .catch(err => {
@@ -227,10 +227,16 @@ export default {
   created() {
     // this.getArbIcoClass();
     this.openId = localStorage.getItem("currentOpenId");
-    console.log("fetch---this.openId",this.openId)
+    console.log("fetch---this.openId", this.openId);
     // console.log('this.openId',eval(this.openId) === null)
     // this.bindUserQuery() //账号是否绑定-检测
     this.arbName = qs.parse(localStorage.getItem("$arbname"))["shortName"];
+
+    //防止页面后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener("popstate", function() {
+      history.pushState(null, null, document.URL);
+    });
   },
   components: {
     Flexbox,
