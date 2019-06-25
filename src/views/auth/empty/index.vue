@@ -60,7 +60,7 @@ export default {
         })
         .catch(err => {
           console.log("err---------", err);
-          console.log("err.data.code-", err.data.code);
+          // console.log("err.data.code-", err.data.code);
           this.$router.replace("login");
         });
     }
