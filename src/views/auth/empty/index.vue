@@ -35,7 +35,6 @@ export default {
         wxweb.oauth + qs.stringify(loginConfig) + "#wechat_redirect"
       );
       console.log("安卓11： ", this.$isAndroid());
-      console.log(swq_config);
     } else {
       console.log("_openId", "not null");
       let $openid = _openId.slice(0, _openId.length - 2);
