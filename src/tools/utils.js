@@ -129,6 +129,7 @@ const toJSON = () => {
 Vue.prototype.$trim = trim
 Vue.prototype.$isEmptyObject = isEmptyObject
 Vue.prototype.$GetQueryString = GetQueryString
+window.$GetQueryString = GetQueryString
 Vue.prototype.$GetUrlParam = GetUrlParam
 Vue.prototype.$formdataToJson = formdataToJson
 Vue.prototype.$isIOS = isIOS
