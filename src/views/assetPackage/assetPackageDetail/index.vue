@@ -517,9 +517,9 @@ export default {
        * @augments packageStatus
        * @augments pngUrl
        */
-      this.$vux.loading.show({
-        text: "加载中"
-      });
+      // this.$vux.loading.show({
+      //   text: "加载中"
+      // });
       this.$http
         .post("/mobile/updateAssetPackageStatus.htm", {
           notes: args.notes,
@@ -529,7 +529,7 @@ export default {
         })
         .then(res => {
           if (res.data.code === "0000") {
-            this.$vux.loading.hide();
+            // this.$vux.loading.hide();
             switch (args.packageStatus) {
               case 1:
                 break;
@@ -613,7 +613,7 @@ export default {
       console.log("packageClientId - ", item);
       // 获取案件列表数据
       this.$http
-        .post("/mobile/queryPriceConfirmation.htm", {
+        .post("/mobile/package/price/confirmation.htm", {
           // token: this.openId,
           packageClientId: item.packageClientId,
           proCode: item.proCode,
@@ -688,18 +688,18 @@ export default {
       this.$refs["previewer" + index][0].show(index);
     },
     doQuery() {
-      this.$vux.loading.show({
-        text: "加载中"
-      });
+      // this.$vux.loading.show({
+      //   text: "加载中"
+      // });
       // 资产包详情
       this.$http
-        .post("/mobile/queryAssetsDetails.htm", {
+        .post("/mobile/package/detail.htm", {
           packageId: this.parentRtParams.packageId,
           token: this.openId
         })
         .then(res => {
           if (res.data.code === "0000") {
-            this.$vux.loading.hide();
+            // this.$vux.loading.hide();
             this.ListItem = res.data.result;
             this.ListItem.logisticsPng
               ? (this.logisticsPng = this.ListItem.logisticsPng.split(","))

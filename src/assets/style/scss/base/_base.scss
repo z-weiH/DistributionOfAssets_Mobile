@@ -1,0 +1,118 @@
+// 针对flex布局的快速写法，自己用起来感觉挺方便的。
+.fp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.fc {
+  @extend .fp;
+  flex-direction: column;
+
+  &_c {
+    @extend .fc;
+    align-items: center;
+  }
+  &_fs {
+    @extend .fc;
+    align-items: flex-start;
+  }
+  &_fe {
+    @extend .fc;
+    align-items: flex-end;
+  }
+  &_s {
+    @extend .fc;
+    align-items: stretch;
+  }
+  &_b {
+    @extend .fc;
+    align-items: baseline;
+  }
+}
+.fr {
+  @extend .fp;
+  flex-direction: row;
+
+  &_c {
+    @extend .fr;
+    align-items: center;
+  }
+  &_fs {
+    @extend .fr;
+    align-items: flex-start;
+  }
+  &_fe {
+    @extend .fr;
+    align-items: flex-end;
+  }
+  &_s {
+    @extend .fr;
+    align-items: stretch;
+  }
+  &_b {
+    @extend .fr;
+    align-items: baseline;
+  }
+}
+.frr {
+  @extend .fp;
+  flex-direction: row-reverse;
+
+  &_c {
+    @extend .frr;
+    align-items: center;
+  }
+  &_fs {
+    @extend .frr;
+    align-items: flex-start;
+  }
+  &_fe {
+    @extend .frr;
+    align-items: flex-end;
+  }
+  &_s {
+    @extend .frr;
+    align-items: stretch;
+  }
+  &_b {
+    @extend .frr;
+    align-items: baseline;
+  }
+}
+.fs {
+  &_fs {
+    align-self: flex-start;
+  }
+  &_fe {
+    align-self: flex-end;
+  }
+  &_s {
+    align-self: stretch;
+  }
+  &_c {
+    align-self: center;
+  }
+}
+.fj {
+  &_s {
+    justify-content: stretch;
+  }
+  &_fs {
+    justify-content: flex-start;
+  }
+  &_fe {
+    justify-content: flex-end;
+  }
+  &_c {
+    justify-content: center;
+  }
+  &_sb {
+    justify-content: space-between;
+  }
+  &_sa {
+    justify-content: space-around;
+  }
+}
+
+
+

@@ -1,7 +1,9 @@
 @import './helper/mixin'; //scss方法混合宏
 @import './base/cssAnimate'; //css3动画
+@import './base/transition';//vue过渡
 @import './base/body';
 @import './base/font';
+@import './base/base';//flex
 @import './component/searchbar'; //全局搜索组件
 /* 资产分发系统定制部件样式 */
 
@@ -563,4 +565,141 @@ body{
 }
 
 
+/* end */
+
+
+/* 驳回原因样式 */
+.modal_customer {
+  margin: 0 rem(100);
+  font-size: 14px;
+  background-color: #fff;
+  .modal_title {
+    background-color: #cfcfcf;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    [type="ios-close-outline"] {
+      margin: auto;
+      position: absolute;
+      right: 5px;
+      top: 0;
+      bottom: 0;
+    }
+  }
+  .modal_content {
+    padding: 30px 10px;
+    min-height: 13vh;
+  }
+  .modal_ctrl {
+    a {
+      display: block;
+      text-align: center;
+      color: #fff;
+      height: 35px;
+      line-height: 35px;
+      &.sure {
+        background-color: #0f357f;
+      }
+      &.cancel {
+        background-color: #1d975e;
+      }
+    }
+  }
+}
+/* end */
+
+
+/* custom card style */
+.item-list-box {
+  overflow: auto;
+  box-sizing: border-box;
+  height: calc(100% - 1.09333rem);
+  * {
+    box-sizing: border-box;
+  }
+
+  .item-list {
+    margin-top: rem(18);
+    background-color: #fff;
+    .item-title {
+      .card_item {
+        .card_tit {
+          border-bottom: 0;
+        }
+        span {
+          font-size: rem(28);
+          font-weight: bold;
+          color: #339933;
+        }
+      }
+    }
+    .item-content {
+      padding-left: rem(29);
+      margin-bottom: rem(20);
+      padding-bottom: rem(20);
+      .mcontent {
+        margin-top: rem(20);
+      }
+      .headtit {
+        font-weight: bold;
+      }
+    }
+    .item-handle {
+      height: rem(66);
+      line-height: rem(66);
+      border-top: 1px solid #eaeaea;
+      .handle-btn {
+        text-align: center;
+      }
+      .handle-btn:first-child {
+        border-right: 1px solid #eaeaea;
+      }
+    }
+  }
+}
+/* end */
+.em{
+  color:#e4393c;
+}
+
+
+/* 时间线 custom*/
+body{
+  .van-step--vertical {
+    .van-step__circle{
+      width: 15px;
+        height: 15px;
+        left: -22px;
+        top:0;
+    }
+    &.van-step--finish{
+      .van-step__circle{
+        width: 15px;
+        height: 15px;
+        left: -22px;
+        background-color: #0DBC79;
+        top:16px;
+      }
+      .van-step__line{
+        background-color: #0DBC79;
+      }
+      // &.van-step--process{
+      //   .van-icon-checked{
+      //     font-size:20px;
+      //     left: -24px;
+      //     top:-2px;
+      //   }
+      // }
+    }
+    &.van-step--process{
+      .van-icon-checked{
+        top: 1px;
+        left: -22px;
+        line-height: 1;
+        font-size: 16px;
+      }
+    }
+  }
+
+}
 /* end */
