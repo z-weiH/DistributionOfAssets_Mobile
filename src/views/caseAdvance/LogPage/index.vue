@@ -88,8 +88,8 @@
                           <template v-if="it.targetStatus === 12">终结执行</template>
                           <template v-if="it.targetStatus === 13">销案</template>
                           <template v-if="it.targetStatus === 14">不予执行</template>
-                          <template v-if="it.targetStatus === 15">驳回申请</template>
-                          <template v-if="it.targetStatus === 16">撤回案件</template>
+                          <template v-if="it.targetStatus === 15">撤销案件</template>
+                          <template v-if="it.targetStatus === 16">驳回申请</template>
                           <template v-if="it.repaymentAll === 0">-未结清</template>
                           <template v-if="it.repaymentAll === 1">-已结清</template>
                         </span>

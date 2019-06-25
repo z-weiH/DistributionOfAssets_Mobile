@@ -26,8 +26,8 @@
                 <span v-if="dataItems.caseStatusTwo === 12">终结执行</span>
                 <span v-if="dataItems.caseStatusTwo === 13">销案</span>
                 <span v-if="dataItems.caseStatusTwo === 14">不予执行</span>
-                <span v-if="dataItems.caseStatusTwo === 15">驳回申请</span>
-                <span v-if="dataItems.caseStatusTwo === 16">撤回案件</span>
+                <span v-if="dataItems.caseStatusTwo === 15">撤销案件</span>
+                <span v-if="dataItems.caseStatusTwo === 16">驳回申请</span>
                 <template v-if="dataItems.caseStatusTwo === 7 || dataItems.caseStatusTwo === 8">
                   <span>--</span>
                   <span v-if="dataItems.repaymentAll === 0">未结清</span>
