@@ -227,7 +227,8 @@ export default {
   created() {
     // this.getArbIcoClass();
     this.openId = localStorage.getItem("currentOpenId");
-    console.log('this.openId',eval(this.openId) === null)
+    console.log("fetch---this.openId",this.openId)
+    // console.log('this.openId',eval(this.openId) === null)
     // this.bindUserQuery() //账号是否绑定-检测
     this.arbName = qs.parse(localStorage.getItem("$arbname"))["shortName"];
   },
