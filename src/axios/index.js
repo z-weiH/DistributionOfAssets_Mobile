@@ -45,6 +45,11 @@ Axios.interceptors.request.use(
     if (localStorage.token) {
       config.headers.Authorization = localStorage.token
     }
+    // 如果是文件上传类型
+    if (config.data.constructor.name === 'FormData' && config.mheaders === true) {
+      config.data.append('token', localStorage.getItem('currentOpenId'))
+    }
+
     return config
   },
   error => {
