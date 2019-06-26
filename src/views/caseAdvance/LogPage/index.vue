@@ -319,21 +319,55 @@ export default {
     getParams() {
       this.id = this.$route.query.id;
     },
-    queryLogList() {
+    queryLogList(plus) {
       this.$http
         .post("/mobile/case/operation/list.htm", {
           caseInfoId: this.id,
           ...this.pager
         })
         .then(res => {
-          let list = res.data.result.list;
-          console.log(list);
-          this.dataList = list;
+          console.log("loglist-",res);
+          if (res.data.code === "0000") {
+            let count = res.data.result.count;
+            let list = res.data.result.list;
+            console.log(list);
+            if (plus === "push") {
+              this.dataList.concat(list);
+            } else {
+              this.dataList = list;
+            }
+            this.$nextTick(() => {
+              if (
+                this.pager.pageSize * this.pager.currentNum >=
+                this.pager.count
+              ) {
+                this.loadOver = true;
+              }
+            });
+          }
         })
         .catch(err => {});
     },
-    loadMore() {},
-    refreshList() {}
+    loadMore() {
+      if (this.loadOver === true) {
+        return;
+      }
+      this.pager.currentNum++;
+      this.queryLogList("push");
+    },
+    refreshList() {
+      this.loadOver = false;
+      // 重置pager对象
+      // this.pager.caseStatus = null; //阶段
+      // this.pager.caseStatusTwo = null; //状态
+      // this.pager.repaymentAll = null; //还款子状态
+      // this.pager.keyWord = ""; //关键字
+      this.pager.currentNum = 1; //页号 	不传默认1
+      this.pager.pageSize = 4; //每页展示数量
+      // 关闭暂无搜索结果样式
+      // this.show_nfdata = false;
+      this.queryLogList();
+    }
   },
   created() {
     this.getParams();
