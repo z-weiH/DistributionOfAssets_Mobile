@@ -33,7 +33,8 @@ Axios.interceptors.request.use(
       console.log('config.data', config.data)
       config.data = config.data || {}
       if (_openId) {
-        console.log('config.data-----------', config.data)
+        // config.data ? config.data : {};
+        // console.info('config.data-----------', config.data)
         let newdata = Object.assign(config.data, { token: _openId })
         // config.data.token = _openId
         config.data = qs.stringify(newdata)

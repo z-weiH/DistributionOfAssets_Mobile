@@ -25,11 +25,13 @@ Axios.interceptors.request.use(
     if (config.method === 'post' && config.mheaders !== true) {
       // 序列化
       let _openId = localStorage.getItem('currentOpenId')
+      config.data ? config.data : {};
       if (_openId) {
         let newdata = Object.assign(config.data, {
           token: _openId
         })
         config.data = qs.stringify(newdata)
+        console.info('config.data-----------', config.data)
       } else {
         config.data = qs.stringify(config.data)
       }
