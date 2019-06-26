@@ -54,7 +54,7 @@
                         <span>{{index}}</span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="idx.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
+                            <img :src="pic.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
                             <div v-transfer-dom>
                               <previewer
                                 :ref="`previewer${index}`"
@@ -120,7 +120,7 @@
                         <span></span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="it.imgUrls" @click="handleShowImg(index)">
+                            <img :src="pic.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
                             <div v-transfer-dom>
                               <previewer
                                 :ref="`previewer${index}`"
@@ -161,7 +161,7 @@
                         <span></span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="it.imgUrls" @click="handleShowImg(index)">
+                            <img :src="pic.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
                             <div v-transfer-dom>
                               <previewer
                                 :ref="`previewer${index}`"
