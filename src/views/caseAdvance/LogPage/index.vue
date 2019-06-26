@@ -54,14 +54,17 @@
                         <span>{{index}}</span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="pic.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
-                            <div v-transfer-dom>
-                              <previewer
-                                :ref="`previewer${index}`"
-                                :list="imageFormat(it.imgUrls)"
-                                @on-index-change="logIndexChange"
-                              ></previewer>
-                            </div>
+                            <img
+                              :src="pic"
+                              v-for="(pic,idx) in it.imgUrls.split(',')"
+                              :key="idx"
+                              @click="handleShowImg(index,idx)"
+                            >
+                            <previewer
+                              :ref="`previewer${index}`"
+                              :list="imageFormat(it.imgUrls)"
+                              @on-index-change="logIndexChange"
+                            ></previewer>
                           </template>
                         </span>
                       </li>
@@ -120,14 +123,17 @@
                         <span></span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="pic.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
-                            <div v-transfer-dom>
-                              <previewer
-                                :ref="`previewer${index}`"
-                                :list="imageFormat(it.imgUrls)"
-                                @on-index-change="logIndexChange"
-                              ></previewer>
-                            </div>
+                            <img
+                              :src="pic.src"
+                              v-for="(pic,idx) in it.imgUrls.split(',')"
+                              :key="idx"
+                              @click="handleShowImg(index,idx)"
+                            >
+                            <previewer
+                              :ref="`previewer${index}`"
+                              :list="imageFormat(it.imgUrls)"
+                              @on-index-change="logIndexChange"
+                            ></previewer>
                           </template>
                         </span>
                       </li>
@@ -161,14 +167,17 @@
                         <span></span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="pic.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
-                            <div v-transfer-dom>
-                              <previewer
-                                :ref="`previewer${index}`"
-                                :list="imageFormat(it.imgUrls)"
-                                @on-index-change="logIndexChange"
-                              ></previewer>
-                            </div>
+                            <img
+                              :src="pic.src"
+                              v-for="(pic,idx) in it.imgUrls.split(',')"
+                              :key="idx"
+                              @click="handleShowImg(index,idx)"
+                            >
+                            <previewer
+                              :ref="`previewer${index}`"
+                              :list="imageFormat(it.imgUrls)"
+                              @on-index-change="logIndexChange"
+                            ></previewer>
                           </template>
                         </span>
                       </li>
@@ -290,7 +299,7 @@ export default {
     logIndexChange(arg) {
       console.log(arg);
     },
-    handleShowImg(index,idx) {
+    handleShowImg(index, idx) {
       // 打开大图
       // this.$refs["previewer" + index][0].show(index2);
       this.$refs[`previewer${index}`][0].show(idx);
@@ -309,10 +318,10 @@ export default {
         console.log("_arr", _arr);
         let ss = null;
         let newarr = _arr.map(v => {
-          console.log("arr-v------",v)
-          return { src: v ,w:500,h:400};
+          console.log("arr-v------", v);
+          return { src: v, w: 500, h: 400 };
         });
-        console.log("newarr-----------",newarr)
+        console.log("newarr-----------", newarr);
         return newarr;
 
         console.log("ss--------", ss);
