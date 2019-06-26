@@ -333,7 +333,7 @@ export default {
             this.pager.count = count;
             console.log(list);
             if (plus === "push") {
-              (this.dataList = this.dataList), concat(list);
+              this.dataList = this.dataList.concat(list);
             } else {
               this.dataList = list;
             }
@@ -347,7 +347,9 @@ export default {
             });
           }
         })
-        .catch(err => {});
+        .catch(err => {
+          console.log(err);
+        });
     },
     loadMore() {
       if (this.loadOver === true) {
