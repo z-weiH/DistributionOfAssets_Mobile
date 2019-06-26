@@ -311,7 +311,7 @@ export default {
 
         return _arr.map(v => {
           console.log("arr-v------",v)
-          return { src: v };
+          return { src: v ,w:500,h:400};
         });
 
         console.log("ss--------", ss);
