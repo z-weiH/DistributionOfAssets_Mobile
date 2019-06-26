@@ -54,7 +54,7 @@
                         <span>{{index}}</span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="it.imgUrls" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
+                            <img :src="idx.src" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
                             <div v-transfer-dom>
                               <previewer
                                 :ref="`previewer${index}`"
