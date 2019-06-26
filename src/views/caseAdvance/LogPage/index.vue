@@ -55,16 +55,18 @@
                         <span>
                           <template v-if="it.imgUrls">
                             <img
-                              :src="pic"
+                              :src="pic[idx]"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
                             >
+                            <div v-transfer-dom>
                             <previewer
                               :ref="`previewer${index}`"
                               :list="imageFormat(it.imgUrls)"
                               @on-index-change="logIndexChange"
                             ></previewer>
+                            </div>
                           </template>
                         </span>
                       </li>
@@ -124,16 +126,18 @@
                         <span>
                           <template v-if="it.imgUrls">
                             <img
-                              :src="pic.src"
+                              :src="pic[idx]"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
                             >
+                            <div v-transfer-dom>
                             <previewer
                               :ref="`previewer${index}`"
                               :list="imageFormat(it.imgUrls)"
                               @on-index-change="logIndexChange"
                             ></previewer>
+                            </div>
                           </template>
                         </span>
                       </li>
@@ -168,16 +172,18 @@
                         <span>
                           <template v-if="it.imgUrls">
                             <img
-                              :src="pic.src"
+                              :src="pic[idx]"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
                             >
+                            <div v-transfer-dom>
                             <previewer
                               :ref="`previewer${index}`"
                               :list="imageFormat(it.imgUrls)"
                               @on-index-change="logIndexChange"
                             ></previewer>
+                            </div>
                           </template>
                         </span>
                       </li>
