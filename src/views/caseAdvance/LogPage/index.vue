@@ -290,7 +290,7 @@ export default {
     logIndexChange(arg) {
       console.log(arg);
     },
-    handleShowImg(index) {
+    handleShowImg(index,idx) {
       // 打开大图
       // this.$refs["previewer" + index][0].show(index2);
       this.$refs[`previewer${index}`][0].show(idx);
