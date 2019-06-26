@@ -51,13 +51,13 @@
                         </template>
                       </li>
                       <li>
-                        <span></span>
+                        <span>{{index}}</span>
                         <span>
                           <template v-if="it.imgUrls">
-                            <img :src="it.imgUrls" @click="handleShowImg(index)">
+                            <img :src="it.imgUrls" v-for="(pic,idx) in it.imgUrls.split(',')" :key="idx" @click="handleShowImg(index,idx)">
                             <div v-transfer-dom>
                               <previewer
-                                ref="previewer"
+                                :ref="`previewer${index}`"
                                 :list="imageFormat(it.imgUrls)"
                                 @on-index-change="logIndexChange"
                               ></previewer>
@@ -123,7 +123,7 @@
                             <img :src="it.imgUrls" @click="handleShowImg(index)">
                             <div v-transfer-dom>
                               <previewer
-                                ref="previewer"
+                                :ref="`previewer${index}`"
                                 :list="imageFormat(it.imgUrls)"
                                 @on-index-change="logIndexChange"
                               ></previewer>
@@ -164,7 +164,7 @@
                             <img :src="it.imgUrls" @click="handleShowImg(index)">
                             <div v-transfer-dom>
                               <previewer
-                                ref="previewer"
+                                :ref="`previewer${index}`"
                                 :list="imageFormat(it.imgUrls)"
                                 @on-index-change="logIndexChange"
                               ></previewer>
@@ -293,7 +293,7 @@ export default {
     handleShowImg(index) {
       // 打开大图
       // this.$refs["previewer" + index][0].show(index2);
-      this.$refs["previewer"][0].show(index);
+      this.$refs[`previewer${index}`][0].show(idx);
     },
     // 图片格式化
     imageFormat(arr) {
