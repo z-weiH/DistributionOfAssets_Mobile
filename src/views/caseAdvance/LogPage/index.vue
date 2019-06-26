@@ -326,13 +326,14 @@ export default {
           ...this.pager
         })
         .then(res => {
-          console.log("loglist-",res);
+          console.log("loglist-", res);
           if (res.data.code === "0000") {
             let count = res.data.result.count;
             let list = res.data.result.list;
+            this.pager.count = count;
             console.log(list);
             if (plus === "push") {
-              this.dataList.concat(list);
+              (this.dataList = this.dataList), concat(list);
             } else {
               this.dataList = list;
             }
