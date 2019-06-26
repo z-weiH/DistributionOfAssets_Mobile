@@ -651,7 +651,7 @@ export default {
             console.log(list);
 
             if (plus === "push") {
-              (this.dataList = this.dataList), concat(list);
+              this.dataList = this.dataList.concat(list);
             } else {
               this.dataList = list;
             }
