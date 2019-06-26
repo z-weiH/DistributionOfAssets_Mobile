@@ -21,12 +21,13 @@ Axios.create({
 // 使用 let form = new FormData() 格式则以 FormData 格式提交
 Axios.interceptors.request.use(
   config => {
+    config.data = config.data || {}
     console.log("config-begin:---------",config);
     // 在发送请求之前做某件事
     if (config.method === 'post' && config.mheaders !== true) {
       // 序列化
       let _openId = localStorage.getItem('currentOpenId')
-      config.data ? config.data : {};
+      // config.data ? config.data : {};
       if (_openId) {
         let newdata = Object.assign(config.data, {
           token: _openId
