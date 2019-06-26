@@ -52,7 +52,8 @@ const isIOS = () => {
 
 //检测-android终端
 const isAndroid = () => {
-  return navigator.userAgent.indexOf('Android') > -1 || u.indexOf('Adr') > -1
+	var ua = navigator.userAgent;
+  return ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1
 }
 
 // 从指定字符位置开始截取到末尾
