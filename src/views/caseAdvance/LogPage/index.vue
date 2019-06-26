@@ -33,6 +33,32 @@
                     <!-- 普通日志 -->
                     <template v-if="it.applyType === 0">
                       <li>
+                        <span>状态变更为：</span>
+                        <span>
+                          <template v-if="it.targetStatus === -1">电子材料未生成</template>
+                          <template v-if="it.targetStatus === 0">待分发</template>
+                          <template v-if="it.targetStatus === 1">待签收</template>
+                          <template v-if="it.targetStatus === 2">已签收</template>
+                          <template v-if="it.targetStatus === 3">送达法院</template>
+                          <template v-if="it.targetStatus === 4">材料补证</template>
+                          <template v-if="it.targetStatus === 5">法院立案</template>
+                          <template v-if="it.targetStatus === 6">恢复执行</template>
+                          <template v-if="it.targetStatus === 7">执行回款</template>
+                          <template v-if="it.targetStatus === 8">回款（非执行）</template>
+                          <template v-if="it.targetStatus === 9">财产拍卖</template>
+                          <template v-if="it.targetStatus === 7">执行回款</template>
+                          <template v-if="it.targetStatus === 10">执行完毕</template>
+                          <template v-if="it.targetStatus === 11">终结本次执行程序</template>
+                          <template v-if="it.targetStatus === 12">终结执行</template>
+                          <template v-if="it.targetStatus === 13">销案</template>
+                          <template v-if="it.targetStatus === 14">不予执行</template>
+                          <template v-if="it.targetStatus === 15">撤销案件</template>
+                          <template v-if="it.targetStatus === 16">驳回申请</template>
+                          <template v-if="it.repaymentAll === 0">-未结清</template>
+                          <template v-if="it.repaymentAll === 1">-已结清</template>
+                        </span>
+                      </li>
+                      <li>
                         <span>发起人：</span>
                         <span>{{it.operatorName}}</span>
                       </li>
