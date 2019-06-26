@@ -55,7 +55,7 @@
                         <span>
                           <template v-if="it.imgUrls">
                             <img
-                              :src="pic[idx]"
+                              :src="pic"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
@@ -126,7 +126,7 @@
                         <span>
                           <template v-if="it.imgUrls">
                             <img
-                              :src="pic[idx]"
+                              :src="pic"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
@@ -172,7 +172,7 @@
                         <span>
                           <template v-if="it.imgUrls">
                             <img
-                              :src="pic[idx]"
+                              :src="pic"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
