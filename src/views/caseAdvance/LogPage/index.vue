@@ -77,6 +77,7 @@
                       <li>
                         <span>状态变更为：</span>
                         <span>
+                          <template v-if="it.targetStatus === -1">电子材料未生成</template>
                           <template v-if="it.targetStatus === 0">待分发</template>
                           <template v-if="it.targetStatus === 1">待签收</template>
                           <template v-if="it.targetStatus === 2">已签收</template>
