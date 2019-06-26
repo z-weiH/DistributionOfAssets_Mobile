@@ -308,11 +308,12 @@ export default {
         let _arr = arr.split(",");
         console.log("_arr", _arr);
         let ss = null;
-
-        return _arr.map(v => {
+        let newarr = _arr.map(v => {
           console.log("arr-v------",v)
           return { src: v ,w:500,h:400};
         });
+        console.log("newarr-----------",newarr)
+        return newarr;
 
         console.log("ss--------", ss);
       }
