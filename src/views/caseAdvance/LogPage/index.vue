@@ -310,6 +310,7 @@ export default {
         let ss = null;
 
         return _arr.map(v => {
+          console.log("arr-v------",v)
           return { src: v };
         });
 
