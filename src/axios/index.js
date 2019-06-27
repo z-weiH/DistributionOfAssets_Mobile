@@ -180,7 +180,9 @@ Axios.interceptors.response.use(
     // err.data = result
     // err.response = response
     if (result.code !== '0000') {
-      Vue.prototype.instance.$vux.toast.show(result.description)
+      if(response.config.url !== "/mobile/auto/login.htm"){
+        Vue.prototype.instance.$vux.toast.show(result.description)
+      }
       return Promise.reject(result);
     }
     // throw err
