@@ -149,8 +149,8 @@
             <div class="upload_wrap">
               <upload v-model="ruleForm.pngUrl" class="m-upload"></upload>
               <div v-if="vshow_remark" class="up_remark">
-                <span class="em">*</span>
-                <span>请上传受理凭证</span>
+                <!-- <span class="em">*</span>
+                <span>请上传受理凭证</span> -->
               </div>
             </div>
           </group>
@@ -376,7 +376,7 @@ export default {
             if (res.data.code === "0000") {
               this.$router.go(-1);
               setTimeout(() => {
-                this.$vux.toast.text("签收成功");
+                this.$vux.toast.text("更新成功");
               }, 500);
             }
           })
