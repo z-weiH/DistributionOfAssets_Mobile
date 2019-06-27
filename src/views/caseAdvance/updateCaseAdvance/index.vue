@@ -382,6 +382,33 @@ export default {
           })
           .catch(err => {});
       } else if (this.onTabFormState === 1) {
+        let _ruleForm1 = this.ruleForm1;
+        let newObj = {};
+        Object.keys(_ruleForm1).map((v, k) => {
+          // console.log(v,k)
+          console.info(_ruleForm1[v]);
+          // console.log(Array.isArray(_ruleForm[v]))
+          Array.isArray(_ruleForm1[v])
+            ? (newObj[v] = _ruleForm1[v].toString())
+            : (newObj[v] = _ruleForm1[v]);
+        });
+        console.log("newObj--", newObj);
+        // 新增执行措施
+        this.$http
+          .post("/mobile/case/measures/add.htm", {
+            caseInfoId: this.id,
+            ...newObj
+          })
+          .then(res => {
+            console.log(res);
+            if (res.data.code === "0000") {
+              this.$router.go(-1);
+              setTimeout(() => {
+                this.$vux.toast.text("新增成功");
+              }, 500);
+            }
+          })
+          .catch(err => {});
       }
     },
     changeModeRepayState(newVal) {
