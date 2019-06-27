@@ -225,6 +225,7 @@ export default {
     }
   },
   created() {
+    this.$vux.toast.hide();
     // this.getArbIcoClass();
     this.openId = localStorage.getItem("currentOpenId");
     console.log("fetch---this.openId", this.openId);
