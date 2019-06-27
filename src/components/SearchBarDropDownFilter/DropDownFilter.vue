@@ -6,7 +6,7 @@
         <v-touch
           tag="div"
           :class="['item',{'on' : it.active }]"
-          v-for="(it,index) in caseStatusItems"
+          v-for="(it,index) in caseStatusItemsNew"
           :key="index"
           v-on:tap="onItemStatus('stage',index)"
         >{{it.name}}</v-touch>
@@ -30,13 +30,14 @@
         <v-touch
           tag="div"
           :class="['item',{'on' : it.active }]"
-          v-for="(it,index) in caseStatusThreeItems"
+          v-for="(it,index) in caseStatusThreeItemsNew"
           :key="index"
           v-on:tap="onItemStatus('stateReplay',index)"
         >{{it.name}}</v-touch>
       </div>
     </div>
     <div class="ctrl_btns">
+      <v-touch tag="div" v-on:tap="handleReset" class="btn_confirm">重置</v-touch>
       <v-touch tag="div" v-on:tap="handleConfirm" class="btn_confirm">确定</v-touch>
     </div>
   </div>
@@ -58,11 +59,34 @@ export default {
       caseStatusOne: "",
       caseStatusTwo: "",
       caseStatusThree: "",
+      caseStatusItemsNew: this.caseStatusItems,
       caseStatusTwoItemsNew: this.caseStatusTwoItems,
+      caseStatusThreeItemsNew: this.caseStatusThreeItems,
       threePanel: false
     };
   },
   methods: {
+    /****
+     * @param base
+     * @param arrTarget
+     */
+    // setCaseStateInitArr(base,arrTarget){
+    //   let that = this;
+    //   // 把不同的子级数组恢复初始状态
+    //       base = arrTarget;
+    //       let _linkcs = that.resetActiveOff(base);
+    //       console.log("_linkcs", _linkcs);
+    //       base = _linkcs;
+    // },
+    resetActiveOff(arr) {
+      // 设置状态列表所有对象为未选中
+      return arr.map((it, idx) => {
+        // it:键名
+        // idx:下标
+        it["active"] = false;
+        return it;
+      });
+    },
     setTwoLevelVal(code) {
       // 设置二级状态
       // 重置状态
@@ -72,17 +96,39 @@ export default {
         // k:键名
         // v:下标
         if (code == k) {
-          console.log("current-linkageCaseStatus:", this.linkageCaseStatus[k]);
-
+          console.log(
+            "current-linkageCaseStatus:",
+            this.linkageCaseStatus[k],
+            "code----",
+            code
+          );
+          switch (code) {
+            case 2:
+              // this.caseStatusThreeItemsNew = this.linkageCaseStatus[k];
+              // let _linkcs = this.resetActiveOff(this.caseStatusThreeItemsNew);
+              // console.log("_linkcs", _linkcs);
+              // this.caseStatusThreeItemsNew = _linkcs;
+              // this.setCaseStateInitArr(this.caseStatusThreeItemsNew,this.linkageCaseStatus[k]);
+              break;
+            default:
+              break;
+          }
+          // this.setCaseStateInitArr(this.caseStatusThreeItemsNew,this.linkageCaseStatus[k]);
           this.caseStatusTwoItemsNew = this.linkageCaseStatus[k];
-          let _linkcs = this.caseStatusTwoItemsNew.map((it, idx) => {
-            // it:键名
-            // idx:下标
-            it["active"] = false;
-            return it;
-          });
+          let _linkcs = this.resetActiveOff(this.caseStatusTwoItemsNew);
           console.log("_linkcs", _linkcs);
           this.caseStatusTwoItemsNew = _linkcs;
+
+
+          // this.caseStatusTwoItemsNew = this.linkageCaseStatus[k];
+          // let _linkcs = this.caseStatusTwoItemsNew.map((it, idx) => {
+          //   // it:键名
+          //   // idx:下标
+          //   it["active"] = false;
+          //   return it;
+          // });
+          // console.log("_linkcs", _linkcs);
+          // this.caseStatusTwoItemsNew = _linkcs;
         }
       });
     },
@@ -141,8 +187,8 @@ export default {
             // v.level == 1 ? this.linkageTwoState(Number(v.code)) : void 0;
             if (v.level == 2) {
               v.code == 7 || v.code == 8 ? (this.threePanel = true) : void 0;
-            } else if(v.level == 1){
-              this.linkageTwoState(Number(v.code))
+            } else if (v.level == 1) {
+              this.linkageTwoState(Number(v.code));
               this.threePanel = false;
             }
           }
@@ -161,7 +207,7 @@ export default {
       // 选中状态
       switch (type) {
         case "stage":
-          this.handleActive(this.caseStatusItems, index);
+          this.handleActive(this.caseStatusItemsNew, index);
           break;
         case "state":
           this.handleActive(this.caseStatusTwoItemsNew, index);
@@ -187,6 +233,18 @@ export default {
         // 确定状态-且隐藏当前组件
         this.$emit("close");
       }
+    },
+    resetPager(){
+      // 重置交互状态和查询条件状态
+      this.resetActiveOff(this.caseStatusItemsNew)
+      this.resetActiveOff(this.caseStatusTwoItemsNew)
+      this.resetActiveOff(this.caseStatusThreeItemsNew)
+      this.pager.caseStatus = null;
+      this.pager.caseStatusTwo = null;
+      this.pager.repaymentAll = null;
+    },
+    handleReset() {
+      this.resetPager();
     }
   }
 };
