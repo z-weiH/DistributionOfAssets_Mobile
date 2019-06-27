@@ -521,7 +521,7 @@ export default {
       //   text: "加载中"
       // });
       this.$http
-        .post("/mobile/updateAssetPackageStatus.htm", {
+        .post("/mobile/package/status/update.htm", {
           notes: args.notes,
           packageId: args.packageId,
           packageStatus: args.packageStatus, //已确认
