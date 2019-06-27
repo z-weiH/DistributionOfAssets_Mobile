@@ -23,6 +23,7 @@
         :caseStatusItems="caseStatusItems"
         :caseStatusTwoItems="caseStatusTwoItems"
         :caseStatusThreeItems="caseStatusThreeItems"
+        :linkageCaseStatus="linkageCaseStatus"
         :pager="pager"
         @close="handleOpenDropDownFilter"
       ></drop-down-filter>
@@ -74,6 +75,12 @@ export default {
       type: Array,
       default: () => {
         return [];
+      }
+    },
+    linkageCaseStatus:{
+      type: Object,
+      default: () => {
+        return {};
       }
     }
   },

@@ -18,13 +18,13 @@
         <v-touch
           tag="div"
           :class="['item',{'on' : it.active }]"
-          v-for="(it,index) in caseStatusTwoItems"
+          v-for="(it,index) in caseStatusTwoItemsNew"
           :key="index"
           v-on:tap="onItemStatus('state',index)"
         >{{it.name}}</v-touch>
       </div>
     </div>
-    <div class="item_card">
+    <div class="item_card" v-if="threePanel">
       <h1>还款子状态</h1>
       <div class="item_box">
         <v-touch
@@ -46,21 +46,67 @@
 export default {
   name: "dropDownFilter",
   props: {
+    linkageCaseStatus: {},
     caseStatusItems: {},
     caseStatusTwoItems: {},
     caseStatusThreeItems: {},
     // 入参--案件阶段
-    pager:{},
+    pager: {}
   },
   data() {
     return {
       caseStatusOne: "",
       caseStatusTwo: "",
-      caseStatusThree: ""
+      caseStatusThree: "",
+      caseStatusTwoItemsNew: this.caseStatusTwoItems,
+      threePanel: false
     };
   },
   methods: {
-    levelFoo(level,stateVal){
+    setTwoLevelVal(code) {
+      // 设置二级状态
+      // 重置状态
+      this.pager.caseStatusTwo = null;
+      console.log("this.linkageCaseStatus--", this.linkageCaseStatus, code);
+      Object.keys(this.linkageCaseStatus).map((k, v) => {
+        // k:键名
+        // v:下标
+        if (code == k) {
+          console.log("current-linkageCaseStatus:", this.linkageCaseStatus[k]);
+
+          this.caseStatusTwoItemsNew = this.linkageCaseStatus[k];
+          let _linkcs = this.caseStatusTwoItemsNew.map((it, idx) => {
+            // it:键名
+            // idx:下标
+            it["active"] = false;
+            return it;
+          });
+          console.log("_linkcs", _linkcs);
+          this.caseStatusTwoItemsNew = _linkcs;
+        }
+      });
+    },
+    linkageTwoState(code) {
+      // 联动区分对应二级状态
+      switch (code) {
+        case 0:
+          console.log("0000000000");
+          this.setTwoLevelVal(code);
+          break;
+        case 1:
+          this.setTwoLevelVal(code);
+          break;
+        case 2:
+          this.setTwoLevelVal(code);
+          break;
+        case 3:
+          this.setTwoLevelVal(code);
+          break;
+        default:
+          break;
+      }
+    },
+    levelFoo(level, stateVal) {
       switch (level) {
         case 1:
           this.pager.caseStatus = stateVal;
@@ -83,14 +129,22 @@ export default {
     handleActive(arr, index, fn) {
       arr.map((v, k) => {
         if (k === index) {
-          console.log(v);
+          console.log("vvvvvvvvv", v);
           v["active"] = !v["active"];
-          if(v["active"] == 0){
-            console.log('未选中',v,'--',this.pager)
-            this.levelFoo(v.level,null);
-          }else{
-            console.log('已选中',v,'--',this.pager)
-            this.levelFoo(v.level,Number(v.code));
+          if (v["active"] == 0) {
+            console.log("未选中", v, "--", this.pager);
+            this.levelFoo(v.level, null);
+            v.level == 1 ? (this.caseStatusTwoItemsNew = []) : void 0;
+          } else {
+            console.log("已选中", v, "--", this.pager);
+            this.levelFoo(v.level, Number(v.code));
+            // v.level == 1 ? this.linkageTwoState(Number(v.code)) : void 0;
+            if (v.level == 2) {
+              v.code == 7 || v.code == 8 ? (this.threePanel = true) : void 0;
+            } else if(v.level == 1){
+              this.linkageTwoState(Number(v.code))
+              this.threePanel = false;
+            }
           }
           fn && fn();
         } else {
@@ -110,7 +164,7 @@ export default {
           this.handleActive(this.caseStatusItems, index);
           break;
         case "state":
-          this.handleActive(this.caseStatusTwoItems, index);
+          this.handleActive(this.caseStatusTwoItemsNew, index);
           break;
         case "stateReplay":
           this.handleActive(this.caseStatusThreeItems, index);
@@ -119,10 +173,20 @@ export default {
       }
     },
     handleConfirm() {
-      console.log('确定------------',this.$parent.$emit)
-      this.$parent.$emit("EnterQuery")
-      // 确定状态-且隐藏当前组件
-      this.$emit("close");
+      console.log("确定------------", this.$parent.$emit);
+      if (this.pager.caseStatus == 2) {
+        if (this.pager.caseStatusTwo && this.pager.repaymentAll == null) {
+          this.$vux.toast.text("请选择结清状态");
+        } else {
+          this.$parent.$emit("EnterQuery");
+          // 确定状态-且隐藏当前组件
+          this.$emit("close");
+        }
+      } else {
+        this.$parent.$emit("EnterQuery");
+        // 确定状态-且隐藏当前组件
+        this.$emit("close");
+      }
     }
   }
 };

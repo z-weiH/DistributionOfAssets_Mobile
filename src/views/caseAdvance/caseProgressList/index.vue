@@ -8,6 +8,7 @@
           :caseStatusItems="caseStatusItems"
           :caseStatusTwoItems="caseStatusTwoItems"
           :caseStatusThreeItems="caseStatusThreeItems"
+          :linkageCaseStatus="linkageCaseStatus"
           :searchWords="searchWords"
           :pager="pager"
           @change="handleChangeInput"
@@ -376,28 +377,52 @@ export default {
         { code: "3", name: "结案", active: false, level: 1 }
       ],
       caseStatusTwoItems: [
-        { code: "0", name: "待分发", active: false, level: 2 },
-        { code: "1", name: "待签收", active: false, level: 2 },
-        { code: "2", name: "已签收", active: false, level: 2 },
-        { code: "3", name: "送达法院", active: false, level: 2 },
-        { code: "4", name: "材料补证", active: false, level: 2 },
-        { code: "5", name: "法院立案", active: false, level: 2 },
-        { code: "6", name: "恢复执行", active: false, level: 2 },
-        { code: "7", name: "执行回款", active: false, level: 2 },
-        { code: "8", name: "回款（非执行）", active: false, level: 2 },
-        { code: "9", name: "财产拍卖", active: false, level: 2 },
-        { code: "10", name: "执行完毕", active: false, level: 2 },
-        { code: "11", name: "终结本次执行程序", active: false, level: 2 },
-        { code: "12", name: "终结执行", active: false, level: 2 },
-        { code: "13", name: "销案", active: false, level: 2 },
-        { code: "14", name: "不予执行", active: false, level: 2 },
-        { code: "15", name: "撤销案件", active: false, level: 2 },
-        { code: "16", name: "驳回申请", active: false, level: 2 }
+        // { code: "0", name: "待分发", active: false, level: 2 },
+        // { code: "1", name: "待签收", active: false, level: 2 },
+        // { code: "2", name: "已签收", active: false, level: 2 },
+        // { code: "3", name: "送达法院", active: false, level: 2 },
+        // { code: "4", name: "材料补证", active: false, level: 2 },
+        // { code: "5", name: "法院立案", active: false, level: 2 },
+        // { code: "6", name: "恢复执行", active: false, level: 2 },
+        // { code: "7", name: "执行回款", active: false, level: 2 },
+        // { code: "8", name: "回款（非执行）", active: false, level: 2 },
+        // { code: "9", name: "财产拍卖", active: false, level: 2 },
+        // { code: "10", name: "执行完毕", active: false, level: 2 },
+        // { code: "11", name: "终结本次执行程序", active: false, level: 2 },
+        // { code: "12", name: "终结执行", active: false, level: 2 },
+        // { code: "13", name: "销案", active: false, level: 2 },
+        // { code: "14", name: "不予执行", active: false, level: 2 },
+        // { code: "15", name: "撤销案件", active: false, level: 2 },
+        // { code: "16", name: "驳回申请", active: false, level: 2 }
       ],
       caseStatusThreeItems: [
         { code: "0", name: "未结清", active: false, level: 3 },
         { code: "1", name: "已结清", active: false, level: 3 }
       ],
+      linkageCaseStatus: {
+        0: [
+          { code: "2", name: "已签收", active: false, level: 2 },
+          { code: "3", name: "送达法院", active: false, level: 2 },
+          { code: "4", name: "材料补证", active: false, level: 2 }
+        ],
+        1: [
+          { code: "5", name: "法院立案", active: false, level: 2 },
+          { code: "6", name: "恢复执行", active: false, level: 2 }
+        ],
+        2: [
+          { code: "7", name: "执行回款", active: false, level: 2 },
+          { code: "8", name: "回款（非执行）", active: false, level: 2 }
+        ],
+        3: [
+          { code: "10", name: "执行完毕", active: false, level: 2 },
+          { code: "11", name: "终结本次执行程序", active: false, level: 2 },
+          { code: "12", name: "终结执行", active: false, level: 2 },
+          { code: "13", name: "销案", active: false, level: 2 },
+          { code: "14", name: "不予执行", active: false, level: 2 },
+          { code: "15", name: "撤销案件", active: false, level: 2 },
+          { code: "16", name: "驳回申请", active: false, level: 2 }
+        ]
+      },
       loadOver: false,
       dataList: [], //列表数据源
       pager: {
