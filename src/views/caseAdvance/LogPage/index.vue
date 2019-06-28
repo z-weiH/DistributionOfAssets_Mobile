@@ -14,7 +14,7 @@
       >
         <div class="item-list-box">
           <div class="item-list">
-            <van-steps direction="vertical" :active="dataList.length + 1" active-color="#0DBC79">
+            <van-steps direction="vertical" active-color="#0DBC79" :active="-1">
               <van-step v-for="(it,index) in dataList" :key="index">
                 <h3 class="step_header" v-if="it.applyType === 0">
                   <template v-if="it.confirmedStatus === 0 || it.confirmedStatus === 2">平台审核中</template>
@@ -62,24 +62,20 @@
                         <span>发起人：</span>
                         <span>{{it.operatorName}}</span>
                       </li>
-                      <li>
+                      <li v-if="it.confirmedTime">
                         <span>发生时间：</span>
                         <span>{{it.confirmedTime}}</span>
                       </li>
-                      <li>
-                        <template v-if="it.checkName">
-                          <span>补充说明：</span>
-                          <span>{{it.confirmDetail}}</span>
-                        </template>
-                        <template v-else>
+                      <li v-if="it.operationDetail">
+                        <template>
                           <span>补充说明：</span>
                           <span>{{it.operationDetail}}</span>
                         </template>
                       </li>
-                      <li>
+                      <li v-if="it.imgUrls">
                         <span>{{index}}</span>
                         <span>
-                          <template v-if="it.imgUrls">
+                          <template>
                             <img
                               :src="pic"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
@@ -87,11 +83,11 @@
                               @click="handleShowImg(index,idx)"
                             >
                             <div v-transfer-dom>
-                            <previewer
-                              :ref="`previewer${index}`"
-                              :list="imageFormat(it.imgUrls)"
-                              @on-index-change="logIndexChange"
-                            ></previewer>
+                              <previewer
+                                :ref="`previewer${index}`"
+                                :list="imageFormat(it.imgUrls)"
+                                @on-index-change="logIndexChange"
+                              ></previewer>
                             </div>
                           </template>
                         </span>
@@ -130,28 +126,47 @@
                         <span>发起人：</span>
                         <span>{{it.operatorName}}</span>
                       </li>
-                      <li>
+                      <li v-if="it.confirmedTime">
                         <span>发生时间：</span>
                         <span>{{it.confirmedTime}}</span>
                       </li>
-                      <li>
+                      <li v-if="it.operationDetail">
                         <span>补充说明：</span>
                         <span>{{it.operationDetail}}</span>
                       </li>
                       <li>
-                        <template v-if="it.checkName">
+                        <template v-if="it.targetStatus === 16 && it.checkDetail">
                           <span>补充说明：</span>
-                          <span>{{it.confirmDetail}}</span>
+                          <span>{{it.checkDetail}}</span>
                         </template>
-                        <template v-else>
+                        <template
+                          v-if="it.targetStatus === 7 && it.confirmDetail || it.targetStatus === 8 && it.confirmDetail"
+                        >
                           <span>补充说明：</span>
-                          <span>{{it.operationDetail}}</span>
+                          <span>
+                            <template v-if="it.confirmDetail">{{it.confirmDetail}}</template>
+                            <template v-if="it.attachFile">
+                              <img
+                                :src="pic"
+                                v-for="(pic,idx) in it.attachFile.split(',')"
+                                :key="idx"
+                                @click="handleShowImg(index,idx)"
+                              >
+                              <div v-transfer-dom>
+                                <previewer
+                                  :ref="`previewer${index}`"
+                                  :list="imageFormat(it.attachFile)"
+                                  @on-index-change="logIndexChange"
+                                ></previewer>
+                              </div>
+                            </template>
+                          </span>
                         </template>
                       </li>
-                      <li>
-                        <span></span>
+                      <li v-if="it.imgUrls">
+                        <span>附件：</span>
                         <span>
-                          <template v-if="it.imgUrls">
+                          <template>
                             <img
                               :src="pic"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
@@ -159,11 +174,11 @@
                               @click="handleShowImg(index,idx)"
                             >
                             <div v-transfer-dom>
-                            <previewer
-                              :ref="`previewer${index}`"
-                              :list="imageFormat(it.imgUrls)"
-                              @on-index-change="logIndexChange"
-                            ></previewer>
+                              <previewer
+                                :ref="`previewer${index}`"
+                                :list="imageFormat(it.imgUrls)"
+                                @on-index-change="logIndexChange"
+                              ></previewer>
                             </div>
                           </template>
                         </span>
@@ -185,19 +200,15 @@
                         <span>{{it.confirmedTime}}</span>
                       </li>
                       <li>
-                        <template v-if="it.checkName">
+                        <template v-if="it.targetStatus === 16 && it.checkDetail">
                           <span>补充说明：</span>
-                          <span>{{it.confirmDetail}}</span>
-                        </template>
-                        <template v-else>
-                          <span>补充说明：</span>
-                          <span>{{it.operationDetail}}</span>
+                          <span>{{it.checkDetail}}</span>
                         </template>
                       </li>
-                      <li>
-                        <span></span>
+                      <li v-if="it.imgUrls">
+                        <span>附件：</span>
                         <span>
-                          <template v-if="it.imgUrls">
+                          <template>
                             <img
                               :src="pic"
                               v-for="(pic,idx) in it.imgUrls.split(',')"
@@ -205,11 +216,11 @@
                               @click="handleShowImg(index,idx)"
                             >
                             <div v-transfer-dom>
-                            <previewer
-                              :ref="`previewer${index}`"
-                              :list="imageFormat(it.imgUrls)"
-                              @on-index-change="logIndexChange"
-                            ></previewer>
+                              <previewer
+                                :ref="`previewer${index}`"
+                                :list="imageFormat(it.imgUrls)"
+                                @on-index-change="logIndexChange"
+                              ></previewer>
                             </div>
                           </template>
                         </span>
@@ -219,44 +230,6 @@
                   </ul>
                 </div>
               </van-step>
-              <!-- <van-step>
-                <h3 class="step_header">平台审核中</h3>
-                <p class="step_context">
-                  <ul>
-                    <li>
-                      <span>状态变更为：</span><span>撒旦发噶水电费</span>
-                    </li>
-                    <li>
-                      <span>发起人：</span><span>街上看到回复可见阿斯大法</span>
-                    </li>
-                    <li>
-                      <span>发生时间：</span><span>2018-02-02</span>
-                    </li>
-                    <li>
-                      <span>补充说明：</span><span>环境受到广泛哈地方都会发生观点或发生的规范化恢复</span>
-                    </li>
-                  </ul>
-                </p>
-              </van-step>
-              <van-step>
-                <h3 class="step_header">平台审核中</h3>
-                <p class="step_context">
-                  <ul>
-                    <li>
-                      <span>状态变更为：</span><span>撒旦发噶水电费</span>
-                    </li>
-                    <li>
-                      <span>发起人：</span><span>街上看到回复可见阿斯大法</span>
-                    </li>
-                    <li>
-                      <span>发生时间：</span><span>2018-02-02</span>
-                    </li>
-                    <li>
-                      <span>补充说明：</span><span>环境受到广泛哈地方都会发生观点或发生的规范化恢复</span>
-                    </li>
-                  </ul>
-                </p>
-              </van-step>-->
             </van-steps>
           </div>
         </div>
@@ -438,6 +411,7 @@ $cardColor: rgb(173, 197, 238);
       background-color: #eeeeee;
       .van-steps {
         background-color: #fcfcfc;
+        padding-top: rem(20);
       }
     }
   }

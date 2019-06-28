@@ -665,7 +665,22 @@ body{
 
 /* 时间线 custom*/
 body{
+  .van-step{
+    .van-step__circle{
+      background-color: #0DBC79 !important;
+    }
+  }
   .van-step--vertical {
+    &:first-child{
+      &:before{
+        width: 0;
+        border-left: rem(1) solid #0DBC79;
+      }
+    }
+    .van-step__line{
+      background-color: #0DBC79;
+    }
+
     .van-step__circle{
       width: 15px;
         height: 15px;
@@ -680,9 +695,7 @@ body{
         background-color: #0DBC79;
         top:16px;
       }
-      .van-step__line{
-        background-color: #0DBC79;
-      }
+
       // &.van-step--process{
       //   .van-icon-checked{
       //     font-size:20px;
