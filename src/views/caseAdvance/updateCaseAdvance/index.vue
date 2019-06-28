@@ -433,6 +433,12 @@ export default {
           this.reback_state = false;
           this.def_state = false;
           break;
+        case 6:
+          this.vshow_remark = true;
+          this.putRecord_state = true;
+          this.reback_state = false;
+          this.def_state = false;
+          break;
         case 15:
           this.def_state = true;
           this.vshow_remark = false;
@@ -482,6 +488,8 @@ export default {
         this.btnCtrlCaseState(4);
       } else if (newVal[0] == 5) {
         this.btnCtrlCaseState(5);
+      } else if (newVal[0] == 6) {
+        this.btnCtrlCaseState(6);
       } else if (newVal[0] == 15) {
         this.btnCtrlCaseState(15);
       } else if (newVal[0] == 16) {
