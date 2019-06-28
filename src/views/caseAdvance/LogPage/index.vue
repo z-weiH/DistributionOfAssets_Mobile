@@ -68,11 +68,11 @@
                       </li>
                       <li>
                         <template v-if="it.checkName">
-                          <span>审核人补充说明：</span>
+                          <span>补充说明：</span>
                           <span>{{it.confirmDetail}}</span>
                         </template>
                         <template v-else>
-                          <span>发起人补充说明：</span>
+                          <span>补充说明：</span>
                           <span>{{it.operationDetail}}</span>
                         </template>
                       </li>
@@ -140,11 +140,11 @@
                       </li>
                       <li>
                         <template v-if="it.checkName">
-                          <span>审核人补充说明：</span>
+                          <span>补充说明：</span>
                           <span>{{it.confirmDetail}}</span>
                         </template>
                         <template v-else>
-                          <span>发起人补充说明：</span>
+                          <span>补充说明：</span>
                           <span>{{it.operationDetail}}</span>
                         </template>
                       </li>
@@ -186,11 +186,11 @@
                       </li>
                       <li>
                         <template v-if="it.checkName">
-                          <span>审核人补充说明：</span>
+                          <span>补充说明：</span>
                           <span>{{it.confirmDetail}}</span>
                         </template>
                         <template v-else>
-                          <span>发起人补充说明：</span>
+                          <span>补充说明：</span>
                           <span>{{it.operationDetail}}</span>
                         </template>
                       </li>
