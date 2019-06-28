@@ -150,7 +150,7 @@
               <upload v-model="ruleForm.pngUrl" class="m-upload"></upload>
               <div v-if="vshow_remark" class="up_remark">
                 <!-- <span class="em">*</span>
-                <span>请上传受理凭证</span> -->
+                <span>请上传受理凭证</span>-->
               </div>
             </div>
           </group>
@@ -445,6 +445,18 @@ export default {
           this.putRecord_state = false;
           this.reback_state = false;
           break;
+        case 70:
+          this.reback_state = true;
+          this.def_state = false;
+          this.vshow_remark = false;
+          this.putRecord_state = false;
+          break;
+        case 71:
+          this.reback_state = true;
+          this.def_state = false;
+          this.vshow_remark = false;
+          this.putRecord_state = false;
+          break;
         case 80:
           this.reback_state = true;
           this.def_state = false;
@@ -463,7 +475,7 @@ export default {
       }
     },
     changeCaseState(newVal) {
-      console.log(newVal);
+      console.log("changeCaseState=", newVal);
       if (newVal[0] == 3) {
         this.btnCtrlCaseState(3);
       } else if (newVal[0] == 4) {
@@ -474,6 +486,10 @@ export default {
         this.btnCtrlCaseState(15);
       } else if (newVal[0] == 16) {
         this.btnCtrlCaseState(16);
+      } else if (newVal[0] == 70) {
+        this.btnCtrlCaseState(70);
+      } else if (newVal[0] == 71) {
+        this.btnCtrlCaseState(71);
       } else if (newVal[0] == 80) {
         this.btnCtrlCaseState(80);
       } else if (newVal[0] == 81) {
