@@ -116,7 +116,6 @@
                           <template v-if="it.targetStatus === 7">执行回款</template>
                           <template v-if="it.targetStatus === 8">回款（非执行）</template>
                           <template v-if="it.targetStatus === 9">财产拍卖</template>
-                          <template v-if="it.targetStatus === 7">执行回款</template>
                           <template v-if="it.targetStatus === 10">执行完毕</template>
                           <template v-if="it.targetStatus === 11">终结本次执行程序</template>
                           <template v-if="it.targetStatus === 12">终结执行</template>
