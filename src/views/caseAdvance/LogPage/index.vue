@@ -142,10 +142,22 @@
                         <span>立案时间：</span>
                         <span>{{it.courtStartTime}}</span>
                       </li>
-                      <li v-if="it.courtCaseNo">
-                        <span>执行案号：</span>
-                        <span>{{it.courtCaseNo}}</span>
-                      </li>
+                      <template v-if="it.targetStatus === 7 || it.targetStatus === 8">
+                        <li>
+                          <span>回款金额：</span>
+                          <span>{{it.repaymentAmt}}</span>
+                        </li>
+                        <li>
+                          <span>回款方式：</span>
+                          <span>{{it.repaymentMethod}}</span>
+                        </li>
+                      </template>
+                      <template v-else>
+                        <li v-if="it.courtCaseNo">
+                          <span>执行案号：</span>
+                          <span>{{it.courtCaseNo}}</span>
+                        </li>
+                      </template>
                       <li v-if="it.confirmedTime">
                         <span>发生时间：</span>
                         <span>{{it.confirmedTime}}</span>
@@ -503,7 +515,7 @@ $cardColor: rgb(173, 197, 238);
   // border-width: 1px;
   // border-top-style: dashed;
   // border-color: #888777;
-  border-top:1px solid #888777;
+  border-top: 1px solid #888777;
   width: 100%;
 }
 </style>
