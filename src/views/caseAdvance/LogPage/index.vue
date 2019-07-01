@@ -461,12 +461,15 @@ $cardColor: rgb(173, 197, 238);
     li {
       display: table;
       padding: rem(15) 0;
+      font-size: rem(26);
       > span {
         display: table-cell;
         vertical-align: middle;
         &:first-child {
           width: rem(200);
           white-space: nowrap;
+          font-size: rem(28);
+          font-weight: bold;
         }
         img {
           min-width: rem(200);
@@ -479,22 +482,27 @@ $cardColor: rgb(173, 197, 238);
   }
 }
 
-.tabstatus{
+.tabstatus {
   display: inline-block;
   vertical-align: middle;
-  padding:rem(5) rem(10);
+  padding: rem(7) rem(18);
+  font-weight: bold;
+  text-align: center;
   white-space: nowrap;
-  // margin-left:20%;
-  font-size:rem(24);
+  margin-left: 36%;
+  font-size: rem(24);
   border-radius: rem(36);
   border-width: 1px;
-  border-color:#e4393c;
+  border-color: #e4393c;
   background-color: #e4393c;
-  font-style:normal;
-  color:#fff;
+  font-style: normal;
+  color: #fff;
+  letter-spacing: rem(3);
 }
-.topline{
- border-top:1px solid #888777;
- width: 100%;
+.topline {
+  border-width: rem(1);
+  border-top-style: dashed;
+  border-color: #888777;
+  width: 100%;
 }
 </style>
