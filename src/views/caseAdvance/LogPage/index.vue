@@ -207,7 +207,10 @@
                       </li>
                       <li>
                         <span>发起人：</span>
-                        <span>{{it.operatorAgency}}-{{it.operatorName}}</span>
+                        <span>
+                          <template v-if="it.operatorAgency">{{it.operatorAgency}}-</template>
+                          {{it.operatorName}}
+                        </span>
                       </li>
                       <li>
                         <span>发生时间：</span>
