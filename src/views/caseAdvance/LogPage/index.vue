@@ -124,6 +124,9 @@
                           <template v-if="it.repaymentAll === 0">-未结清</template>
                           <template v-if="it.repaymentAll === 1">-已结清</template>
                         </span>
+                        <span v-if="it.confirmedStatus === 1 || it.confirmedStatus === 3">
+                          <x-button :gradients="['#e4393c', '#e4393c']" mini style="border-radius:99px;" class="tabstatus">驳回</x-button>
+                        </span>
                       </li>
                       <li>
                         <span>发起人：</span>
@@ -149,8 +152,8 @@
                         <span>{{it.operationDetail}}</span>
                       </li>
                       <li>
-                        <template v-if="it.targetStatus === 16 && it.checkDetail">
-                          <span>补充说明：</span>
+                        <template v-if="it.confirmedStatus === 1 && it.checkDetail">
+                          <span>审核说明：</span>
                           <span>{{it.checkDetail}}</span>
                         </template>
                         <template
@@ -452,7 +455,7 @@ $cardColor: rgb(173, 197, 238);
       padding: rem(15) 0;
       > span {
         display: table-cell;
-        vertical-align: top;
+        vertical-align: middle;
         &:first-child {
           width: rem(200);
           white-space: nowrap;
@@ -466,5 +469,9 @@ $cardColor: rgb(173, 197, 238);
       }
     }
   }
+}
+
+.tabstatus{
+  margin-left:rem(100);
 }
 </style>
