@@ -98,7 +98,8 @@
             </p>
           </div>
           <group :gutter="0" class="card_item">
-            <!-- <popup-picker
+            <template v-if="dataItems.caseStatusTwo !== 5 || dataItems.caseStatusTwo !== 6">
+              <popup-picker
               @on-change="changeCaseState"
               title="案件状态："
               placeholder="请选择"
@@ -107,7 +108,8 @@
               value-text-align="left"
               class="required"
               show-name
-            ></popup-picker> -->
+            ></popup-picker>
+            </template>
             <template v-if="def_state">
               <datetime
                 format="YYYY-MM-DD"
@@ -549,7 +551,9 @@ export default {
           let newCaseStateArr = this.customObjkeyAndVal(_res);
           console.log(newCaseStateArr);
           if(this.onTabFormState === 0){
-            this.ruleForm.newStatus = [newCaseStateArr[0]["value"]]
+            if(dataItems.caseStatus === 2 && dataItems.caseStatusTwo === 7 && dataItems.repaymentAll === 1){
+              this.ruleForm.newStatus = [newCaseStateArr[0]["value"]]
+            }
           }
           this.newStatusSelects = [newCaseStateArr];
           console.log("this.newStatusSelects", this.newStatusSelects);

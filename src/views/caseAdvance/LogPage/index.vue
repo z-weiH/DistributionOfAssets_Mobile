@@ -38,8 +38,8 @@
                           <template v-if="it.targetStatus === -1">电子材料未生成</template>
                           <template v-if="it.targetStatus === 0">待分发</template>
                           <template v-if="it.targetStatus === 1">待签收</template>
-                          <template v-if="it.targetStatus === 2">已签收</template>
-                          <template v-if="it.targetStatus === 3">送达法院</template>
+                          <template v-if="it.targetStatus === 2">材料已签收</template>
+                          <template v-if="it.targetStatus === 3">材料送达法院</template>
                           <template v-if="it.targetStatus === 4">材料补证</template>
                           <template v-if="it.targetStatus === 5">法院立案</template>
                           <template v-if="it.targetStatus === 6">恢复执行</template>
@@ -61,7 +61,7 @@
                       <li>
                         <span>发起人：</span>
                         <span>
-                          <template v-if="it.operatorAgency">{{it.operatorAgency}}-</template>
+                          <template v-if="it.operatorAgency">{{it.operatorAgency}}&nbsp;-&nbsp;</template>
                           {{it.operatorName}}
                         </span>
                       </li>
@@ -105,8 +105,8 @@
                           <template v-if="it.targetStatus === -1">电子材料未生成</template>
                           <template v-if="it.targetStatus === 0">待分发</template>
                           <template v-if="it.targetStatus === 1">待签收</template>
-                          <template v-if="it.targetStatus === 2">已签收</template>
-                          <template v-if="it.targetStatus === 3">送达法院</template>
+                          <template v-if="it.targetStatus === 2">材料已签收</template>
+                          <template v-if="it.targetStatus === 3">材料送达法院</template>
                           <template v-if="it.targetStatus === 4">材料补证</template>
                           <template v-if="it.targetStatus === 5">法院立案</template>
                           <template v-if="it.targetStatus === 6">恢复执行</template>
@@ -128,7 +128,7 @@
                       <li>
                         <span>发起人：</span>
                         <span>
-                          <template v-if="it.operatorAgency">{{it.operatorAgency}}-</template>
+                          <template v-if="it.operatorAgency">{{it.operatorAgency}}&nbsp;-&nbsp;</template>
                           {{it.operatorName}}
                         </span>
                       </li>
@@ -208,11 +208,11 @@
                       <li>
                         <span>发起人：</span>
                         <span>
-                          <template v-if="it.operatorAgency">{{it.operatorAgency}}-</template>
+                          <template v-if="it.operatorAgency">{{it.operatorAgency}}&nbsp;-&nbsp;</template>
                           {{it.operatorName}}
                         </span>
                       </li>
-                      <li>
+                      <li v-if="it.confirmedTime">
                         <span>发生时间：</span>
                         <span>{{it.confirmedTime}}</span>
                       </li>
