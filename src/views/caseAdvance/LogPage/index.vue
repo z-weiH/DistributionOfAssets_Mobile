@@ -500,9 +500,10 @@ $cardColor: rgb(173, 197, 238);
   letter-spacing: rem(3);
 }
 .topline {
-  border-width: rem(1);
-  border-top-style: dashed;
-  border-color: #888777;
+  // border-width: 1px;
+  // border-top-style: dashed;
+  // border-color: #888777;
+  border-top:1px solid #888777;
   width: 100%;
 }
 </style>
