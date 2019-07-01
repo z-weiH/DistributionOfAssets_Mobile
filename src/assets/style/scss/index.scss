@@ -14,6 +14,10 @@
 @import './component/slimPopup'; //bottom-popup
 /* end */
 
+/* 抢先 隐藏 iframe */
+body iframe {display: none;}
+
+
 %wys_ib {
   &:before {
     content: '';

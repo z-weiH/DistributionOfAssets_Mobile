@@ -8,6 +8,8 @@ import {
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import {runAdGo} from "@/tools/deleteAd";
+
 // 将Vue.use使用判断条件,生产环境不要使用Vue.use(Router)
 // if (process.env.NODE_ENV === 'development') {
 Vue.use(Vuex)
@@ -258,6 +260,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
+  runAdGo();
   next()
   // console.log(window.location.href)
 })
