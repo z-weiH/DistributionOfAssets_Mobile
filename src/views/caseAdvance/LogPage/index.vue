@@ -57,6 +57,9 @@
                           <template v-if="it.repaymentAll === 0">-未结清</template>
                           <template v-if="it.repaymentAll === 1">-已结清</template>
                         </span>
+                        <span v-if="it.confirmedStatus === 1 || it.confirmedStatus === 3">
+                          <i class="tabstatus">驳回</i>
+                        </span>
                       </li>
                       <li>
                         <span>发起人：</span>
@@ -125,7 +128,7 @@
                           <template v-if="it.repaymentAll === 1">-已结清</template>
                         </span>
                         <span v-if="it.confirmedStatus === 1 || it.confirmedStatus === 3">
-                          <x-button :gradients="['#e4393c', '#e4393c']" mini style="border-radius:99px;" class="tabstatus">驳回</x-button>
+                          <i class="tabstatus">驳回</i>
                         </span>
                       </li>
                       <li>
@@ -152,10 +155,6 @@
                         <span>{{it.operationDetail}}</span>
                       </li>
                       <li>
-                        <template v-if="it.confirmedStatus === 1 && it.checkDetail">
-                          <span>审核说明：</span>
-                          <span>{{it.checkDetail}}</span>
-                        </template>
                         <template
                           v-if="it.targetStatus === 7 && it.confirmDetail || it.targetStatus === 8 && it.confirmDetail"
                         >
@@ -200,6 +199,12 @@
                           </template>
                         </span>
                       </li>
+                      <li v-if="it.confirmedStatus === 1 && it.checkDetail" class="topline">
+                        <template>
+                          <span>审核说明：</span>
+                          <span>{{it.checkDetail}}</span>
+                        </template>
+                      </li>
                     </template>
                     <!-- end -->
                     <!-- 执行措施 -->
@@ -207,6 +212,9 @@
                       <li>
                         <span>新增状态：</span>
                         <span>{{it.measures}}</span>
+                        <span v-if="it.confirmedStatus === 1 || it.confirmedStatus === 3">
+                          <i class="tabstatus">驳回</i>
+                        </span>
                       </li>
                       <li>
                         <span>发起人：</span>
@@ -472,6 +480,21 @@ $cardColor: rgb(173, 197, 238);
 }
 
 .tabstatus{
-  margin-left:rem(100);
+  display: inline-block;
+  vertical-align: middle;
+  padding:rem(5) rem(10);
+  white-space: nowrap;
+  // margin-left:20%;
+  font-size:rem(24);
+  border-radius: rem(36);
+  border-width: 1px;
+  border-color:#e4393c;
+  background-color: #e4393c;
+  font-style:normal;
+  color:#fff;
+}
+.topline{
+ border-top:1px solid #888777;
+ width: 100%;
 }
 </style>
