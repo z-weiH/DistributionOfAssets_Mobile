@@ -91,6 +91,7 @@ export default {
       // 设置二级状态
       // 重置状态
       this.pager.caseStatusTwo = null;
+      this.pager.repaymentAll = null;
       console.log("this.linkageCaseStatus--", this.linkageCaseStatus, code);
       Object.keys(this.linkageCaseStatus).map((k, v) => {
         // k:键名

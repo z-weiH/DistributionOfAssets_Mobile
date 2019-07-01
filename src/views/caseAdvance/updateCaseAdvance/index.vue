@@ -551,8 +551,11 @@ export default {
           let newCaseStateArr = this.customObjkeyAndVal(_res);
           console.log(newCaseStateArr);
           if(this.onTabFormState === 0){
+            console.log("this.onTabFormState-------------",this.onTabFormState);
+            console.log("cc-",this.dataItems.caseStatus,"dd-",this.dataItems.caseStatusTwo,"ee-",this.dataItems.repaymentAll)
             if(this.dataItems.caseStatus === 2 && this.dataItems.caseStatusTwo === 7 && this.dataItems.repaymentAll === 1){
               this.ruleForm.newStatus = [newCaseStateArr[0]["value"]]
+              console.log("r-newstatus",this.ruleForm.newStatus)
             }
           }
           this.newStatusSelects = [newCaseStateArr];
