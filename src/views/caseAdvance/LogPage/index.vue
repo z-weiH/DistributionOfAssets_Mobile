@@ -166,31 +166,6 @@
                         <span>补充说明：</span>
                         <span>{{it.operationDetail}}</span>
                       </li>
-                      <li>
-                        <template
-                          v-if="it.targetStatus === 7 && it.confirmDetail || it.targetStatus === 8 && it.confirmDetail"
-                        >
-                          <span>补充说明：</span>
-                          <span>
-                            <template v-if="it.confirmDetail">{{it.confirmDetail}}</template>
-                            <template v-if="it.attachFile">
-                              <img
-                                :src="pic"
-                                v-for="(pic,idx) in it.attachFile.split(',')"
-                                :key="idx"
-                                @click="handleShowImg(index,idx)"
-                              />
-                              <div v-transfer-dom>
-                                <previewer
-                                  :ref="`previewer${index}`"
-                                  :list="imageFormat(it.attachFile)"
-                                  @on-index-change="logIndexChange"
-                                ></previewer>
-                              </div>
-                            </template>
-                          </span>
-                        </template>
-                      </li>
                       <li v-if="it.imgUrls">
                         <span>附件：</span>
                         <span>
@@ -211,7 +186,39 @@
                           </template>
                         </span>
                       </li>
-                      <li v-if="it.confirmedStatus === 1 && it.checkDetail" class="topline">
+                      <li
+                        v-if="it.targetStatus === 7 && it.confirmDetail || it.targetStatus === 8 && it.confirmDetail"
+                        class="topline"
+                      >
+                        <template>
+                          <span>审核说明：</span>
+                          <span>
+                            <template v-if="it.confirmDetail">
+                              {{it.confirmDetail}}
+                              <br />
+                            </template>
+                            <template v-if="it.attachFile">
+                              <img
+                                :src="pic"
+                                v-for="(pic,idx) in it.attachFile.split(',')"
+                                :key="idx"
+                                @click="handleShowImg(index,idx)"
+                              />
+                              <div v-transfer-dom>
+                                <previewer
+                                  :ref="`previewer${index}`"
+                                  :list="imageFormat(it.attachFile)"
+                                  @on-index-change="logIndexChange"
+                                ></previewer>
+                              </div>
+                            </template>
+                          </span>
+                        </template>
+                      </li>
+                      <li
+                        v-if="it.confirmedStatus === 1 && it.checkDetail || it.confirmedStatus === 3 && it.checkDetail"
+                        class="topline"
+                      >
                         <template>
                           <span>审核说明：</span>
                           <span>{{it.checkDetail}}</span>
@@ -268,6 +275,15 @@
                             </div>
                           </template>
                         </span>
+                      </li>
+                      <li
+                        v-if="it.confirmedStatus === 1 && it.checkDetail || it.confirmedStatus === 3 && it.checkDetail"
+                        class="topline"
+                      >
+                        <template>
+                          <span>审核说明：</span>
+                          <span>{{it.checkDetail}}</span>
+                        </template>
                       </li>
                     </template>
                     <!-- end -->
