@@ -60,7 +60,10 @@
                       </li>
                       <li>
                         <span>发起人：</span>
-                        <span>{{it.operatorName}}</span>
+                        <span>
+                          <template v-if="it.operatorAgency">{{it.operatorAgency}}-</template>
+                          {{it.operatorName}}
+                        </span>
                       </li>
                       <li v-if="it.confirmedTime">
                         <span>发生时间：</span>
@@ -81,7 +84,7 @@
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
-                            >
+                            />
                             <div v-transfer-dom>
                               <previewer
                                 :ref="`previewer${index}`"
@@ -124,7 +127,18 @@
                       </li>
                       <li>
                         <span>发起人：</span>
-                        <span>{{it.operatorName}}</span>
+                        <span>
+                          <template v-if="it.operatorAgency">{{it.operatorAgency}}-</template>
+                          {{it.operatorName}}
+                        </span>
+                      </li>
+                      <li v-if="it.courtStartTime">
+                        <span>立案时间：</span>
+                        <span>{{it.courtStartTime}}</span>
+                      </li>
+                      <li v-if="it.courtCaseNo">
+                        <span>执行案号：</span>
+                        <span>{{it.courtCaseNo}}</span>
                       </li>
                       <li v-if="it.confirmedTime">
                         <span>发生时间：</span>
@@ -151,7 +165,7 @@
                                 v-for="(pic,idx) in it.attachFile.split(',')"
                                 :key="idx"
                                 @click="handleShowImg(index,idx)"
-                              >
+                              />
                               <div v-transfer-dom>
                                 <previewer
                                   :ref="`previewer${index}`"
@@ -172,7 +186,7 @@
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
-                            >
+                            />
                             <div v-transfer-dom>
                               <previewer
                                 :ref="`previewer${index}`"
@@ -193,7 +207,7 @@
                       </li>
                       <li>
                         <span>发起人：</span>
-                        <span>{{it.operatorName}}</span>
+                        <span>{{it.operatorAgency}}-{{it.operatorName}}</span>
                       </li>
                       <li>
                         <span>发生时间：</span>
@@ -203,6 +217,10 @@
                         <template v-if="it.targetStatus === 16 && it.checkDetail">
                           <span>补充说明：</span>
                           <span>{{it.checkDetail}}</span>
+                        </template>
+                        <template v-else-if="it.operationDetail">
+                          <span>补充说明：</span>
+                          <span>{{it.operationDetail}}</span>
                         </template>
                       </li>
                       <li v-if="it.imgUrls">
@@ -214,7 +232,7 @@
                               v-for="(pic,idx) in it.imgUrls.split(',')"
                               :key="idx"
                               @click="handleShowImg(index,idx)"
-                            >
+                            />
                             <div v-transfer-dom>
                               <previewer
                                 :ref="`previewer${index}`"

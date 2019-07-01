@@ -110,11 +110,11 @@
             ></popup-picker>
             <template v-if="def_state">
               <datetime
-                format="YYYY/MM/DD"
+                format="YYYY-MM-DD"
                 v-model="ruleForm.confirmedTime"
                 title="发生时间："
                 @on-change="changeDate"
-                placeholder="YYYY/MM/DD"
+                placeholder="YYYY-MM-DD"
                 value-text-align="left"
               ></datetime>
             </template>
@@ -133,11 +133,11 @@
             <template v-if="putRecord_state">
               <x-input class="required" title="执行案号：" v-model="ruleForm.courtCaseNo"></x-input>
               <datetime
-                format="YYYY/MM/DD"
+                format="YYYY-MM-DD"
                 v-model="ruleForm.courtStartTime"
                 title="立案时间："
                 @on-change="changeCourtStartDate"
-                placeholder="YYYY/MM/DD"
+                placeholder="YYYY-MM-DD"
                 value-text-align="left"
                 class="required"
               ></datetime>
@@ -168,11 +168,11 @@
               show-name
             ></popup-picker>
             <datetime
-              format="YYYY/MM/DD"
+              format="YYYY-MM-DD"
               v-model="ruleForm1.confirmedTime"
               title="发生时间："
               @on-change="changeDate"
-              placeholder="YYYY/MM/DD"
+              placeholder="YYYY-MM-DD"
               value-text-align="left"
             ></datetime>
           </group>
