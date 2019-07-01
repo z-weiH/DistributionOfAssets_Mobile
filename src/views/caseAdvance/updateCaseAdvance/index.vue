@@ -98,7 +98,7 @@
             </p>
           </div>
           <group :gutter="0" class="card_item">
-            <template v-if="dataItems.caseStatusTwo !== 5 || dataItems.caseStatusTwo !== 6">
+            <template v-if="dataItems.caseStatus !== 2 && dataItems.caseStatusTwo !== 7 && dataItems.repaymentAll !== 1">
               <popup-picker
               @on-change="changeCaseState"
               title="案件状态："
