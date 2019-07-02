@@ -466,7 +466,7 @@ export default {
       if (success) {
         console.log(this.ruleForm);
         this.submitDisabled = true;
-        this.$vux.loading.show();
+        // this.$vux.loading.show();
         let form = { ...this.ruleForm };
         // 处理提交数据格式
         form.arbCaseNo = this.dataList[0].arbCaseNo;
@@ -482,14 +482,14 @@ export default {
           data: form
         })
           .then(res => {
-            this.$vux.loading.hide();
+            // this.$vux.loading.hide();
             this.$vux.toast.show("提交成功");
             setTimeout(() => {
               this.closePageFn();
             }, 1500);
           })
           .catch(res => {
-            this.$vux.loading.hide();
+            // this.$vux.loading.hide();
             this.submitDisabled = false;
             // if(res.data.code != '0000'){
             //   this.verifyMessageFn(res.data.description)

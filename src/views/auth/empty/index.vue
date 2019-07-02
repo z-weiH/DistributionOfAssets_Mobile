@@ -4,7 +4,7 @@
 
 <script type="text/ecmascript-6">
 import qs from "qs";
-
+import { wdapi, wxweb, wxgzh } from "@/config/wxAuthor";
 export default {
   data() {
     return {};
@@ -27,62 +27,40 @@ export default {
       let $openid = _openId.slice(0, _openId.length - 2);
       localStorage.setItem("currentOpenId", $openid);
     }
-
-    let mdomain_src = "http://asset.arbexpress.cn", //测试代理域名test： http://swq.tunnel.qydev.com
-    // let mdomain_src = "http://assettest.arbexpress.cn", //测试代理域名test： http://swq.tunnel.qydev.com
-      Tencent_WxCode_api =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?", //微信oauth-网页授权api地址
-      manageUrl = `${mdomain_src}/mobile/openid/query.htm`; //后端逻辑接口
-
-    const loginConfig = {
-      appid: "wx9f95c4206c9c49fc",//互仲公众号后台appid
-      redirect_uri: manageUrl, // + '?param=' + _caseId + '?caseId=1535621810722'
-      response_type: "code",
-      scope: "snsapi_base"
-    };
-
-    // let swq_config =
-    //   "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx746461e45ce02735&redirect_uri=http%3a%2f%2fswq.tunnel.qydev.com%2fmobile%2fopenid%2fquery.htm&response_type=code&scope=snsapi_base";
+    const loginConfig = wxgzh;
 
     if (_openId === null || _openId === "") {
       console.log("_openId", "null");
       window.location.replace(
-        Tencent_WxCode_api + qs.stringify(loginConfig) + "#wechat_redirect"
+        wxweb.oauth + qs.stringify(loginConfig) + "#wechat_redirect"
       );
-      // 史文强
-      // window.location.replace(swq_config);
       console.log("安卓11： ", this.$isAndroid());
-      // console.log(
-      //   Tencent_WxCode_api + qs.stringify(loginConfig) + "#wechat_redirect"
-      // );
-      console.log(swq_config);
     } else {
       console.log("_openId", "not null");
       let $openid = _openId.slice(0, _openId.length - 2);
       console.log("2.openid: ", _openId);
       history.pushState(null, null, `/`);
       console.log(_openId.slice(0, _openId.length - 2));
-
       // 自动登录传递
       this.$http
         .post("/mobile/auto/login.htm")
         .then(res => {
           console.log("http自动登录传递-", res);
-          if(!res){
+          if (!res) {
             this.$router.replace("login");
           }
           if (res.data.code === "0000") {
             // 个人中心显示用
             localStorage.setItem("$userInfo", qs.stringify(res.data.result));
             this.$router.replace("/home/assetPackageList");
-          }else{
-            console.log('resresres',res)
+          } else {
+            console.log("resresres", res);
             this.$router.replace("login");
           }
         })
         .catch(err => {
-          console.log('err---------',err);
-          console.log("err.data.code-", err.data.code);
+          console.log("err---------", err);
+          // console.log("err.data.code-", err.data.code);
           this.$router.replace("login");
         });
     }

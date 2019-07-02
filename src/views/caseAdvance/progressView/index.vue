@@ -468,6 +468,7 @@ export default {
     },
     imageFormat(arr) {
       return arr.map(v => {
+        console.log("arr-v------",v)
         return { src: v.pngUrl };
       });
     },

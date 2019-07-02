@@ -8,19 +8,30 @@ import App from './App'
 import errorHandle from './tools/errorHandle'
 import filters from './tools/filters'
 import './tools/utils'
+import store from "./tools/loading";
 
 //封装好的有拦截器的axios：this.$http
-import packedAxios from './axios/http'
+// import packedAxios from './axios/http'
 //使用this.$http代替封装好的axios
-Vue.use(packedAxios)
+// Vue.use(packedAxios)
+import "./axios";
+import axios from "axios";
+Vue.prototype.$http = axios;
+Vue.prototype.$http.defaults.withCredentials = true;
 
 let VueTouch = require('vue-touch')
 Vue.use(VueTouch, {
   name: 'v-touch'
 })
-import { SearchBar, SearchContext, Scroller, SlimPopup } from '@/components'
+import {
+  SearchBar,
+  SearchContext,
+  Scroller,
+  SlimPopup,
+  SearchBarDropDown
+} from '@/components'
 
-Vue.use(SlimPopup)
+Vue.use(SlimPopup).use(SearchBar).use(SearchContext).use(Scroller).use(SearchBarDropDown);
 
 /* end */
 
@@ -32,13 +43,10 @@ Vue.use(Vtip.directive)
 // 工具函数调用
 Vue.prototype.$tip = Vtip.tip
 
-Vue.use(SearchBar);
-Vue.use(SearchContext);
-Vue.use(Scroller);
 
-
-
-import { WechatPlugin } from 'vux'
+import {
+  WechatPlugin
+} from 'vux'
 Vue.use(WechatPlugin)
 // console.log(Vue.wechat) // 可以直接访问 wx 对象。
 /* eslint-disable no-unused-vars */
@@ -46,7 +54,20 @@ Vue.use(WechatPlugin)
 // const _win = window
 // _win.vConsole = new Vconsole()
 
-import { ToastPlugin, XButton, XInput, Previewer, TransferDom, Box, Toast, Alert,AlertPlugin,ConfirmPlugin,Countdown,Loading } from 'vux'
+import {
+  ToastPlugin,
+  XButton,
+  XInput,
+  Previewer,
+  TransferDom,
+  Box,
+  Toast,
+  Alert,
+  AlertPlugin,
+  ConfirmPlugin,
+  Countdown,
+  Loading
+} from 'vux'
 
 
 
@@ -131,6 +152,7 @@ Vue.component('previewer', Previewer)
 
 /* eslint-disable no-new */
 Vue.prototype.instance = new Vue({
+  store,
   router,
   render: h => h(App)
 }).$mount('#app-box')

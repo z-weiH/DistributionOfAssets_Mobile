@@ -94,7 +94,7 @@ export default {
     };
   },
   methods: {
-    onBlur(){
+    onBlur() {
       console.log("onBlur");
       document.body.scrollTop = 0;
     },
@@ -117,9 +117,9 @@ export default {
           } else if (this.password.length < 6) {
             this.$vux.toast.text("密码位数不对，请输入6～20位");
           } else {
-            this.$vux.loading.show({
-              text: "加载中"
-            });
+            // this.$vux.loading.show({
+            //   text: "加载中"
+            // });
             this.$http
               .post("/mobile/login.htm", {
                 loginName: this.$trim(this.loginName),
@@ -127,7 +127,7 @@ export default {
               })
               .then(res => {
                 if (res.data.code === "0000") {
-                  this.$vux.loading.hide();
+                  // this.$vux.loading.hide();
                   console.log(qs.stringify(res.data.result));
                   // let _username = this.$trim(this.loginName)
                   // let _pwd = this.password
@@ -139,11 +139,11 @@ export default {
                   // this.$router.push('/wxBind')
                   setTimeout(() => {
                     this.$router.replace("/home/assetPackageList");
-                  },500);
+                  }, 500);
                 }
               })
               .catch(err => {
-                this.$vux.loading.hide();
+                // this.$vux.loading.hide();
                 if (err.data.code === "1002") {
                   this.$vux.toast.text(err.data.description);
                 } else if (err.data.code === "6666") {
@@ -225,11 +225,19 @@ export default {
     }
   },
   created() {
+    this.$vux.toast.hide();
     // this.getArbIcoClass();
     this.openId = localStorage.getItem("currentOpenId");
-    console.log('this.openId',eval(this.openId) === null)
+    console.log("fetch---this.openId", this.openId);
+    // console.log('this.openId',eval(this.openId) === null)
     // this.bindUserQuery() //账号是否绑定-检测
     this.arbName = qs.parse(localStorage.getItem("$arbname"))["shortName"];
+
+    //防止页面后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener("popstate", function() {
+      history.pushState(null, null, document.URL);
+    });
   },
   components: {
     Flexbox,

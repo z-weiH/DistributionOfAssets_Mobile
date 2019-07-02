@@ -14,7 +14,7 @@ module.exports = {
         changeOrigin: true,
         // target: 'http://118.31.39.65:8888', // 118 环境
         // target: 'http://192.168.30.120:8080/mockjs/36', // rap
-        // target: 'http://192.168.30.80:7132',   //费余波
+        // target: 'http://192.168.30.80:7132',   //费余波\
         // target: 'http://192.168.30.14:7030',   //向昌学
         // target: 'http://192.168.30.79:7030', // 徐炜
         // target: 'http://192.168.30.15:7777',   //陈博
@@ -29,6 +29,7 @@ module.exports = {
         target: 'http://asset.arbexpress.cn', // 分发系统 正式环境
         // target: 'http://assettest.arbexpress.cn', // 分发系统 测试环境
         // target: 'http://asset.arbexpress.cn', // 分发系统 正式环境
+        // target: 'http://192.168.30.12:7132' //史文强
       },
     },
 

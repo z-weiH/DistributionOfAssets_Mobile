@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
-import { LoadingPlugin } from 'vux'
+import {
+  LoadingPlugin
+} from 'vux'
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+
+import {runAdGo} from "@/tools/deleteAd";
 
 // 将Vue.use使用判断条件,生产环境不要使用Vue.use(Router)
 // if (process.env.NODE_ENV === 'development') {
@@ -44,6 +48,9 @@ const Home = () => import('@/views/navigate/home')
 const CaseAdvanceSortList = () => import('@/views/caseAdvance/caseAdvanceSortList')
 const ChangeReqCase = () => import('@/views/caseAdvance/changeReqCase')
 const progressView = () => import('@/views/caseAdvance/progressView')
+const caseProgressList = () => import('@/views/caseAdvance/caseProgressList') //新版案件进展列表20190611
+const LogPage = () => import('@/views/caseAdvance/LogPage') //20190611-日志查看
+const updateCaseAdvance = () => import('@/views/caseAdvance/updateCaseAdvance') //20190612-更新案件进展
 
 /*---------------资产包模块 assetPackage --------------*/
 const AssetPackageList = () => import('@/views/assetPackage/assetPackageList')
@@ -58,8 +65,7 @@ const Pview = () => import('@/components/pview') //可缩放图片展示
 /*---------------路由请求错误重定向页面模块 redirect --------------*/
 const NotFound = () => import('@/views/redirect/notFound/')
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     component: Empty,
     meta: {
@@ -127,6 +133,16 @@ const routes = [
         },
       },
       {
+        path: 'assetPackageDetail',
+        name: 'assetPackageDetail',
+        component: AssetPackageDetail,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '资产包详情',
+        },
+      },
+      {
         path: 'caseAdvanceSortList',
         name: 'caseAdvanceSortList',
         component: CaseAdvanceSortList,
@@ -137,14 +153,44 @@ const routes = [
         },
       },
       {
-        path: 'assetPackageDetail',
-        name: 'assetPackageDetail',
-        component: AssetPackageDetail,
+        path: 'caseAdvanceSortList',
+        name: 'caseAdvanceSortList',
+        component: CaseAdvanceSortList,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '案件进展old',
+        },
+      },
+      {
+        path: 'caseProgressList',
+        name: 'caseProgressList',
+        component: caseProgressList,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '案件进展',
+        },
+      },
+      {
+        path: 'updateCaseAdvance',
+        name: 'updateCaseAdvance',
+        component: updateCaseAdvance,
+        meta: {
+          keepAlive: false,
+          requireAuth: true,
+          title: '更新案件进展',
+        },
+      },
+      {
+        path: 'LogPage',
+        name: 'LogPage',
+        component: LogPage,
         meta: {
           keepAlive: false,
           requireAuth: true,
           handleMenu: false,
-          title: '资产包-详情',
+          title: '日志详情',
         },
       },
       {
@@ -214,6 +260,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
+  runAdGo();
   next()
   // console.log(window.location.href)
 })
