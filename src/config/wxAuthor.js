@@ -14,10 +14,10 @@ export const wxweb = {
 }
 /* 公众号后台配置 */
 export const wxgzh = {
-    // appid: 'wx9f95c4206c9c49fc',//正式
-    appid: "wx746461e45ce02735",//测试
-    redirect_uri: `${wdapi.test}/mobile/openid/query.htm`,//测试
-    // redirect_uri: `${wdapi.pdu}/mobile/openid/query.htm`,//正式
+    appid: 'wx9f95c4206c9c49fc',//正式
+    // appid: "wx746461e45ce02735",//测试
+    // redirect_uri: `${wdapi.test}/mobile/openid/query.htm`,//测试
+    redirect_uri: `${wdapi.pdu}/mobile/openid/query.htm`,//正式
     response_type: "code",
     scope: "snsapi_base"
 }
