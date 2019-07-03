@@ -5,7 +5,7 @@
       <router-view></router-view>
       <!-- 底部选项卡 -->
       <div v-if="handleMenu !==false">
-        <m-tabbar v-model="select" slot="bottom" v-transfer-dom>
+        <m-tabbar v-model="select" slot="bottom" v-transfer-dom class="atabbar-wrap">
           <m-tabbar-item id="tab1" class="tab_zcb" link="/home/assetPackageList">
             <img src="~@/assets/img/hui01.png" alt slot="icon-normal">
             <img src="~@/assets/img/lan01.png" alt slot="icon-active">

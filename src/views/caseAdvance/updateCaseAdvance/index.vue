@@ -190,11 +190,11 @@
           </group>
         </template>
         <div>
-          <v-touch tag="a" class="optionBtn blueBtn" v-on:tap="confirmForm()">确认提交</v-touch>
+          <v-touch tag="a" class="optionBtn blueBtn submit-button" v-on:tap="confirmForm()">确认提交</v-touch>
         </div>
       </div>
     </div>
-    <inputRebound el=".change-req-case-content" fix="1.33333rem"></inputRebound>
+    <inputRebound el-parent=".change-req-case-content" :el="['.submit-button','.atabbar-wrap']"></inputRebound>
   </div>
 </template>
 
@@ -590,11 +590,16 @@ export default {
 <style lang='scss' scoped type='text/css'>
 @import "@/assets/style/scss/helper/_mixin.scss";
 .change-req-case-content {
-  background-color: #dcdcdc;
-  height: calc(100vh - 1.33333rem);
+  background-color: #fff;
+  height: calc(100vh - #{rem(98)} - 42px);
   overflow: auto;
   .item-list-box {
     height: auto;
+  }
+
+  .submit-button{
+    position: fixed;
+    bottom: 50px;
   }
 }
 
