@@ -7,29 +7,19 @@
 <script>
   /* 
   
-    处理安卓下 输入时 底部操作栏依然固定在底部问题
-     - cont 容器
-     - fixed 容器
-
-    cont基本样式： 
-      height: calc(100vh - 1.33333rem); 减去的为 fixed容器的height
-      overflow: auto;
-    fixed 为自然排列
+    处理 输入时底部操作栏或者按钮依然固定在底部问题
+     - el 固定的容器class
+     - elParent 自适应固定元素的容器
   */
 
- //检测-android终端
-  const isAndroid = () => {
-    return navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1;
-  }
   export default {
     props : {
       // 元素的 id或者类名
       'el' : {
-        type : String,
+        type : Array,
         required : true,
       },
-      // fix 元素的 height
-      fix : {
+      'elParent' : {
         type : String,
         required : true,
       },
@@ -44,26 +34,35 @@
     mounted() {
       this.$nextTick(() => {
         this.clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-        isAndroid() && window.addEventListener('resize',this.fn);
+        window.addEventListener('resize',this.fn);
       });
     },
     methods : {
       fn() {
-        let cont = document.querySelector(this.el);
+        let btns = this.el.map(e => document.querySelector(e));
+        let parent = document.querySelector(this.elParent);
         let nowClientHeight = document.documentElement.clientHeight || document.body.clientHeight;
         //键盘弹出的事件处理
         if (this.clientHeight > nowClientHeight) {
           console.log('弹出');
-          cont.style.height = 'auto';
+          // 固定按钮 position 修改
+          btns.map(e => {
+            e.style.position = 'static';
+          });
+          // 容器 height自适应
+          parent.style.height = 'auto';
         //键盘收起的事件处理
         }else {
           console.log('收起');
-          cont.style.height = `calc(100vh - ${this.fix})`;
+          btns.map(e => {
+            e.style.position = '';
+          });
+          parent.style.height = '';
         }
       },
     },
     beforeDestroy() {
-      isAndroid() && window.removeEventListener('resize',this.fn);
+      window.removeEventListener('resize',this.fn);
     },
   }
 </script>

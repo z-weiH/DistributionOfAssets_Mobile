@@ -23,7 +23,11 @@
       </Cell>
       <Cell class="cell_line" :border-intent="false">
         <div slot="title">绑定微信：</div>
-        <div class="text">已绑定</div>
+        <div class="text">
+          {{
+            isBoundWechat === '0' ? '未绑定' : '已绑定'
+          }}
+        </div>
       </Cell>
       <Cell class="cell_line" :border-intent="false">
         <div slot="title">所在渠道：</div>
@@ -65,6 +69,7 @@ export default {
       userPhone:'',
       type:'',
       agencyName:'',
+      isBoundWechat : '',
     };
   },
   methods: {
@@ -75,6 +80,7 @@ export default {
       this.userPhone = _users.userPhone;
       this.type = _users.type;
       this.agencyName = _users.agencyName;
+      this.isBoundWechat = _users.isBoundWechat;
     },
     setpwd(){
       // 修改旧密码
