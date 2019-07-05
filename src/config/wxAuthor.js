@@ -7,7 +7,7 @@ export const wdapi = {
   // (正式)
   pdu:'http://asset.arbexpress.cn'
 }
-/* 公众号授权配置 123123213*/
+/* 公众号授权配置 12312321323213123213213213*/
 export const wxweb = {
   // 网页授权
   oauth:'https://open.weixin.qq.com/connect/oauth2/authorize?'
