@@ -5,8 +5,8 @@
 </template>
 
 <script>
-  /* 
-  
+  /*
+
     处理 输入时底部操作栏或者按钮依然固定在底部问题
      - el 固定的容器class
      - elParent 自适应固定元素的容器
@@ -34,7 +34,7 @@
     mounted() {
       this.$nextTick(() => {
         this.clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-        window.addEventListener('resize',this.fn);
+        this.$isAndroid() ? window.addEventListener('resize',this.fn) : void 0;
       });
     },
     methods : {
