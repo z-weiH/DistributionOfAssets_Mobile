@@ -34,7 +34,8 @@
     mounted() {
       this.$nextTick(() => {
         this.clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-        this.$isAndroid() ? window.addEventListener('resize',this.fn) : void 0;
+        window.addEventListener('resize',this.fn)
+        // this.$isAndroid() ? window.addEventListener('resize',this.fn) : void 0;
       });
     },
     methods : {

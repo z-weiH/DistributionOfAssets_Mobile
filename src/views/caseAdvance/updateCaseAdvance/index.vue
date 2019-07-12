@@ -98,17 +98,19 @@
             </p>
           </div>
           <group :gutter="0" class="card_item">
-            <template v-if="dataItems.caseStatus !== 2 && dataItems.caseStatusTwo !== 7 && dataItems.repaymentAll !== 1">
+            <template
+              v-if="!(dataItems.caseStatus == 2 && dataItems.caseStatusTwo == 7 && dataItems.repaymentAll == 1)"
+            >
               <popup-picker
-              @on-change="changeCaseState"
-              title="案件状态："
-              placeholder="请选择"
-              :data="newStatusSelects"
-              v-model="ruleForm.newStatus"
-              value-text-align="left"
-              class="required"
-              show-name
-            ></popup-picker>
+                @on-change="changeCaseState"
+                title="案件状态："
+                placeholder="请选择"
+                :data="newStatusSelects"
+                v-model="ruleForm.newStatus"
+                value-text-align="left"
+                class="required"
+                show-name
+              ></popup-picker>
             </template>
             <template v-if="def_state">
               <datetime
@@ -189,12 +191,12 @@
             </div>
           </group>
         </template>
-        <div>
-          <v-touch tag="a" class="optionBtn blueBtn submit-button" v-on:tap="confirmForm()">确认提交</v-touch>
-        </div>
       </div>
     </div>
-    <inputRebound el-parent=".change-req-case-content" :el="['.submit-button','.atabbar-wrap']"></inputRebound>
+    <!-- <inputRebound el-parent=".change-req-case-content" :el="['.submit-button','.atabbar-wrap']"></inputRebound> -->
+    <div>
+      <v-touch tag="a" class="optionBtn blueBtn submit-button" v-on:tap="confirmForm()">确认提交</v-touch>
+    </div>
   </div>
 </template>
 
@@ -213,7 +215,7 @@ import {
   Datetime
 } from "vux";
 import upload from "@/components/upload.vue";
-import inputRebound from "@/components/inputRebound.vue";
+// import inputRebound from "@/components/inputRebound.vue";
 
 export default {
   components: {
@@ -227,8 +229,8 @@ export default {
     XTextarea,
     Confirm,
     upload,
-    Datetime,
-    inputRebound
+    Datetime
+    // inputRebound
   },
   data() {
     return {
@@ -483,7 +485,7 @@ export default {
       }
     },
     changeCaseState(newVal) {
-      console.log("changeCaseState=", newVal,this.ruleForm);
+      console.log("changeCaseState=", newVal, this.ruleForm);
       if (newVal[0] == 3) {
         this.btnCtrlCaseState(3);
       } else if (newVal[0] == 4) {
@@ -550,12 +552,26 @@ export default {
           console.log("resss--------------", _res);
           let newCaseStateArr = this.customObjkeyAndVal(_res);
           console.log(newCaseStateArr);
-          if(this.onTabFormState === 0){
-            console.log("this.onTabFormState-------------",this.onTabFormState);
-            console.log("cc-",this.dataItems.caseStatus,"dd-",this.dataItems.caseStatusTwo,"ee-",this.dataItems.repaymentAll)
-            if(this.dataItems.caseStatus === 2 && this.dataItems.caseStatusTwo === 7 && this.dataItems.repaymentAll === 1){
-              this.ruleForm.newStatus = [newCaseStateArr[0]["value"]]
-              console.log("r-newstatus",this.ruleForm.newStatus)
+          if (this.onTabFormState === 0) {
+            console.log(
+              "this.onTabFormState-------------",
+              this.onTabFormState
+            );
+            console.log(
+              "cc-",
+              this.dataItems.caseStatus,
+              "dd-",
+              this.dataItems.caseStatusTwo,
+              "ee-",
+              this.dataItems.repaymentAll
+            );
+            if (
+              this.dataItems.caseStatus === 2 &&
+              this.dataItems.caseStatusTwo === 7 &&
+              this.dataItems.repaymentAll === 1
+            ) {
+              this.ruleForm.newStatus = [newCaseStateArr[0]["value"]];
+              console.log("r-newstatus", this.ruleForm.newStatus);
             }
           }
           this.newStatusSelects = [newCaseStateArr];
@@ -591,16 +607,16 @@ export default {
 @import "@/assets/style/scss/helper/_mixin.scss";
 .change-req-case-content {
   background-color: #fff;
-  height: calc(100vh - #{rem(98)} - 42px);
-  overflow: auto;
+  // height: calc(100vh - #{rem(98)} - 42px);
+  // overflow: auto;
   .item-list-box {
     height: auto;
   }
-
-  .submit-button{
-    position: fixed;
-    bottom: 50px;
-  }
+}
+.submit-button {
+  // position: fixed;
+  // bottom: 50px;
+  margin-bottom: rem(150);
 }
 
 .form_layout_one {
@@ -682,4 +698,12 @@ export default {
     }
   }
 }
+
+body{
+  .m-tabbar{
+    position: fixed !important;
+
+  }
+}
+
 </style>
