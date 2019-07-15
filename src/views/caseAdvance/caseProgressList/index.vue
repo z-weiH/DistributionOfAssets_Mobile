@@ -55,7 +55,7 @@
                     <span v-if="it.caseStatusTwo === 12">终结执行</span>
                     <span v-if="it.caseStatusTwo === 13">销案</span>
                     <span v-if="it.caseStatusTwo === 14">不予执行</span>
-                    <span v-if="it.caseStatusTwo === 15">撤销案件</span>
+                    <span v-if="it.caseStatusTwo === 15">撤回案件</span>
                     <span v-if="it.caseStatusTwo === 16">驳回申请</span>
                     <template v-if="it.caseStatusTwo === 7 || it.caseStatusTwo === 8">
                       <span>--</span>
@@ -392,7 +392,7 @@ export default {
         // { code: "12", name: "终结执行", active: false, level: 2 },
         // { code: "13", name: "销案", active: false, level: 2 },
         // { code: "14", name: "不予执行", active: false, level: 2 },
-        // { code: "15", name: "撤销案件", active: false, level: 2 },
+        // { code: "15", name: "撤回案件", active: false, level: 2 },
         // { code: "16", name: "驳回申请", active: false, level: 2 }
       ],
       caseStatusThreeItems: [
@@ -419,7 +419,7 @@ export default {
           { code: "12", name: "终结执行", active: false, level: 2 },
           { code: "13", name: "销案", active: false, level: 2 },
           { code: "14", name: "不予执行", active: false, level: 2 },
-          { code: "15", name: "撤销案件", active: false, level: 2 },
+          { code: "15", name: "撤回案件", active: false, level: 2 },
           { code: "16", name: "驳回申请", active: false, level: 2 }
         ]
       },
