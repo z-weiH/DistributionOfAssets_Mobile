@@ -273,10 +273,10 @@
               <div>请上传物流签收截图</div>
             </div>
           </div>
-          <x-textarea :max="100" name="description" placeholder="备注说明100字以内" v-model="sign_notes"></x-textarea>
+          <x-textarea :max="500" name="description" placeholder="备注说明100字以内" v-model="sign_notes"></x-textarea>
           <div class="popup_uploader">
             <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
-            <upload v-model="pngUrl" class="m-upload"></upload>
+            <upload v-model="pngUrl" class="m-upload" :max="6"></upload>
           </div>
         </group>
       </div>
@@ -312,14 +312,14 @@
             </div>
           </div>
           <x-textarea
-            :max="100"
+            :max="500"
             name="description"
-            placeholder="备注说明100字以内"
+            placeholder="备注说明500字以内"
             v-model="sendback_notes"
           ></x-textarea>
           <div class="popup_uploader">
             <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
-            <upload v-model="pngUrl" class="m-upload"></upload>
+            <upload v-model="pngUrl" class="m-upload" :max="6"></upload>
           </div>
           <div class="popop_ctrl">
             <div>

@@ -149,9 +149,9 @@
             </template>
           </group>
           <group :gutter="0">
-            <x-textarea v-model.trim="ruleForm.notes" placeholder="补充说明" :max="100"></x-textarea>
+            <x-textarea v-model.trim="ruleForm.notes" placeholder="补充说明" :max="500"></x-textarea>
             <div class="upload_wrap">
-              <upload v-model="ruleForm.pngUrl" class="m-upload"></upload>
+              <upload v-model="ruleForm.pngUrl" class="m-upload" :max="6"></upload>
               <div v-if="vshow_remark" class="up_remark">
                 <!-- <span class="em">*</span>
                 <span>请上传受理凭证</span>-->
@@ -181,7 +181,7 @@
             ></datetime>
           </group>
           <group :gutter="0">
-            <x-textarea v-model.trim="ruleForm1.notes" placeholder="补充说明" :max="100"></x-textarea>
+            <x-textarea v-model.trim="ruleForm1.notes" placeholder="补充说明" :max="500"></x-textarea>
             <div class="upload_wrap">
               <upload v-model="ruleForm1.pngUrl" class="m-upload"></upload>
               <div class="up_remark">

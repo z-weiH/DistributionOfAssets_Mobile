@@ -2,20 +2,33 @@
   <div class="upload-box">
 
     <input @change="handleUpload" ref="file" type="file" class="file" accept="image/*" />
-    <flexbox :gutter="0">
-      <flexbox-item :span="1/5" v-for="(item,index) in imgList" :key="index">
+
+    <!-- <flexbox :gutter="0">
+      <flexbox-item  v-for="(item,index) in imgList" :key="index">
         <div @click="handleShowImg(index)" :style="{'background-image' : `url(${item})`}" class="m-img">
           <span @click.stop="handleDeleteImg(index)" class="icon-close">x</span>
         </div>
       </flexbox-item>
-      <flexbox-item :span="1/5" v-if="imgList.length <= max - 1">
+      <flexbox-item  v-if="imgList.length <= max - 1">
         <v-touch
           v-on:tap="handleClick"
           class="upload-img"
         >
         </v-touch>
       </flexbox-item>
-    </flexbox>
+    </flexbox> -->
+    <div class="fl" v-for="(item,index) in imgList" :key="index">
+      <div @click="handleShowImg(index)" :style="{'background-image' : `url(${item})`}" class="m-img">
+          <span @click.stop="handleDeleteImg(index)" class="icon-close">x</span>
+        </div>
+    </div>
+    <div class="fl" v-if="imgList.length <= max - 1">
+         <v-touch
+          v-on:tap="handleClick"
+          class="upload-img"
+        >
+        </v-touch>
+    </div>
 
     <!-- 图片放大 -->
     <previewer ref="previewer" :list="imageFormat(imgList)"></previewer>
@@ -131,6 +144,8 @@
 <style lang="scss" scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
 .upload-box{
+  clear:both;
+  display: table;
   .m-img{
     width: rem(100);
     height: rem(100);
@@ -153,6 +168,7 @@
     display: inline-block;
     font-size:12px;
     cursor: pointer;
+    z-index:1;
   }
   .upload-img{
     width: rem(100);
@@ -165,6 +181,10 @@
     font-size: 0;
     display: none;
   }
+}
+
+.fl{
+  float:left;
 }
 
 </style>
