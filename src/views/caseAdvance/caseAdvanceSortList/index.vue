@@ -281,7 +281,7 @@
           <!-- 延长为 -->
           <div class="popup_uploader">
             <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
-            <upload v-model="mandatesForm.imgUrls" class="m-upload"></upload>
+            <upload v-model="mandatesForm.imgUrls" class="m-upload" :max="6"></upload>
           </div>
         </group>
       </div>
