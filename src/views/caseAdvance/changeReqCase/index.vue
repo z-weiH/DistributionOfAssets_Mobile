@@ -115,7 +115,7 @@
         </group>
 
         <group :gutter="0">
-          <x-textarea v-model.trim="ruleForm.notes" placeholder="案件进展说明100字以内" :max="100"></x-textarea>
+          <x-textarea v-model.trim="ruleForm.notes" placeholder="案件进展说明500字以内" :max="500"></x-textarea>
         </group>
         <upload v-model="ruleForm.pngUrl" class="m-upload"></upload>
       </div>

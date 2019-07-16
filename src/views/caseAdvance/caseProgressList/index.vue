@@ -55,7 +55,7 @@
                     <span v-if="it.caseStatusTwo === 12">终结执行</span>
                     <span v-if="it.caseStatusTwo === 13">销案</span>
                     <span v-if="it.caseStatusTwo === 14">不予执行</span>
-                    <span v-if="it.caseStatusTwo === 15">撤销案件</span>
+                    <span v-if="it.caseStatusTwo === 15">撤回案件</span>
                     <span v-if="it.caseStatusTwo === 16">驳回申请</span>
                     <template v-if="it.caseStatusTwo === 7 || it.caseStatusTwo === 8">
                       <span>--</span>
@@ -81,9 +81,9 @@
                       @click.native="getCurrentItem(it),showCustomModal('rejectModal')"
                     >查看驳回原因</x-button>
                   </div>
-                  <div v-else>
+                  <div v-else-if="!it.delayStatus">
+                     <!-- v-if="it.repaymentAll != 1" -->
                     <x-button
-                      v-if="it.repaymentAll != 1"
                       mini
                       plain
                       style="border-radius:99px;"
@@ -198,10 +198,10 @@
               <div>请上传截图</div>
             </div>
           </div>
-          <x-textarea :max="100" name="description" placeholder="备注说明100字以内" v-model="leave_msg"></x-textarea>
+          <x-textarea :max="500" name="description" placeholder="备注说明500字以内" v-model="leave_msg"></x-textarea>
           <div class="popup_uploader">
             <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
-            <upload v-model="pngUrl" class="m-upload"></upload>
+            <upload v-model="pngUrl" class="m-upload" :max="6"></upload>
           </div>
         </group>
       </div>
@@ -250,9 +250,9 @@
               <div slot="title" class="tit must_fill">延长理由</div>
               <slot>
                 <x-textarea
-                  :max="100"
+                  :max="500"
                   name="description"
-                  placeholder="备注说明100字以内"
+                  placeholder="备注说明500字以内"
                   v-model="mandatesForm.mandates_msg"
                 ></x-textarea>
               </slot>
@@ -261,7 +261,7 @@
           <!-- 延长为 -->
           <div class="popup_uploader">
             <!-- <v-touch tag="div" v-on:tap="openLocalImg" class="cameraImg"></v-touch> -->
-            <upload v-model="mandatesForm.imgUrls" class="m-upload"></upload>
+            <upload v-model="mandatesForm.imgUrls" class="m-upload" :max="6"></upload>
           </div>
         </group>
       </div>
@@ -392,7 +392,7 @@ export default {
         // { code: "12", name: "终结执行", active: false, level: 2 },
         // { code: "13", name: "销案", active: false, level: 2 },
         // { code: "14", name: "不予执行", active: false, level: 2 },
-        // { code: "15", name: "撤销案件", active: false, level: 2 },
+        // { code: "15", name: "撤回案件", active: false, level: 2 },
         // { code: "16", name: "驳回申请", active: false, level: 2 }
       ],
       caseStatusThreeItems: [
@@ -419,7 +419,7 @@ export default {
           { code: "12", name: "终结执行", active: false, level: 2 },
           { code: "13", name: "销案", active: false, level: 2 },
           { code: "14", name: "不予执行", active: false, level: 2 },
-          { code: "15", name: "撤销案件", active: false, level: 2 },
+          { code: "15", name: "撤回案件", active: false, level: 2 },
           { code: "16", name: "驳回申请", active: false, level: 2 }
         ]
       },

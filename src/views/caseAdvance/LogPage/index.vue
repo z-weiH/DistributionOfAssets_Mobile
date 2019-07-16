@@ -52,7 +52,7 @@
                           <template v-if="it.targetStatus === 12">终结执行</template>
                           <template v-if="it.targetStatus === 13">销案</template>
                           <template v-if="it.targetStatus === 14">不予执行</template>
-                          <template v-if="it.targetStatus === 15">撤销案件</template>
+                          <template v-if="it.targetStatus === 15">撤回案件</template>
                           <template v-if="it.targetStatus === 16">驳回申请</template>
                           <template v-if="it.repaymentAll === 0">-未结清</template>
                           <template v-if="it.repaymentAll === 1">-已结清</template>
@@ -75,7 +75,7 @@
                       <li v-if="it.operationDetail">
                         <template>
                           <span>补充说明：</span>
-                          <span>{{it.operationDetail}}</span>
+                          <span class="ptext">{{it.operationDetail}}</span>
                         </template>
                       </li>
                       <li v-if="it.imgUrls">
@@ -121,7 +121,7 @@
                           <template v-if="it.targetStatus === 12">终结执行</template>
                           <template v-if="it.targetStatus === 13">销案</template>
                           <template v-if="it.targetStatus === 14">不予执行</template>
-                          <template v-if="it.targetStatus === 15">撤销案件</template>
+                          <template v-if="it.targetStatus === 15">撤回案件</template>
                           <template v-if="it.targetStatus === 16">驳回申请</template>
                           <template v-if="it.repaymentAll === 0">-未结清</template>
                           <template v-if="it.repaymentAll === 1">-已结清</template>
@@ -163,7 +163,7 @@
                       </li>
                       <li v-if="it.operationDetail">
                         <span>补充说明：</span>
-                        <span>{{it.operationDetail}}</span>
+                        <span class="ptext">{{it.operationDetail}}</span>
                       </li>
                       <li v-if="it.imgUrls">
                         <span>附件：</span>
@@ -248,11 +248,11 @@
                       <li>
                         <template v-if="it.targetStatus === 16 && it.checkDetail">
                           <span>补充说明：</span>
-                          <span>{{it.checkDetail}}</span>
+                          <span class="ptext">{{it.checkDetail}}</span>
                         </template>
                         <template v-else-if="it.operationDetail">
                           <span>补充说明：</span>
-                          <span>{{it.operationDetail}}</span>
+                          <span class="ptext">{{it.operationDetail}}</span>
                         </template>
                       </li>
                       <li v-if="it.imgUrls">
