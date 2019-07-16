@@ -81,9 +81,9 @@
                       @click.native="getCurrentItem(it),showCustomModal('rejectModal')"
                     >查看驳回原因</x-button>
                   </div>
-                  <div v-else>
+                  <div v-else-if="!it.delayStatus">
+                     <!-- v-if="it.repaymentAll != 1" -->
                     <x-button
-                      v-if="it.repaymentAll != 1"
                       mini
                       plain
                       style="border-radius:99px;"
