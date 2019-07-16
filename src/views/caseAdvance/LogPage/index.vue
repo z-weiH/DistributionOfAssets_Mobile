@@ -75,7 +75,7 @@
                       <li v-if="it.operationDetail">
                         <template>
                           <span>补充说明：</span>
-                          <span>{{it.operationDetail}}</span>
+                          <span class="ptext">{{it.operationDetail}}</span>
                         </template>
                       </li>
                       <li v-if="it.imgUrls">
@@ -163,7 +163,7 @@
                       </li>
                       <li v-if="it.operationDetail">
                         <span>补充说明：</span>
-                        <span>{{it.operationDetail}}</span>
+                        <span class="ptext">{{it.operationDetail}}</span>
                       </li>
                       <li v-if="it.imgUrls">
                         <span>附件：</span>
@@ -248,11 +248,11 @@
                       <li>
                         <template v-if="it.targetStatus === 16 && it.checkDetail">
                           <span>补充说明：</span>
-                          <span>{{it.checkDetail}}</span>
+                          <span class="ptext">{{it.checkDetail}}</span>
                         </template>
                         <template v-else-if="it.operationDetail">
                           <span>补充说明：</span>
-                          <span>{{it.operationDetail}}</span>
+                          <span class="ptext">{{it.operationDetail}}</span>
                         </template>
                       </li>
                       <li v-if="it.imgUrls">

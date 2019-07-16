@@ -219,7 +219,7 @@
             <div class="tit">{{index+1}}、退回说明</div>
             <div class="tit_text">
               <span>操作详情：</span>
-              <span>{{it.notes}}</span>
+              <span class="ptext">{{it.notes}}</span>
             </div>
             <div class="tit_content">
               <div class="tit">附件列表：</div>
